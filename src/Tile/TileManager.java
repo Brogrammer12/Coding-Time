@@ -7,6 +7,7 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 
 import Main.The_Hub;
 
@@ -46,19 +47,19 @@ public class TileManager extends Tiles{
         try {
             InputStream is=getClass().getResourceAsStream("/Resources/tileMaps/firstMap.txt");
         BufferedReader br=new BufferedReader(new InputStreamReader(is));
-            int mycol=0;
+            int col=0;
             int row=0;
-            while(mycol<hb.maxScreenHoriz && row<hb.maxScreenVert) {
+            while(col<hb.maxScreenHoriz && row<hb.maxScreenVert) {
                 String line=br.readLine();
-                while(mycol<hb.maxScreenHoriz) {
+                while(col<hb.maxScreenHoriz) {
                     String numbers[]=line.split(" ");
-                    int num=Integer.parseInt(numbers[mycol]);
-                    mapTileNum[mycol][row]=num;
-                    mycol++;
+                    int num=Integer.parseInt(numbers[col]);
+                    mapTileNum[col][row]=num;
+                    col++;
                     
                     }
-                    if(mycol==hb.maxScreenHoriz) {
-                        mycol=0;
+                    if(col==hb.maxScreenHoriz) {
+                        col=0;
                         row++;
                 }
             }
@@ -73,8 +74,8 @@ public class TileManager extends Tiles{
         int row=0;
         int x=0;
         int y=0;
-        int tileNum=mapTileNum[col][row];
         while(col<hb.maxScreenHoriz && row<hb.maxScreenVert) {
+            int tileNum=mapTileNum[col][row];
             g2.drawImage(tile[tileNum].image, x, y, hb.resTileSize, hb.resTileSize, null);
             col++;
             x+=hb.resTileSize;
