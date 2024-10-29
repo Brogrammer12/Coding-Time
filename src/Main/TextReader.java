@@ -16,7 +16,7 @@ public class TextReader {
     BufferedImage a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, period, exclamation, question;
     public TextReader(The_Hub hb)  {
         this.hb=hb;
-        boi="TEST";
+        boi="";
         xCoord=3*hb.resTileSize;
         yCoord=3*hb.resTileSize;
         letTileSize=11;

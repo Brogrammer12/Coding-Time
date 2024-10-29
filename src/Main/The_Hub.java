@@ -17,6 +17,8 @@ public class The_Hub extends JPanel  implements Runnable{
     public final int maxScreenVert=12;
     public final int screenWidth=resTileSize*maxScreenHoriz;
     public final int screenHeight=resTileSize*maxScreenVert;
+    public int fightHeight=72;
+    public int fightWidth=85;
     final int FPS=60;
     Thread gameThread;
     TileManager tileguy=new TileManager(this);
