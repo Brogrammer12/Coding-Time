@@ -22,7 +22,7 @@ public class Player extends Entity{
         moveSpeed=4;
         direction="down";
         SpriteNum=1;
-        fightMode=true;
+        fightMode=false;
         if(fightMode==false) {
             Width=hb.resTileSize;
             Height=hb.resTileSize;
