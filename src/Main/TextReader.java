@@ -1,6 +1,7 @@
 package Main;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import javax.imageio.ImageIO;
@@ -13,6 +14,9 @@ public class TextReader {
     int xCoord;
     int yCoord;
     int letTileSize;
+    int boxWidth;
+    int boxHeight;
+    int boxHeight2;
     BufferedImage a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, period, exclamation, question;
     public TextReader(The_Hub hb)  {
         this.hb=hb;
@@ -20,6 +24,14 @@ public class TextReader {
         xCoord=3*hb.resTileSize;
         yCoord=3*hb.resTileSize;
         letTileSize=11;
+        if(boi.length()>=16) {
+            boxWidth=16*(hb.resTileSize/2);
+        }
+        else if(boi.length()<16) {
+            boxWidth=boi.length()*(hb.resTileSize/2);
+        }
+        boxHeight=(boi.length()/16)+1;
+        boxHeight2=boxHeight*(hb.resTileSize/2);
         boi2=boi.toCharArray();
         stringEnd=boi.length()-1;
         TextLoader();
@@ -162,9 +174,7 @@ public class TextReader {
                 row=index/hb.maxScreenHoriz;
                 int X=xCoord+col*hb.resTileSize/2;
                 int Y=yCoord+row*hb.resTileSize/2;
-               
-            g2.drawImage(image, X, Y, hb.resTileSize/2, hb.resTileSize/2, null);
-                
+            g2.drawImage(image, X, Y, hb.resTileSize/2, hb.resTileSize/2, null); 
             }
     
         }
