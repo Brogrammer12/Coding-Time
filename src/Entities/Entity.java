@@ -10,7 +10,8 @@ public class Entity {
     String direction;
     int SpriteCounter=0;
     int SpriteNum;
-    boolean fightMode;
+    public boolean fightMode;
     int Width;
     int Height;
+    public int buttonX;
 }

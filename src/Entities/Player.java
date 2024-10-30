@@ -22,7 +22,8 @@ public class Player extends Entity{
         moveSpeed=4;
         direction="down";
         SpriteNum=1;
-        fightMode=false;
+        fightMode=true;
+        buttonX=0;
         if(fightMode==false) {
             Width=hb.resTileSize;
             Height=hb.resTileSize;
@@ -66,7 +67,26 @@ public class Player extends Entity{
                         SpriteCounter=0;
                     }
                 }
-                
+                else if(fightMode==true) {
+                    if(k.rightPressed==true && k.hasMoved==false) {
+                        if(buttonX==3) {
+                            buttonX=0;
+                        }
+                        else{
+                            buttonX+=1;
+                           }
+                        k.hasMoved=true;
+                    }
+                    if(k.leftPressed==true && k.hasMoved==false) {
+                        if(buttonX==0) {
+                            buttonX=3;
+                        }
+                        else{
+                            buttonX-=1;
+                        }
+                        k.hasMoved=true;
+                    }
+                }
             }
             if(fightMode==true){
                 SpriteCounter++;

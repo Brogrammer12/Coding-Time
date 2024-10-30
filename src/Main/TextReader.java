@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 public class TextReader {
     The_Hub hb;
-    String boi;
+    public String boi;
     char[] boi2;
     char[] boi3;
     int stringEnd;
@@ -20,7 +20,7 @@ public class TextReader {
     BufferedImage a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, period, exclamation, question;
     public TextReader(The_Hub hb)  {
         this.hb=hb;
-        boi="YO.";
+        boi="";
         xCoord=3*hb.resTileSize;
         yCoord=3*hb.resTileSize;
         letTileSize=11;

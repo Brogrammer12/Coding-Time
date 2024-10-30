@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import Entities.Player;
 import Entities.Player2;
+import FightingSystem.fightMenus;
 import Tile.TileManager;
 
 import java.awt.Color;
@@ -27,6 +28,7 @@ public class The_Hub extends JPanel  implements Runnable{
     keyInput2 keyBoi2=new keyInput2();
     Player2 player2=new Player2(this, keyBoi2);
     TextReader textboi=new TextReader(this);
+    fightMenus fightingboi=new fightMenus(this, player, keyBoi, textboi);
 
     public The_Hub() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -78,6 +80,7 @@ public class The_Hub extends JPanel  implements Runnable{
         g2.setColor(Color.BLACK);
             g2.fillRect(textboi.xCoord, textboi.yCoord, textboi.boxWidth, textboi.boxHeight2);
         textboi.draw(g2);
+        fightingboi.draw(g2);
         g2.dispose();
 
     }
