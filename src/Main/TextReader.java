@@ -11,29 +11,15 @@ public class TextReader {
     char[] boi2;
     char[] boi3;
     int stringEnd;
-    int xCoord;
-    int yCoord;
-    int letTileSize;
-    int boxWidth;
+    public int xCoord;
+    public int yCoord;
+    public int boxWidth;
     int boxHeight;
-    int boxHeight2;
+    public int boxHeight2;
     BufferedImage a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, period, exclamation, question;
+    
     public TextReader(The_Hub hb)  {
         this.hb=hb;
-        boi="";
-        xCoord=3*hb.resTileSize;
-        yCoord=3*hb.resTileSize;
-        letTileSize=11;
-        if(boi.length()>=16) {
-            boxWidth=16*(hb.resTileSize/2);
-        }
-        else if(boi.length()<16) {
-            boxWidth=boi.length()*(hb.resTileSize/2);
-        }
-        boxHeight=(boi.length()/16)+1;
-        boxHeight2=boxHeight*(hb.resTileSize/2);
-        boi2=boi.toCharArray();
-        stringEnd=boi.length()-1;
         TextLoader();
     }
     public void TextLoader() {
@@ -72,7 +58,21 @@ public class TextReader {
         e.printStackTrace();
     }
         }
-        public void draw(Graphics2D g2) {
+        public void draw(Graphics2D g2, String boi, int xCoord, int yCoord) {
+            this.boi=boi;
+            this.xCoord=xCoord;
+            this.yCoord=yCoord;
+        if(boi.length()>=16) {
+            boxWidth=16*(hb.resTileSize/2);
+        }
+        else if(boi.length()<16) {
+            boxWidth=boi.length()*(hb.resTileSize/2);
+        }
+        boxHeight=(boi.length()/16)+1;
+        boxHeight2=boxHeight*(hb.resTileSize/2);
+        boi2=boi.toCharArray();
+        stringEnd=boi.length()-1;
+
             int col=0;
             int row=0;
             BufferedImage image=null;

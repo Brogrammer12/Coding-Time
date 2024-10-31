@@ -20,6 +20,10 @@ public class The_Hub extends JPanel  implements Runnable{
     public final int screenHeight=resTileSize*maxScreenVert;
     public int fightHeight=72;
     public int fightWidth=85;
+    public boolean fight=false;
+    public boolean defend=false;
+    public boolean item=false;
+    public boolean flee=false;
     final int FPS=60;
     Thread gameThread;
     TileManager tileguy=new TileManager(this);
@@ -78,9 +82,8 @@ public class The_Hub extends JPanel  implements Runnable{
         player2.draw(g2);
         player.draw(g2);
         g2.setColor(Color.BLACK);
-            g2.fillRect(textboi.xCoord, textboi.yCoord, textboi.boxWidth, textboi.boxHeight2);
-        textboi.draw(g2);
-        fightingboi.draw(g2);
+        g2.fillRect(textboi.xCoord, textboi.yCoord, textboi.boxWidth, textboi.boxHeight2);
+            fightingboi.draw(g2);
         g2.dispose();
 
     }

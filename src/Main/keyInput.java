@@ -5,6 +5,7 @@ public class keyInput implements KeyListener{
     public boolean upPressed, leftPressed, downPressed, rightPressed;
     public boolean hasMoved=false;
     public boolean enterPressed;
+    public boolean escPressed;
     @Override
     public void keyTyped(KeyEvent e) {
         
@@ -30,6 +31,9 @@ public class keyInput implements KeyListener{
             if(KeyCode==KeyEvent.VK_ENTER) {
                 enterPressed=true;
             }
+            if(KeyCode==KeyEvent.VK_ESCAPE) {
+                escPressed=true;
+            }
         
     }
 
@@ -52,6 +56,11 @@ public class keyInput implements KeyListener{
         }
         if(KeyCode==KeyEvent.VK_ENTER) {
             enterPressed=false;
+            hasMoved=false;
+        }
+        if(KeyCode==KeyEvent.VK_ESCAPE) {
+            escPressed=false;
+            hasMoved=false;
         }
     }
 
