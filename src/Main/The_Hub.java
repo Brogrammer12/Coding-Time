@@ -81,8 +81,6 @@ public class The_Hub extends JPanel  implements Runnable{
         tileguy.draw(g2);
         player2.draw(g2);
         player.draw(g2);
-        g2.setColor(Color.BLACK);
-        g2.fillRect(textboi.xCoord, textboi.yCoord, textboi.boxWidth, textboi.boxHeight2);
             fightingboi.draw(g2);
         g2.dispose();
 

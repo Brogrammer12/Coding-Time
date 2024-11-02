@@ -14,7 +14,7 @@ public class fightMenus {
     Player player;
     keyInput k;
     TextReader t;
-    BufferedImage fight, fightSelected, defend, defendSelected, item, itemSelected, flee, fleeSelected;
+    BufferedImage fight, fightSelected, defend, defendSelected, item, itemSelected, flee, fleeSelected, selector;
 public fightMenus(The_Hub hb, Player player, keyInput k, TextReader t) {
 this.hb=hb;
 this.player=player;
@@ -32,6 +32,7 @@ public void menuLoader() {
         itemSelected=ImageIO.read(getClass().getResourceAsStream("/Resources/Buttons/ItemButtonSelected.png"));
         flee=ImageIO.read(getClass().getResourceAsStream("/Resources/Buttons/FleeButton.png"));
         fleeSelected=ImageIO.read(getClass().getResourceAsStream("/Resources/Buttons/FleeButtonSelected.png"));
+        selector=ImageIO.read(getClass().getResourceAsStream("/Resources/Buttons/Selector.png"));
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -41,6 +42,7 @@ public void draw(Graphics2D g2) {
     BufferedImage defendImage=null;
     BufferedImage itemImage=null;
     BufferedImage fleeImage=null;
+    BufferedImage selectImage=selector;
     switch(player.buttonX) {
         case 0:
         fightImage=fightSelected;
@@ -71,38 +73,37 @@ public void draw(Graphics2D g2) {
     }
     if (player.fightMode==true) {
         if(k.enterPressed==true && k.hasMoved==false) {
-            if(fleeImage==fleeSelected) {
-                hb.flee=true;
-                hb.fight=false;
-                hb.defend=false;
-                hb.item=false;
-                System.out.println("fleeing...");
+                if(fleeImage==fleeSelected) {
+                    hb.flee=true;
+                    hb.fight=false;
+                    hb.defend=false;
+                    hb.item=false;
+                    System.out.println("fleeing...");
+                }
+                else if(itemImage==itemSelected) {
+                    hb.flee=false;
+                    hb.fight=false;
+                    hb.defend=false;
+                    hb.item=true;
+                    System.out.println("selecting item...");
+                }
+                else if(defendImage==defendSelected) {
+                    hb.flee=false;
+                    hb.fight=false;
+                    hb.defend=true;
+                    hb.item=false;
+                    System.out.println("defending...");
+                }
+                else if(fightImage==fightSelected) {
+                    hb.flee=false;
+                    hb.fight=true;
+                    hb.defend=false;
+                    hb.item=false;
+                    System.out.println("fighting...");
+                }
                 k.hasMoved=true;
-            }
-            else if(itemImage==itemSelected) {
-                hb.flee=false;
-                hb.fight=false;
-                hb.defend=false;
-                hb.item=true;
-                System.out.println("selecting item...");
-                k.hasMoved=true;
-            }
-            else if(defendImage==defendSelected) {
-                hb.flee=false;
-                hb.fight=false;
-                hb.defend=true;
-                hb.item=false;
-                System.out.println("defending...");
-                k.hasMoved=true;
-            }
-            else if(fightImage==fightSelected) {
-                hb.flee=false;
-                hb.fight=true;
-                hb.defend=false;
-                hb.item=false;
-                System.out.println("fighting...");
-                k.hasMoved=true;
-            }
+            
+            
         }
         if(k.escPressed==true && k.hasMoved==false) {
             hb.fight=false;
@@ -121,18 +122,28 @@ public void draw(Graphics2D g2) {
             g2.drawImage(fleeImage,hb.screenWidth-6*hb.resTileSize/2, 440, 128, 128, null);
         }
         else if(hb.fight==true) {
+            g2.drawImage(selectImage, player.selectorX, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
             t.draw(g2, "ATTACK?", 12*hb.resTileSize/2, 7*hb.resTileSize);
             t.draw(g2, "YES", 6*hb.resTileSize/2, 10*hb.resTileSize);
             t.draw(g2, "NO", 24*hb.resTileSize/2, 10*hb.resTileSize);
         }
         else if(hb.defend==true) {
+            g2.drawImage(selectImage, player.selectorX, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
             t.draw(g2, "DEFEND?", 12*hb.resTileSize/2, 7*hb.resTileSize);
+            t.draw(g2, "YES", 6*hb.resTileSize/2, 10*hb.resTileSize);
+            t.draw(g2, "NO", 24*hb.resTileSize/2, 10*hb.resTileSize);
         }
         else if(hb.item==true) {
+            g2.drawImage(selectImage, player.selectorX, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
             t.draw(g2, "USE ITEM?", 12*hb.resTileSize/2, 7*hb.resTileSize);
+            t.draw(g2, "YES", 6*hb.resTileSize/2, 10*hb.resTileSize);
+            t.draw(g2, "NO", 24*hb.resTileSize/2, 10*hb.resTileSize);
         }
         else if(hb.flee==true) {
+            g2.drawImage(selectImage, player.selectorX, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
             t.draw(g2, "RUN AWAY?", 12*hb.resTileSize/2, 7*hb.resTileSize);
+            t.draw(g2, "YES", 6*hb.resTileSize/2, 10*hb.resTileSize);
+            t.draw(g2, "NO", 24*hb.resTileSize/2, 10*hb.resTileSize);
         } 
             
     }

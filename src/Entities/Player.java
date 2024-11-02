@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 public class Player extends Entity{
     The_Hub hb;
     keyInput k;
+    public int Selector;
+    public int selectorX;
     public Player(The_Hub hb, keyInput k) {
         this.hb=hb;
         this.k=k;
@@ -24,6 +26,8 @@ public class Player extends Entity{
         SpriteNum=1;
         fightMode=true;
         buttonX=0;
+        Selector=0;
+        selectorX=4*hb.resTileSize/2;
         if(fightMode==false) {
             Width=hb.resTileSize;
             Height=hb.resTileSize;
@@ -69,20 +73,44 @@ public class Player extends Entity{
                 }
                 else if(fightMode==true) {
                     if(k.rightPressed==true && k.hasMoved==false) {
-                        if(buttonX==3) {
-                            buttonX=0;
+                        if(hb.fight==true || hb.defend==true || hb.item==true || hb.flee==true) {
+                            if(Selector==0) {
+                                Selector=1;
+                                selectorX=22*hb.resTileSize/2;
+                            }
+                            else if(Selector==1) {
+                                Selector=0;
+                                selectorX=4*hb.resTileSize/2;
+                            }
                         }
-                        else{
-                            buttonX+=1;
-                           }
+                        else {
+                            if(buttonX==3) {
+                                buttonX=0;
+                            }
+                            else{
+                                buttonX+=1;
+                               }
+                        }
                         k.hasMoved=true;
                     }
                     if(k.leftPressed==true && k.hasMoved==false) {
-                        if(buttonX==0) {
-                            buttonX=3;
+                        if(hb.fight==true || hb.defend==true || hb.item==true || hb.flee==true) {
+                            if(Selector==0) {
+                                Selector=1;
+                                selectorX=22*hb.resTileSize/2;
+                            }
+                            else if(Selector==1) {
+                                Selector=0;
+                                selectorX=4*hb.resTileSize/2;
+                            }
                         }
-                        else{
-                            buttonX-=1;
+                        else {
+                            if(buttonX==0) {
+                                buttonX=3;
+                            }
+                            else{
+                                buttonX-=1;
+                            }
                         }
                         k.hasMoved=true;
                     }

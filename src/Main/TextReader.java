@@ -72,6 +72,8 @@ public class TextReader {
         boxHeight2=boxHeight*(hb.resTileSize/2);
         boi2=boi.toCharArray();
         stringEnd=boi.length()-1;
+        g2.setColor(Color.BLACK);
+            g2.fillRect(xCoord, yCoord, boxWidth, boxHeight2);
 
             int col=0;
             int row=0;
