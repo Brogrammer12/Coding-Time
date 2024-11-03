@@ -198,6 +198,14 @@ public class Player extends Entity{
                 break;
             }
         }
+        if(fightMode==false) {
+            Width=hb.resTileSize;
+            Height=hb.resTileSize;
+        }
+        else if(fightMode==true) {
+            Width=hb.fightWidth;
+            Height=hb.fightHeight;
+        }
         g2.drawImage(image, x, y, Width, Height, null);
     }
 }

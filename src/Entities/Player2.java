@@ -24,14 +24,8 @@ public class Player2 extends Entity{
         direction="down";
         SpriteNum=1;
         fightMode=true;
-        if(fightMode==false) {
             Width=hb.resTileSize;
             Height=hb.resTileSize;
-        }
-        else if(fightMode==true) {
-            Width=hb.fightWidth;
-            Height=hb.fightHeight;
-        }
 
     }
     public void update() {
@@ -146,6 +140,14 @@ public class Player2 extends Entity{
                 image=bob2;
                 break;
             }
+        }
+        if(fightMode==false) {
+            Width=hb.resTileSize;
+            Height=hb.resTileSize;
+        }
+        else if(fightMode==true) {
+            Width=hb.fightWidth;
+            Height=hb.fightHeight;
         }
         g2.drawImage(image, x, y, Width, Height, null);
     }

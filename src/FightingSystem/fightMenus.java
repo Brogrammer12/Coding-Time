@@ -1,5 +1,6 @@
 package FightingSystem;
 import Entities.Player;
+import Entities.Player2;
 import Main.TextReader;
 import Main.The_Hub;
 import Main.keyInput;
@@ -14,12 +15,14 @@ public class fightMenus {
     Player player;
     keyInput k;
     TextReader t;
+    Player2 p2;
     BufferedImage fight, fightSelected, defend, defendSelected, item, itemSelected, flee, fleeSelected, selector;
-public fightMenus(The_Hub hb, Player player, keyInput k, TextReader t) {
+public fightMenus(The_Hub hb, Player player, keyInput k, TextReader t, Player2 p2) {
 this.hb=hb;
 this.player=player;
 this.k=k;
 this.t=t;
+this.p2=p2;
 menuLoader();
 }
 public void menuLoader() {
@@ -173,7 +176,17 @@ public void draw(Graphics2D g2) {
             t.draw(g2, "YES", 6*hb.resTileSize/2, 10*hb.resTileSize);
             t.draw(g2, "NO", 24*hb.resTileSize/2, 10*hb.resTileSize);
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
-                    System.out.println("IT WORKED(FLEE)");
+                    double randomValue=Math.random();
+                    double realValue=Math.floor(randomValue*10)/10;
+                    if(realValue>=0.5) {
+                        player.fightMode=false;
+                        p2.fightMode=false;
+                        System.out.println("IT WORKED(FLEE)");
+                    }
+                    else if(realValue<0.5) {
+                        System.out.println("Womp Womp.");
+                    }
+                    System.out.println(realValue);
                     k.hasMoved=true;
                 
             }
