@@ -12,13 +12,17 @@ public class Player extends Entity{
     keyInput k;
     public int Selector;
     public int selectorX;
+    public int realSelectorX;
+    public String[] items;
     public Player(The_Hub hb, keyInput k) {
         this.hb=hb;
         this.k=k;
         setDefaultValues();
+        itemLoader();
         playerImageLoader();
     }
     public void setDefaultValues() {
+        realSelectorX=4*hb.resTileSize/2;
         x=100;
         y=100;
         moveSpeed=4;
@@ -38,8 +42,14 @@ public class Player extends Entity{
         }
 
     }
+    public void itemLoader() {
+        items=new String[5];
+        items[0]="APPLE";
+        items[1]="BANANA";
+        items[3]="ORANGE";
+        items[4]="KIWI";
+    }
     public void update() {
-        
             if(k.upPressed==true || k.leftPressed==true || k.downPressed==true || k.rightPressed==true) {
                 if(fightMode==false) {
                     if(k.upPressed==true) {
