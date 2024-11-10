@@ -114,7 +114,7 @@ public void draw(Graphics2D g2) {
             hb.defend=false;
             hb.item=false;
             hb.flee=false;
-            t.draw(g2, "", 5*hb.resTileSize, 7*hb.resTileSize);
+            t.draw(g2, "", 5*hb.resTileSize, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             k.hasMoved=true;
         }
         g2.setColor(Color.BLACK);
@@ -126,25 +126,29 @@ public void draw(Graphics2D g2) {
             g2.drawImage(fleeImage,hb.screenWidth-6*hb.resTileSize/2, 440, 128, 128, null);
         }
         else if(hb.fight==true) {
+            int[] XCounter=new int[player.weapons.length];
             g2.drawImage(selectImage, player.selectorX, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
-            t.draw(g2, "ATTACK?", 12*hb.resTileSize/2, 7*hb.resTileSize);
-            t.draw(g2, "YES", 6*hb.resTileSize/2, 10*hb.resTileSize);
-            t.draw(g2, "NO", 24*hb.resTileSize/2, 10*hb.resTileSize);
-            if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
-                System.out.println("IT WORKED(FIGHT)");
-                k.hasMoved=true;
-            
-        }
-        else if(player.Selector==1 && k.enterPressed==true && k.hasMoved==false) {
-            hb.fight=false;
-            k.hasMoved=true;
-        }
+            t.draw(g2, "ATTACK?", 12*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            t.draw(g2, "YES", 6*hb.resTileSize/2, 10*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            t.draw(g2, "NO", 24*hb.resTileSize/2, 10*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            for(int index=0; index<player.weapons.length; index++) {
+                int firstX=0;
+                String urmom=player.weapons[index];
+                int pixelLength=urmom.length()*24;
+                if(index>0) {
+                    XCounter[index]=XCounter[index-1]+pixelLength;
+                }
+                if(index==0) {
+                    firstX=hb.resTileSize;
+                    XCounter[0]=pixelLength;
+                }
+            }
         }
         else if(hb.defend==true) {
             g2.drawImage(selectImage, player.selectorX, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
-            t.draw(g2, "DEFEND?", 12*hb.resTileSize/2, 7*hb.resTileSize);
-            t.draw(g2, "YES", 6*hb.resTileSize/2, 10*hb.resTileSize);
-            t.draw(g2, "NO", 24*hb.resTileSize/2, 10*hb.resTileSize);
+            t.draw(g2, "DEFEND?", 12*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            t.draw(g2, "YES", 6*hb.resTileSize/2, 10*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            t.draw(g2, "NO", 24*hb.resTileSize/2, 10*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
                 System.out.println("IT WORKED(DEFEND)");
                 k.hasMoved=true;
@@ -156,10 +160,27 @@ public void draw(Graphics2D g2) {
         }
         }
         else if(hb.item==true) {
+            int[] XCounter=new int[player.items.length];
+            for(int index=0; index<player.items.length; index++) {
+                int firstX=0;
+                String urmom=player.items[index];
+                int pixelLength=urmom.length()*16;
+                if(index>0) {
+                    XCounter[index]=XCounter[index-1]+pixelLength;
+                }
+                if(index==0) {
+                    firstX=hb.resTileSize;
+                    XCounter[0]=pixelLength;
+                }
+                else {
+                    firstX=XCounter[index-1]+(index*(hb.resTileSize))+hb.resTileSize;
+                }
+                t.draw(g2, urmom, firstX, 19*hb.resTileSize/2, hb.resTileSize/3, hb.resTileSize/3);
+            }
             g2.drawImage(selectImage, player.selectorX, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
-            t.draw(g2, "USE ITEM?", 12*hb.resTileSize/2, 7*hb.resTileSize);
-            t.draw(g2, "YES", 6*hb.resTileSize/2, 10*hb.resTileSize);
-            t.draw(g2, "NO", 24*hb.resTileSize/2, 10*hb.resTileSize);
+            t.draw(g2, "USE ITEM?", 12*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            //t.draw(g2, "YES", 6*hb.resTileSize/2, 10*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            //t.draw(g2, "NO", 24*hb.resTileSize/2, 10*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
                 System.out.println("IT WORKED(ITEM)");
                 k.hasMoved=true;
@@ -172,9 +193,9 @@ public void draw(Graphics2D g2) {
         }
         else if(hb.flee==true) {
             g2.drawImage(selectImage, player.selectorX, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
-            t.draw(g2, "RUN AWAY?", 12*hb.resTileSize/2, 7*hb.resTileSize);
-            t.draw(g2, "YES", 6*hb.resTileSize/2, 10*hb.resTileSize);
-            t.draw(g2, "NO", 24*hb.resTileSize/2, 10*hb.resTileSize);
+            t.draw(g2, "RUN AWAY?", 12*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            t.draw(g2, "YES", 6*hb.resTileSize/2, 10*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            t.draw(g2, "NO", 24*hb.resTileSize/2, 10*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
                     double randomValue=Math.random();
                     double realValue=Math.floor(randomValue*10)/10;

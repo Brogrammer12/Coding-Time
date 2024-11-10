@@ -58,18 +58,18 @@ public class TextReader {
         e.printStackTrace();
     }
         }
-        public void draw(Graphics2D g2, String boi, int xCoord, int yCoord) {
+        public void draw(Graphics2D g2, String boi, int xCoord, int yCoord, int sizeX, int sizeY) {
             this.boi=boi;
             this.xCoord=xCoord;
             this.yCoord=yCoord;
         if(boi.length()>=16) {
-            boxWidth=16*(hb.resTileSize/2);
+            boxWidth=16*sizeX;
         }
         else if(boi.length()<16) {
-            boxWidth=boi.length()*(hb.resTileSize/2);
+            boxWidth=boi.length()*sizeX;
         }
         boxHeight=(boi.length()/16)+1;
-        boxHeight2=boxHeight*(hb.resTileSize/2);
+        boxHeight2=boxHeight*sizeY;
         boi2=boi.toCharArray();
         stringEnd=boi.length()-1;
         g2.setColor(Color.BLACK);
@@ -174,9 +174,17 @@ public class TextReader {
                
                 col=index%hb.maxScreenHoriz;
                 row=index/hb.maxScreenHoriz;
-                int X=xCoord+col*hb.resTileSize/2;
-                int Y=yCoord+row*hb.resTileSize/2;
-            g2.drawImage(image, X, Y, hb.resTileSize/2, hb.resTileSize/2, null); 
+                int X;
+                int Y;
+                if(sizeX==hb.resTileSize/3 && sizeY==hb.resTileSize/3) {
+                    X=xCoord+col*hb.resTileSize/3;
+                    Y=yCoord+row*hb.resTileSize/3;
+                }
+                else {
+                    X=xCoord+col*hb.resTileSize/2;
+                    Y=yCoord+row*hb.resTileSize/2;
+                }
+            g2.drawImage(image, X, Y, sizeX, sizeY, null); 
             }
     
         }

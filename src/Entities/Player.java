@@ -12,17 +12,33 @@ public class Player extends Entity{
     keyInput k;
     public int Selector;
     public int selectorX;
-    public int realSelectorX;
+    public int altSelectorX;
     public String[] items;
+    public String[] weapons;
+    public String[] defenses;
+    public String[] running;
     public Player(The_Hub hb, keyInput k) {
         this.hb=hb;
         this.k=k;
+        items=new String[4];
+        weapons=new String[2];
+        defenses=new String[2];
+        running=new String[2];
+        weapons[0]="YES";
+        weapons[1]="NO";
+        defenses[0]="YES";
+        defenses[1]="NO";
+        items[0]="APPLE";
+        items[1]=" BANANA";
+        items[2]=" HEALTH POTION";
+        items[3]="BANDAGE";
+        running[0]="YES";
+        running[1]="NO";
         setDefaultValues();
-        itemLoader();
         playerImageLoader();
     }
     public void setDefaultValues() {
-        realSelectorX=4*hb.resTileSize/2;
+        altSelectorX=0;
         x=100;
         y=100;
         moveSpeed=4;
@@ -41,13 +57,6 @@ public class Player extends Entity{
             Height=hb.fightHeight;
         }
 
-    }
-    public void itemLoader() {
-        items=new String[5];
-        items[0]="APPLE";
-        items[1]="BANANA";
-        items[3]="ORANGE";
-        items[4]="KIWI";
     }
     public void update() {
             if(k.upPressed==true || k.leftPressed==true || k.downPressed==true || k.rightPressed==true) {
@@ -84,13 +93,11 @@ public class Player extends Entity{
                 else if(fightMode==true) {
                     if(k.rightPressed==true && k.hasMoved==false) {
                         if(hb.fight==true || hb.defend==true || hb.item==true || hb.flee==true) {
-                            if(Selector==0) {
+                            if(Selector==items.length) {
                                 Selector=1;
-                                selectorX=22*hb.resTileSize/2;
                             }
-                            else if(Selector==1) {
-                                Selector=0;
-                                selectorX=4*hb.resTileSize/2;
+                            else {
+                                Selector+=1;
                             }
                         }
                         else {
@@ -105,13 +112,11 @@ public class Player extends Entity{
                     }
                     if(k.leftPressed==true && k.hasMoved==false) {
                         if(hb.fight==true || hb.defend==true || hb.item==true || hb.flee==true) {
-                            if(Selector==0) {
-                                Selector=1;
-                                selectorX=22*hb.resTileSize/2;
+                            if(Selector==1) {
+                                Selector=items.length;
                             }
-                            else if(Selector==1) {
-                                Selector=0;
-                                selectorX=4*hb.resTileSize/2;
+                            else {
+                                Selector-=1;
                             }
                         }
                         else {
