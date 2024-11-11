@@ -17,6 +17,7 @@ public class Player extends Entity{
     public String[] weapons;
     public String[] defenses;
     public String[] running;
+    public int arrayLength;
     public Player(The_Hub hb, keyInput k) {
         this.hb=hb;
         this.k=k;
@@ -59,6 +60,18 @@ public class Player extends Entity{
 
     }
     public void update() {
+        if(hb.fight==true) {
+            arrayLength=weapons.length;
+        }
+        else if(hb.defend==true) {
+            arrayLength=defenses.length;
+        }
+        else if(hb.item==true) {
+            arrayLength=items.length;
+        }
+        else if(hb.flee==true) {
+            arrayLength=running.length;
+        }
             if(k.upPressed==true || k.leftPressed==true || k.downPressed==true || k.rightPressed==true) {
                 if(fightMode==false) {
                     if(k.upPressed==true) {
@@ -93,8 +106,8 @@ public class Player extends Entity{
                 else if(fightMode==true) {
                     if(k.rightPressed==true && k.hasMoved==false) {
                         if(hb.fight==true || hb.defend==true || hb.item==true || hb.flee==true) {
-                            if(Selector==items.length) {
-                                Selector=1;
+                            if(Selector==arrayLength-1) {
+                                Selector=0;
                             }
                             else {
                                 Selector+=1;
@@ -112,8 +125,8 @@ public class Player extends Entity{
                     }
                     if(k.leftPressed==true && k.hasMoved==false) {
                         if(hb.fight==true || hb.defend==true || hb.item==true || hb.flee==true) {
-                            if(Selector==1) {
-                                Selector=items.length;
+                            if(Selector==0) {
+                                Selector=arrayLength-1;
                             }
                             else {
                                 Selector-=1;
