@@ -16,7 +16,7 @@ public class TextReader {
     public int boxWidth;
     int boxHeight;
     public int boxHeight2;
-    BufferedImage a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, period, exclamation, question;
+    BufferedImage a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, period, exclamation, question, one, two, three, four, five, six, seven, eight, nine, colon, slash, zero;
     
     public TextReader(The_Hub hb)  {
         this.hb=hb;
@@ -53,6 +53,18 @@ public class TextReader {
         period=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/Period.png"));
         exclamation=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/Exclamation Mark.png"));
         question=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/Question Mark.png"));
+        zero=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/zero.png"));
+        one=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/one.png"));
+        two=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/two.png"));
+        three=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/three.png"));
+        four=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/four.png"));
+        five=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/five.png"));
+        six=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/six.png"));
+        seven=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/seven.png"));
+        eight=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/eight.png"));
+        nine=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/nine.png"));
+        colon=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/colon.png"));
+        slash=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/Slash.png"));
 
     } catch (IOException e) {
         e.printStackTrace();
@@ -169,6 +181,42 @@ public class TextReader {
                     break;
                     case ' ':
                     image=null;
+                    break;
+                    case '1':
+                    image=one;
+                    break;
+                    case '2':
+                    image=two;
+                    break;
+                    case '3':
+                    image=three;
+                    break;
+                    case '4':
+                    image=four;
+                    break;
+                    case '5':
+                    image=five;
+                    break;
+                    case '6':
+                    image=six;
+                    break;
+                    case '7':
+                    image=seven;
+                    break;
+                    case '8':
+                    image=eight;
+                    break;
+                    case '9':
+                    image=nine;
+                    break;
+                    case ':':
+                    image=colon;
+                    break;
+                    case '/':
+                    image=slash;
+                    break;
+                    case '0':
+                    image=zero;
                     break;
                 }
                
