@@ -8,12 +8,14 @@ import java.awt.image.BufferedImage;
 import Main.The_Hub;
 public class NPCs extends Entity{
     The_Hub hb;
+    Player player;
     int amountSprites;
     String[] bois;
     String[] bois2;
     public BufferedImage image;
-    public NPCs(The_Hub hb) {
+    public NPCs(The_Hub hb, Player player) {
         this.hb=hb;
+        this.player=player;
         bois=new String[2];
         bois2=new String[2];
         amountSprites=bois.length;

@@ -34,7 +34,7 @@ public class The_Hub extends JPanel  implements Runnable{
     Player2 player2=new Player2(this, keyBoi2);
     TextReader textboi=new TextReader(this);
     fightMenus fightingboi=new fightMenus(this, player, keyBoi, textboi, player2);
-    NPCs npc=new NPCs(this);
+    NPCs npc=new NPCs(this, player);
 
     public The_Hub() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));

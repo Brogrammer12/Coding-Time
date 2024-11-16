@@ -127,7 +127,7 @@ public void draw(Graphics2D g2) {
             t.draw(g2, "XP:10/50", hb.resTileSize/2, 15*hb.resTileSize/2, hb.resTileSize/2, hb.resTileSize/2);
             t.draw(g2, "LVL:1", 3*hb.resTileSize/2, 17*hb.resTileSize/2, hb.resTileSize/3, hb.resTileSize/3);
             t.draw(g2, "INV:4/10", 23*hb.resTileSize/2, 15*hb.resTileSize/2, hb.resTileSize/2, hb.resTileSize/2);
-            t.draw(g2, "R:A1", 25*hb.resTileSize/2, 17*hb.resTileSize/2, hb.resTileSize/3, hb.resTileSize/3);
+            t.draw(g2, "PL:1", 25*hb.resTileSize/2, 17*hb.resTileSize/2, hb.resTileSize/3, hb.resTileSize/3);
             g2.drawImage(fightImage,hb.resTileSize/2, 440, 128, 128, null);
             g2.drawImage(defendImage,9*hb.resTileSize/2, 440, 128, 128, null);
             g2.drawImage(itemImage,hb.screenWidth-14*hb.resTileSize/2, 440, 128, 128, null);
