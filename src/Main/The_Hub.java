@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
+import Entities.NPCs;
 import Entities.Player;
 import Entities.Player2;
 import FightingSystem.fightMenus;
@@ -33,6 +34,7 @@ public class The_Hub extends JPanel  implements Runnable{
     Player2 player2=new Player2(this, keyBoi2);
     TextReader textboi=new TextReader(this);
     fightMenus fightingboi=new fightMenus(this, player, keyBoi, textboi, player2);
+    NPCs npc=new NPCs(this);
 
     public The_Hub() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -71,6 +73,7 @@ public class The_Hub extends JPanel  implements Runnable{
     public void update() {
         player2.update();
         player.update();
+        npc.update();
 
     }
     public void paintComponent(Graphics g)  {
@@ -81,6 +84,7 @@ public class The_Hub extends JPanel  implements Runnable{
         tileguy.draw(g2);
         player2.draw(g2);
         player.draw(g2);
+        npc.draw(g2);
             fightingboi.draw(g2);
         g2.dispose();
 

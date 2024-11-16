@@ -14,4 +14,5 @@ public class Entity {
     int Width;
     int Height;
     public int buttonX;
+    public int Health;
 }

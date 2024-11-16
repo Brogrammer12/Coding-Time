@@ -12,7 +12,6 @@ public class Player extends Entity{
     keyInput k;
     public int Selector;
     public int selectorX;
-    public int altSelectorX;
     public String[] items;
     public String[] weapons;
     public String[] defenses;
@@ -39,7 +38,6 @@ public class Player extends Entity{
         playerImageLoader();
     }
     public void setDefaultValues() {
-        altSelectorX=0;
         x=100;
         y=100;
         moveSpeed=4;
