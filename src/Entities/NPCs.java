@@ -1,5 +1,4 @@
 package Entities;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
@@ -46,8 +45,14 @@ public class NPCs extends Entity{
     public void draw(Graphics2D g2) {
         try{
             for(int index=0; index<amountSprites; index++) {
-                bob1=ImageIO.read(getClass().getResourceAsStream(bois[index]));
+                if(player.fightMode==true) {
+                    bob1=ImageIO.read(getClass().getResourceAsStream(bois[index]));
                 bob2=ImageIO.read(getClass().getResourceAsStream(bois2[index]));
+                }
+                else if(player.fightMode==false) {
+                    bob1=null;
+                    bob2=null;
+                }
                 if(index==0) {
                     x=hb.resTileSize*10;
                     y=100;
@@ -70,14 +75,6 @@ public class NPCs extends Entity{
         catch(IOException e) {
             e.printStackTrace();
         }
-            //switch(SpriteNum) {
-            //    case 1:
-            //    image=bob1;
-            //    break;
-            //    case 2:
-             //   image=bob2;
-            //}
-            //g2.drawImage(image, x, y, hb.fightWidth, hb.fightHeight, null);
         
     
     }

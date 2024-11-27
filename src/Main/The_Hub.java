@@ -8,6 +8,7 @@ import Entities.NPCs;
 import Entities.Player;
 import Entities.Player2;
 import FightingSystem.fightMenus;
+import FightingSystem.healthManager;
 import Tile.TileManager;
 
 import java.awt.Color;
@@ -25,6 +26,7 @@ public class The_Hub extends JPanel  implements Runnable{
     public boolean defend=false;
     public boolean item=false;
     public boolean flee=false;
+    public boolean charSelected=false;
     final int FPS=60;
     Thread gameThread;
     TileManager tileguy=new TileManager(this);
@@ -32,10 +34,10 @@ public class The_Hub extends JPanel  implements Runnable{
     Player player=new Player(this, keyBoi);
     keyInput2 keyBoi2=new keyInput2();
     Player2 player2=new Player2(this, keyBoi2);
+    healthManager health=new healthManager(this, player);
     TextReader textboi=new TextReader(this);
-    fightMenus fightingboi=new fightMenus(this, player, keyBoi, textboi, player2);
+    fightMenus fightingboi=new fightMenus(this, player, keyBoi, textboi, player2, health);
     NPCs npc=new NPCs(this, player);
-
     public The_Hub() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);

@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 public class Player2 extends Entity{
     The_Hub hb;
     keyInput2 k;
+    public int p2Health;
     public Player2(The_Hub hb, keyInput2 k) {
         this.hb=hb;
         this.k=k;
@@ -20,6 +21,7 @@ public class Player2 extends Entity{
     public void setDefaultValues() {
         x=200;
         y=200;
+        p2Health=25;
         moveSpeed=4;
         direction="down";
         SpriteNum=1;

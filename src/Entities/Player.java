@@ -17,9 +17,12 @@ public class Player extends Entity{
     public String[] defenses;
     public String[] running;
     public int arrayLength;
+    public int cursorX;
+    public int p1Health;
     public Player(The_Hub hb, keyInput k) {
         this.hb=hb;
         this.k=k;
+        p1Health=1;
         items=new String[4];
         weapons=new String[2];
         defenses=new String[2];
@@ -46,6 +49,7 @@ public class Player extends Entity{
         fightMode=true;
         buttonX=0;
         Selector=0;
+        cursorX=0;
         selectorX=4*hb.resTileSize/2;
         if(fightMode==false) {
             Width=hb.resTileSize;
@@ -111,13 +115,21 @@ public class Player extends Entity{
                                 Selector+=1;
                             }
                         }
-                        else {
+                        else if(hb.charSelected==false){
                             if(buttonX==3) {
                                 buttonX=0;
                             }
                             else{
                                 buttonX+=1;
                                }
+                        }
+                        else if(hb.charSelected==true) {
+                            if(cursorX==3) {
+                                cursorX=0;
+                            }
+                            else {
+                                cursorX+=1;
+                            }
                         }
                         k.hasMoved=true;
                     }
@@ -130,12 +142,20 @@ public class Player extends Entity{
                                 Selector-=1;
                             }
                         }
-                        else {
+                        else if(hb.charSelected==false){
                             if(buttonX==0) {
                                 buttonX=3;
                             }
                             else{
                                 buttonX-=1;
+                            }
+                        }
+                        else if(hb.charSelected==true) {
+                            if(cursorX==0) {
+                                cursorX=3;
+                            }
+                            else {
+                                cursorX-=1;
                             }
                         }
                         k.hasMoved=true;
