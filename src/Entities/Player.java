@@ -19,10 +19,14 @@ public class Player extends Entity{
     public int arrayLength;
     public int cursorX;
     public int p1Health;
+    public boolean attackMode;
+    public boolean attackMode2;
     public Player(The_Hub hb, keyInput k) {
         this.hb=hb;
         this.k=k;
         p1Health=1;
+        attackMode=false;
+        attackMode2=false;
         items=new String[4];
         weapons=new String[2];
         defenses=new String[2];
@@ -43,6 +47,9 @@ public class Player extends Entity{
     public void setDefaultValues() {
         x=100;
         y=100;
+        attack=new BufferedImage[7];
+        attackSpriteNum=1;
+        attackSpriteCounter=0;
         moveSpeed=4;
         direction="down";
         SpriteNum=1;
@@ -163,7 +170,46 @@ public class Player extends Entity{
                 }
             }
             if(fightMode==true){
-                SpriteCounter++;
+                if(attackMode==true) {
+                    if (x>hb.resTileSize*8) {
+                        attackSpriteCounter++;
+                    if(attackSpriteCounter>4) {
+                        attackSpriteNum++;
+                        if(attackSpriteNum>6) {
+                            attackSpriteNum=1;
+                            attackMode2=true;
+                            attackMode=false;
+                        }
+                        attackSpriteCounter=0;
+                    }
+                    }
+                    else if(attackMode2==true) {
+                        System.out.println("benis");
+                        if(x!=100) {
+                            x-=10;
+                        }
+                    }
+                    else {
+                        SpriteNum=1;
+                        x+=10;
+                    }
+
+                    
+                }
+                else if(attackMode2==true) {
+                    if(x!=100) {
+                        x-=10;
+                    }
+                    else if(x==100){
+                        attackMode2=false;
+                    }
+                    else {
+                        SpriteNum=1;
+                        x+=10;
+                    }
+                }
+                else {
+                    SpriteCounter++;
                     if(SpriteCounter>20) {
                         if(SpriteNum==1) {
                             SpriteNum=2;
@@ -175,6 +221,8 @@ public class Player extends Entity{
                         }
                         SpriteCounter=0;
                     }
+                }
+                
             }
         
         }
@@ -192,6 +240,13 @@ public class Player extends Entity{
             right2=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerRight2.png"));
             bob1=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerFight1.png"));
             bob2=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerFight2.png"));
+            attack[0]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackOne.png"));
+            attack[1]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackTwo.png"));
+            attack[2]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackThree.png"));
+            attack[3]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackFour.png"));
+            attack[4]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackFive.png"));
+            attack[5]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackSix.png"));
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -235,14 +290,39 @@ public class Player extends Entity{
             }
         }
         else if(fightMode==true) {
-            switch(SpriteNum) {
-                case 1:
-                image=bob1;
-                break;
-                case 2:
-                image=bob2;
-                break;
+            if(attackMode==true) {
+                switch(attackSpriteNum) {
+                    case 1:
+                    image=attack[0];
+                    break;
+                    case 2:
+                    image=attack[1];
+                    break;
+                    case 3:
+                    image=attack[2];
+                    break;
+                    case 4:
+                    image=attack[3];
+                    break;
+                    case 5:
+                    image=attack[4];
+                    break;
+                    case 6:
+                    image=attack[5];
+                    break;
+                }
             }
+            else {
+                switch(SpriteNum) {
+                    case 1:
+                    image=bob1;
+                    break;
+                    case 2:
+                    image=bob2;
+                    break;
+                }
+            }
+            
         }
         if(fightMode==false) {
             Width=hb.resTileSize;

@@ -7,6 +7,7 @@ public class Entity {
     int moveSpeed;
     BufferedImage up1, up2, left1, left2, down1, down2, right1, right2;
     BufferedImage bob1, bob2;
+    BufferedImage[] attack;
     String direction;
     int SpriteCounter=0;
     int SpriteNum;
@@ -15,4 +16,6 @@ public class Entity {
     int Height;
     public int buttonX;
     public int Health;
+    public int attackSpriteNum;
+    public int attackSpriteCounter;
 }

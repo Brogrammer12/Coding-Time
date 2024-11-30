@@ -194,6 +194,15 @@ public void draw(Graphics2D g2) {
             }
             g2.drawImage(selectImage,x ,y, hb.resTileSize, hb.resTileSize, null);
             if(k.enterPressed==true && k.hasMoved==false) {
+                if (player.cursorX>1) {
+                    if(wPlayer==1) {
+                        player.attackMode=true;
+                    }
+                    else if(wPlayer==2) {
+                        p2.attackMode=true;
+                    }
+                    
+                }
                 System.out.println("You choose this guy to attack");
                 if(wPlayer==1) {
                     wPlayer=2;
