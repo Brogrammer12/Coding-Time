@@ -1,4 +1,5 @@
 package FightingSystem;
+import Entities.NPCs;
 import Entities.Player;
 import Entities.Player2;
 import Main.TextReader;
@@ -11,19 +12,27 @@ import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 import java.awt.Color;
 public class fightMenus {
+    public int timer=0;
+    public int failTimer=0;
+    public boolean runAway=false;
+    public boolean runFailed=false;
+    public boolean itemBoi=false;
+    public int ITimer=0;
     The_Hub hb;
     Player player;
     keyInput k;
     TextReader t;
     Player2 p2;
+    NPCs npc;
     healthManager healthy;
     BufferedImage fight, fightSelected, defend, defendSelected, item, itemSelected, flee, fleeSelected, selector, health;
     int wPlayer;
-public fightMenus(The_Hub hb, Player player, keyInput k, TextReader t, Player2 p2, healthManager healthy) {
+public fightMenus(The_Hub hb, Player player, keyInput k, TextReader t, Player2 p2, healthManager healthy, NPCs npc) {
 this.hb=hb;
 this.player=player;
 this.k=k;
 this.t=t;
+this.npc=npc;
 this.p2=p2;
 this.healthy=healthy;
 wPlayer=1;
@@ -80,6 +89,22 @@ public void draw(Graphics2D g2) {
         break;
     }
     if (player.fightMode==true) {
+        if (itemBoi==true) {
+            ITimer++;
+            if (ITimer<100) {
+                t.draw(g2, "+10HP", 10*hb.resTileSize/2, 5*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            }
+            else if(ITimer>=100) {
+                ITimer=0;
+                if(player.cursorX==0) {
+                    player.p1Health+=10;
+                }
+                else if(player.cursorX==1) {
+                    p2.p2Health+=10;
+                }
+                itemBoi=false;
+            }
+        }
         if(hb.flee==false && hb.item==false && hb.defend==false && hb.fight==false && k.enterPressed==true && k.hasMoved==false && hb.charSelected==false) {
                 if(fleeImage==fleeSelected) {
                     hb.flee=true;
@@ -181,36 +206,81 @@ public void draw(Graphics2D g2) {
                 g2.drawImage(image, x,250,48*hb.scale, 20*hb.scale, null);
                 break;
                 case 2:
+                double hBoiN=50/29;
+                int healthLossN=50-hb.necHealth;
+                double healthLostN=(healthLossN/1.8)/hBoiN;
+                int totHealthLostN=(int) Math.round(healthLostN);
+                for(int index=0; index<=29; index++) {
+                    if(index==totHealthLostN) {
+                        image=healthy.helath[index];
+                    }
+                }
                 x=hb.resTileSize*9;
                 y=100;
-                g2.drawImage(health, x,150,48*hb.scale, 20*hb.scale, null);
+                g2.drawImage(image, x,150,48*hb.scale, 20*hb.scale, null);
                 break;
                 case 3:
+                double hBoiNp=50/29;
+                int healthLossNp=50-hb.skelHealth;
+                double healthLostNp=(healthLossNp/1.8)/hBoiNp;
+                int totHealthLostNp=(int) Math.round(healthLostNp);
+                for(int index=0; index<=29; index++) {
+                    if(index==totHealthLostNp) {
+                        image=healthy.helath[index];
+                    }
+                }
                 x=hb.resTileSize*9+100;
                 y=200;
-                g2.drawImage(health, x,250,48*hb.scale, 20*hb.scale, null);
+                g2.drawImage(image, x,250,48*hb.scale, 20*hb.scale, null);
                 break;
 
             }
             g2.drawImage(selectImage,x ,y, hb.resTileSize, hb.resTileSize, null);
             if(k.enterPressed==true && k.hasMoved==false) {
-                if (player.cursorX>1) {
+                if (hb.charFight==true) {
+                    if (player.cursorX>1) {
+                        if (player.cursorX==2) {
+                            hb.gSelectedX=hb.resTileSize*8;
+                            hb.gSelectedY=100;
+                        }
+                        else if(player.cursorX==3) {
+                            hb.gSelectedX=hb.resTileSize*8+100;
+                            hb.gSelectedY=200;
+                        }
+                        if(wPlayer==1) {
+                            player.attackMode=true;
+                        }
+                        else if(wPlayer==2) {
+                            p2.attackMode=true;
+                        }
+                        
+                    }
+                    
                     if(wPlayer==1) {
-                        player.attackMode=true;
+                        wPlayer=2;
                     }
                     else if(wPlayer==2) {
-                        p2.attackMode=true;
+                        wPlayer=1;
                     }
                     
                 }
-                System.out.println("You choose this guy to attack");
-                if(wPlayer==1) {
-                    wPlayer=2;
+                else if(hb.charDefend==true) {
+                    player.defendMode=true;
+                    if(wPlayer==1) {
+                        wPlayer=2;
+                    }
+                    else if(wPlayer==2) {
+                        wPlayer=1;
+                    }
                 }
-                else if(wPlayer==2) {
-                    wPlayer=1;
+                else if(hb.charItem==true) {
+                    itemBoi=true;
                 }
+                
                 k.hasMoved=true;
+                hb.charFight=false;
+                hb.charDefend=false;
+                hb.charItem=false;
                 hb.charSelected=false;
             }
             
@@ -260,6 +330,7 @@ public void draw(Graphics2D g2) {
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
                 System.out.println("IT WORKED(FIGHT)");
                 hb.charSelected=true;
+                hb.charFight=true;
                 hb.fight=false;
                 k.hasMoved=true;
             
@@ -296,6 +367,7 @@ public void draw(Graphics2D g2) {
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
                 System.out.println("IT WORKED(DEFEND)");
                 hb.charSelected=true;
+                hb.charDefend=true;
                 hb.defend=false;
                 k.hasMoved=true;
             
@@ -333,6 +405,7 @@ public void draw(Graphics2D g2) {
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
                 System.out.println("You ate an apple. Crunchy. +5hp!");
                 hb.charSelected=true;
+                hb.charItem=true;
                 hb.item=false;
                 player.Selector=0;
                 k.hasMoved=true;
@@ -341,6 +414,7 @@ public void draw(Graphics2D g2) {
         else if(player.Selector==1 && k.enterPressed==true && k.hasMoved==false) {
             System.out.println("You ate a banana. tastes rotten. -5hp.");
             hb.charSelected=true;
+            hb.charItem=true;
             hb.item=false;
             player.Selector=0;
             k.hasMoved=true;
@@ -348,6 +422,7 @@ public void draw(Graphics2D g2) {
         else if(player.Selector==2 && k.enterPressed==true && k.hasMoved==false) {
             System.out.println("You drink the concoction. You start to feel better. +5atk, +5hp");
             hb.charSelected=true;
+            hb.charItem=true;
             hb.item=false;
             player.Selector=0;
             k.hasMoved=true;
@@ -355,12 +430,55 @@ public void draw(Graphics2D g2) {
         else if(player.Selector==3 && k.enterPressed==true && k.hasMoved==false) {
             System.out.println("You put on the bandage. It's still sticky. +20hp.");
             hb.charSelected=true;
+            hb.charItem=true;
             hb.item=false;
             player.Selector=0;
             k.hasMoved=true;
         }
         }
         else if(hb.flee==true) {
+            double randomValue=Math.random();
+    double realValue=Math.floor(randomValue*10)/10;
+        if(runFailed==true) {
+        failTimer++;
+        if(failTimer<100) {
+            t.draw(g2, "YOU TRIED TO RUN BUT FAILED.", 10*hb.resTileSize/2, 5*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+        }
+        else if(failTimer>=100) {
+            failTimer=0;
+            runFailed=false;
+            hb.flee=false;
+        }
+        }
+            if(runAway==true) {
+                timer++;
+                t.draw(g2, "YOU RAN AWAY.", 10*hb.resTileSize/2, 5*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            }
+                if(realValue>=0.5) {
+                    if(player.x>-100 && runAway==true) {
+                        player.x-=10;
+                    }
+                    if(p2.x>-100 && runAway==true) {
+                        p2.x-=10;
+                    }
+                    if(timer>=100) {
+                        player.fightMode=false;
+                    p2.fightMode=false;
+                    player.x=100;
+                    player.y=100;
+                    p2.x=200;
+                    p2.y=200;
+                    hb.flee=false;
+                    if(wPlayer==1) {
+                        wPlayer=2;
+                    }
+                    else if(wPlayer==2) {
+                        wPlayer=1;
+                    }
+                    runAway=false;
+                    }
+                    
+                }
             int[] XCounter=new int[player.running.length];
             int e=0;
             for(int index=0; index<player.weapons.length; index++) {
@@ -385,26 +503,16 @@ public void draw(Graphics2D g2) {
             g2.drawImage(selectImage, e, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
             t.draw(g2, "RUN AWAY?", 12*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
-                hb.charSelected=true;
-                    double randomValue=Math.random();
-                    double realValue=Math.floor(randomValue*10)/10;
-                    if(realValue>=0.5) {
-                        player.fightMode=false;
-                        p2.fightMode=false;
-                        System.out.println("IT WORKED(FLEE)");
-                        hb.flee=false;
-                        if(wPlayer==1) {
-                            wPlayer=2;
-                        }
-                        else if(wPlayer==2) {
-                            wPlayer=1;
-                        }
-                    }
-                    else if(realValue<0.5) {
-                        System.out.println("Womp Womp.");
-                        hb.flee=false;
-                    }
-                    k.hasMoved=true;
+                if(realValue<0.5) {
+                    runFailed=true;
+                    
+                }
+                else {
+                    runAway=true;
+                    
+                }
+                k.hasMoved=true;
+                
                 
             }
             else if(player.Selector==1 && k.enterPressed==true && k.hasMoved==false) {

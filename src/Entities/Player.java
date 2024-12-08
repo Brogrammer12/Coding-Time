@@ -11,6 +11,7 @@ public class Player extends Entity{
     The_Hub hb;
     keyInput k;
     public int Selector;
+    public int timer=0;
     public int selectorX;
     public String[] items;
     public String[] weapons;
@@ -19,14 +20,17 @@ public class Player extends Entity{
     public int arrayLength;
     public int cursorX;
     public int p1Health;
+    public boolean healthTaker=false;
     public boolean attackMode;
     public boolean attackMode2;
+    public boolean defendMode;
     public Player(The_Hub hb, keyInput k) {
         this.hb=hb;
         this.k=k;
         p1Health=1;
         attackMode=false;
         attackMode2=false;
+        defendMode=false;
         items=new String[4];
         weapons=new String[2];
         defenses=new String[2];
@@ -170,9 +174,23 @@ public class Player extends Entity{
                 }
             }
             if(fightMode==true){
+                if (p1Health>50) {
+                    p1Health=50;
+                }
+                if(defendMode==true) {
+                    timer++;
+                    if (timer>=100) {
+                        timer=0;
+                        defendMode=false;
+                    }
+                }
                 if(attackMode==true) {
-                    if (x>hb.resTileSize*8) {
-                        attackSpriteCounter++;
+                    if (x>hb.gSelectedX) {
+                        if (y!=hb.gSelectedY) {
+                            y+=10;
+                        }
+                        else {
+                            attackSpriteCounter++;
                     if(attackSpriteCounter>4) {
                         attackSpriteNum++;
                         if(attackSpriteNum>6) {
@@ -182,12 +200,14 @@ public class Player extends Entity{
                         }
                         attackSpriteCounter=0;
                     }
+                        }
+                        
                     }
-                    else if(attackMode2==true) {
-                        System.out.println("benis");
+                    else if(attackMode2==true) {    
                         if(x!=100) {
                             x-=10;
                         }
+                        
                     }
                     else {
                         SpriteNum=1;
@@ -197,11 +217,25 @@ public class Player extends Entity{
                     
                 }
                 else if(attackMode2==true) {
+                    if (cursorX==2 && healthTaker==false) {
+                        hb.necHealth-=10;
+                        healthTaker=true;
+                    }
+                    else if(cursorX==3 && healthTaker==false) {
+                        hb.skelHealth-=10;
+                        healthTaker=true;
+                    }
                     if(x!=100) {
                         x-=10;
                     }
                     else if(x==100){
-                        attackMode2=false;
+                        if (y!=100) {
+                            y-=10;
+                        }
+                        else if(y==100) {
+                            healthTaker=false;
+                            attackMode2=false;
+                        }
                     }
                     else {
                         SpriteNum=1;
@@ -246,7 +280,7 @@ public class Player extends Entity{
             attack[3]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackFour.png"));
             attack[4]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackFive.png"));
             attack[5]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackSix.png"));
-            
+            defenseSprite=ImageIO.read(getClass().getResourceAsStream("/Resources/Buttons/DefenseSprite.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -320,6 +354,14 @@ public class Player extends Entity{
                     case 2:
                     image=bob2;
                     break;
+                }
+            }
+            if (defendMode==true) {
+                if(cursorX==0) {
+                    g2.drawImage(defenseSprite, (hb.resTileSize*3)/2+100, 100-hb.resTileSize/4, (hb.resTileSize*3)/2, (hb.resTileSize*4)/2, null);
+                }
+                else if(cursorX==1) {
+                    g2.drawImage(defenseSprite,(hb.resTileSize*3)/2+200, 200-hb.resTileSize/4, (hb.resTileSize*3)/2, (hb.resTileSize*4)/2, null);
                 }
             }
             

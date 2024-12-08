@@ -16,7 +16,7 @@ public class TextReader {
     public int boxWidth;
     int boxHeight;
     public int boxHeight2;
-    BufferedImage a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, period, exclamation, question, one, two, three, four, five, six, seven, eight, nine, colon, slash, zero;
+    BufferedImage a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, period, exclamation, question, one, two, three, four, five, six, seven, eight, nine, colon, slash, zero, plus, minus;
     
     public TextReader(The_Hub hb)  {
         this.hb=hb;
@@ -65,7 +65,8 @@ public class TextReader {
         nine=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/nine.png"));
         colon=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/colon.png"));
         slash=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/Slash.png"));
-
+        plus=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/Plus.png"));
+        minus=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/Minus.png"));
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -218,6 +219,11 @@ public class TextReader {
                     case '0':
                     image=zero;
                     break;
+                    case '+':
+                    image=plus;
+                    break;
+                    case '-':
+                    image=minus;
                 }
                
                 col=index%hb.maxScreenHoriz;

@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+
+import Main.TextReader;
 import Main.The_Hub;
 public class NPCs extends Entity{
     The_Hub hb;
@@ -11,9 +13,17 @@ public class NPCs extends Entity{
     int amountSprites;
     String[] bois;
     String[] bois2;
+    TextReader t;
+    Player2 p2;
+    public int timer=0;
+    public boolean uWon=false;
+    public boolean won=false;
     public BufferedImage image;
-    public NPCs(The_Hub hb, Player player) {
+    public boolean firstTime=false;
+    public NPCs(The_Hub hb, Player player, TextReader t, Player2 p2) {
         this.hb=hb;
+        this.t=t;
+        this.p2=p2;
         this.player=player;
         bois=new String[2];
         bois2=new String[2];
@@ -43,7 +53,21 @@ public class NPCs extends Entity{
         
     }
     public void draw(Graphics2D g2) {
+        if (uWon==true) {
+            timer++;
+            if (timer<100) {
+                t.draw(g2, "YOU WON!", 10*hb.resTileSize/2, 5*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            }
+            else if(timer>=100) {
+                timer=0;
+                player.fightMode=false;
+                p2.fightMode=false;
+                won=true;
+                uWon=false;
+            }
+        }
         try{
+            int trueHealth=0;
             for(int index=0; index<amountSprites; index++) {
                 if(player.fightMode==true) {
                     bob1=ImageIO.read(getClass().getResourceAsStream(bois[index]));
@@ -56,10 +80,12 @@ public class NPCs extends Entity{
                 if(index==0) {
                     x=hb.resTileSize*10;
                     y=100;
+                    trueHealth=hb.necHealth;
                 }
                 else if(index==1) {
                     x=hb.resTileSize*10+100;
                     y=200;
+                    trueHealth=hb.skelHealth;
                 }
                 switch(SpriteNum) {
                     case 1:
@@ -68,7 +94,13 @@ public class NPCs extends Entity{
                     case 2:
                     image=bob2;
                 }
-                g2.drawImage(image, x, y, hb.fightWidth, hb.fightHeight, null);
+                if (trueHealth>0) {
+                    g2.drawImage(image, x, y, hb.fightWidth, hb.fightHeight, null);
+                }
+                if (hb.necHealth<=0 && hb.skelHealth<=0 && won==false) {
+                    uWon=true;
+                }
+                
             
             }
         }

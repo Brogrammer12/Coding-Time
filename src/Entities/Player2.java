@@ -14,9 +14,13 @@ public class Player2 extends Entity{
     public int p2Health;
     public boolean attackMode;
     public boolean attackMode2;
-    public Player2(The_Hub hb, keyInput2 k) {
+    public boolean defendMode;
+    public boolean healthTaker=false;
+    Player player;
+    public Player2(The_Hub hb, keyInput2 k, Player player) {
         this.hb=hb;
         this.k=k;
+        this.player=player;
         setDefaultValues();
         playerImageLoader();
     }
@@ -27,6 +31,7 @@ public class Player2 extends Entity{
         attack=new BufferedImage[6];
         attackMode=false;
         attackMode2=false;
+        defendMode=false;
         attackSpriteNum=1;
         attackSpriteCounter=0;
         moveSpeed=4;
@@ -71,9 +76,16 @@ public class Player2 extends Entity{
                 }
             }
         if(fightMode==true) {
+            if(p2Health>50) {
+                p2Health=50;
+            }
             if(attackMode==true) {
-                if (x>hb.resTileSize*8+100) {
-                    attackSpriteCounter++;
+                if (x>hb.gSelectedX) {
+                    if (y!=hb.gSelectedY) {
+                        y-=10;
+                    }
+                    else {
+                        attackSpriteCounter++;
                 if(attackSpriteCounter>4) {
                     attackSpriteNum++;
                     if(attackSpriteNum>6) {
@@ -83,9 +95,10 @@ public class Player2 extends Entity{
                     }
                     attackSpriteCounter=0;
                 }
+                    }
+                    
                 }
                 else if(attackMode2==true) {
-                    System.out.println("benis");
                     if(x!=100) {
                         x-=10;
                     }
@@ -98,11 +111,26 @@ public class Player2 extends Entity{
                 
             }
             else if(attackMode2==true) {
+                if (player.cursorX==2 && healthTaker==false) {
+                    hb.necHealth-=10;
+                    healthTaker=true;
+                }
+                else if(player.cursorX==3 && healthTaker==false) {
+                    hb.skelHealth-=10;
+                    healthTaker=true;
+                }
                 if(x!=200) {
                     x-=10;
                 }
                 else if(x==200){
-                    attackMode2=false;
+                    if (y!=200) {
+                        y+=10;
+                    }
+                    else if(y==200) {
+                        healthTaker=false;
+                        attackMode2=false;
+                    }
+                    
                 }
                 else {
                     SpriteNum=1;
