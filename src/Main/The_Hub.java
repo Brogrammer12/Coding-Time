@@ -33,6 +33,7 @@ public class The_Hub extends JPanel  implements Runnable{
     public boolean charDefend=false;
     public boolean charItem=false;
     public boolean charFlee=false;
+    public int wPlayer=1;
     public int gSelectedX=0;
     public int gSelectedY=0;
     final int FPS=60;

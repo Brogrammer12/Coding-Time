@@ -181,6 +181,12 @@ public class Player extends Entity{
                     timer++;
                     if (timer>=100) {
                         timer=0;
+                        if(hb.wPlayer==1) {
+                            hb.wPlayer=2;
+                        }
+                        else if(hb.wPlayer==2) {
+                            hb.wPlayer=1;
+                        }
                         defendMode=false;
                     }
                 }
@@ -357,12 +363,13 @@ public class Player extends Entity{
                 }
             }
             if (defendMode==true) {
-                if(cursorX==0) {
+                if(hb.wPlayer==1) {
                     g2.drawImage(defenseSprite, (hb.resTileSize*3)/2+100, 100-hb.resTileSize/4, (hb.resTileSize*3)/2, (hb.resTileSize*4)/2, null);
                 }
-                else if(cursorX==1) {
+                else if(hb.wPlayer==2) {
                     g2.drawImage(defenseSprite,(hb.resTileSize*3)/2+200, 200-hb.resTileSize/4, (hb.resTileSize*3)/2, (hb.resTileSize*4)/2, null);
                 }
+                
             }
             
         }

@@ -26,7 +26,6 @@ public class fightMenus {
     NPCs npc;
     healthManager healthy;
     BufferedImage fight, fightSelected, defend, defendSelected, item, itemSelected, flee, fleeSelected, selector, health;
-    int wPlayer;
 public fightMenus(The_Hub hb, Player player, keyInput k, TextReader t, Player2 p2, healthManager healthy, NPCs npc) {
 this.hb=hb;
 this.player=player;
@@ -35,7 +34,6 @@ this.t=t;
 this.npc=npc;
 this.p2=p2;
 this.healthy=healthy;
-wPlayer=1;
 menuLoader();
 }
 public void menuLoader() {
@@ -173,10 +171,10 @@ public void draw(Graphics2D g2) {
                         imageMenu2=healthy.helath[index];
                     }
                 }
-                if(wPlayer==1) {
+                if(hb.wPlayer==1) {
                     imageMenu=imageMenu1;
                 }
-                else if(wPlayer==2) {
+                else if(hb.wPlayer==2) {
                     imageMenu=imageMenu2;
                 }
         g2.drawImage(imageMenu, (hb.screenWidth/2)-hb.resTileSize*3, 13*hb.resTileSize/2,96*hb.scale, 40*hb.scale, null);
@@ -247,31 +245,31 @@ public void draw(Graphics2D g2) {
                             hb.gSelectedX=hb.resTileSize*8+100;
                             hb.gSelectedY=200;
                         }
-                        if(wPlayer==1) {
+                        if(hb.wPlayer==1) {
                             player.attackMode=true;
                         }
-                        else if(wPlayer==2) {
+                        else if(hb.wPlayer==2) {
                             p2.attackMode=true;
                         }
                         
                     }
                     
-                    if(wPlayer==1) {
-                        wPlayer=2;
+                    if(hb.wPlayer==1) {
+                        hb.wPlayer=2;
                     }
-                    else if(wPlayer==2) {
-                        wPlayer=1;
+                    else if(hb.wPlayer==2) {
+                        hb.wPlayer=1;
                     }
                     
                 }
                 else if(hb.charDefend==true) {
-                    player.defendMode=true;
+                   /*  player.defendMode=true;
                     if(wPlayer==1) {
                         wPlayer=2;
                     }
                     else if(wPlayer==2) {
                         wPlayer=1;
-                    }
+                    }*/
                 }
                 else if(hb.charItem==true) {
                     itemBoi=true;
@@ -286,10 +284,10 @@ public void draw(Graphics2D g2) {
             
         }
         int plHealth=1;
-        if(wPlayer==1) {
+        if(hb.wPlayer==1) {
             plHealth=player.p1Health;
         }
-        else if(wPlayer==2) {
+        else if(hb.wPlayer==2) {
             plHealth=p2.p2Health;
         }
         if(hb.flee==false && hb.fight==false && hb.item==false && hb.defend==false && hb.charSelected==false) {
@@ -297,7 +295,7 @@ public void draw(Graphics2D g2) {
             t.draw(g2, "XP:10/50", hb.resTileSize/2, 15*hb.resTileSize/2, hb.resTileSize/2, hb.resTileSize/2);
             t.draw(g2, "LVL:1", 3*hb.resTileSize/2, 17*hb.resTileSize/2, hb.resTileSize/3, hb.resTileSize/3);
             t.draw(g2, "INV:"+player.items.length+"/10", 23*hb.resTileSize/2, 15*hb.resTileSize/2, hb.resTileSize/2, hb.resTileSize/2);
-            t.draw(g2, "PL:"+wPlayer, 25*hb.resTileSize/2, 17*hb.resTileSize/2, hb.resTileSize/3, hb.resTileSize/3);
+            t.draw(g2, "PL:"+hb.wPlayer, 25*hb.resTileSize/2, 17*hb.resTileSize/2, hb.resTileSize/3, hb.resTileSize/3);
             g2.drawImage(fightImage,hb.resTileSize/2, 440, 128, 128, null);
             g2.drawImage(defendImage,9*hb.resTileSize/2, 440, 128, 128, null);
             g2.drawImage(itemImage,hb.screenWidth-14*hb.resTileSize/2, 440, 128, 128, null);
@@ -366,8 +364,7 @@ public void draw(Graphics2D g2) {
             t.draw(g2, "DEFEND?", 12*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
                 System.out.println("IT WORKED(DEFEND)");
-                hb.charSelected=true;
-                hb.charDefend=true;
+                player.defendMode=true;
                 hb.defend=false;
                 k.hasMoved=true;
             
@@ -469,11 +466,11 @@ public void draw(Graphics2D g2) {
                     p2.x=200;
                     p2.y=200;
                     hb.flee=false;
-                    if(wPlayer==1) {
-                        wPlayer=2;
+                    if(hb.wPlayer==1) {
+                        hb.wPlayer=2;
                     }
-                    else if(wPlayer==2) {
-                        wPlayer=1;
+                    else if(hb.wPlayer==2) {
+                        hb.wPlayer=1;
                     }
                     runAway=false;
                     }
