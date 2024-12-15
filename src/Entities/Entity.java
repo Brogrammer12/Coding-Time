@@ -19,4 +19,10 @@ public class Entity {
     public int Health;
     public int attackSpriteNum;
     public int attackSpriteCounter;
+    public int timer;
+    public boolean timeUp;
+    public boolean active;
+    public boolean moveToFight;
+    public boolean attacking;
+    public int maxHealth;
 }

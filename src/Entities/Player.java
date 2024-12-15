@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 public class Player extends Entity{
     The_Hub hb;
     keyInput k;
+    NPC npc;
     public int Selector;
     public int timer=0;
     public int selectorX;
@@ -24,9 +25,11 @@ public class Player extends Entity{
     public boolean attackMode;
     public boolean attackMode2;
     public boolean defendMode;
-    public Player(The_Hub hb, keyInput k) {
+    public Player(The_Hub hb, keyInput k, NPC npc) {
         this.hb=hb;
         this.k=k;
+        this.npc=npc;
+        active=true;
         p1Health=1;
         attackMode=false;
         attackMode2=false;
@@ -116,6 +119,7 @@ public class Player extends Entity{
                         SpriteCounter=0;
                     }
                 }
+                
                 else if(fightMode==true) {
                     if(k.rightPressed==true && k.hasMoved==false) {
                         if(hb.fight==true || hb.defend==true || hb.item==true || hb.flee==true) {
@@ -135,12 +139,42 @@ public class Player extends Entity{
                                }
                         }
                         else if(hb.charSelected==true) {
-                            if(cursorX==3) {
-                                cursorX=0;
+                            if (cursorX==1) {
+                                if (npc.entity[0].active==true) {
+                                    cursorX=2;
+                                }
+                                else if(npc.entity[0].active==false) {
+                                    if (npc.entity[1].active==true) {
+                                        cursorX=3;
+                                    }
+                                    else if(npc.entity[1].active==false) {
+                                        cursorX=0;
+                                    }
+                                    
+                                }
+                            }
+                            else if(cursorX==2) {
+                                if (npc.entity[1].active==true) {
+                                    cursorX=3;
+                                }
+                                else if(npc.entity[1].active==false) {
+                                    if (this.active==true) {
+                                        cursorX=0;
+                                    }
+                                    else if(this.active==false) {
+                                        cursorX=1;
+                                    }
+                                }
                             }
                             else {
-                                cursorX+=1;
+                                if(cursorX==3) {
+                                    cursorX=0;
+                                }
+                                else {
+                                    cursorX+=1;
+                                }
                             }
+                            
                         }
                         k.hasMoved=true;
                     }
@@ -162,12 +196,51 @@ public class Player extends Entity{
                             }
                         }
                         else if(hb.charSelected==true) {
-                            if(cursorX==0) {
-                                cursorX=3;
+                            if (cursorX==3) {
+                                if (npc.entity[0].active==true) {
+                                    cursorX=2;
+                                }
+                                else if(npc.entity[0].active==false) {
+                                    if (hb.p2Active==true) {
+                                        cursorX=1;
+                                    }
+                                    else if(hb.p2Active==false) {
+                                        cursorX=0;
+                                    }
+                                }
+                            }
+                            else if(cursorX==2) {
+                                if (hb.p2Active==true) {
+                                    cursorX=1;
+                                }
+                                else if(hb.p2Active==false) {
+                                    if (this.active==true) {
+                                        cursorX=0;
+                                    }
+                                    else if(this.active==false) {
+                                        cursorX=3;
+                                    }
+                                }
                             }
                             else {
-                                cursorX-=1;
+                                if(cursorX==0) {
+                                    if (npc.entity[1].active==true) {
+                                        cursorX=3;
+                                    }
+                                    else if(npc.entity[1].active==false) {
+                                        if (npc.entity[0].active==true) {
+                                            cursorX=2;
+                                        }
+                                        else if(npc.entity[0].active==false) {
+                                            cursorX=1;
+                                        }
+                                    }
+                                }
+                                else {
+                                    cursorX-=1;
+                                }
                             }
+                            
                         }
                         k.hasMoved=true;
                     }
@@ -223,13 +296,20 @@ public class Player extends Entity{
                     
                 }
                 else if(attackMode2==true) {
-                    if (cursorX==2 && healthTaker==false) {
-                        hb.necHealth-=10;
-                        healthTaker=true;
-                    }
-                    else if(cursorX==3 && healthTaker==false) {
-                        hb.skelHealth-=10;
-                        healthTaker=true;
+                    for(int index=0; index<npc.entity.length; index++) {
+                        if (cursorX==2 && healthTaker==false) {
+                            if (npc.entity[index].x==hb.resTileSize*10 && npc.entity[index].active==true) {
+                                npc.entity[index].Health-=10;
+                            healthTaker=true;
+                            }
+                            
+                        }
+                        else if(cursorX==3 && healthTaker==false) {
+                            if (npc.entity[index].x==hb.resTileSize*10+100 && npc.entity[index].active==true) {
+                                npc.entity[index].Health-=10;
+                            healthTaker=true;
+                            }
+                        }
                     }
                     if(x!=100) {
                         x-=10;
@@ -239,6 +319,7 @@ public class Player extends Entity{
                             y-=10;
                         }
                         else if(y==100) {
+                            cursorX=0;
                             healthTaker=false;
                             attackMode2=false;
                         }

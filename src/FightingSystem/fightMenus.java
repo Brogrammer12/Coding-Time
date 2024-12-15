@@ -1,4 +1,5 @@
 package FightingSystem;
+import Entities.NPC;
 import Entities.NPCs;
 import Entities.Player;
 import Entities.Player2;
@@ -23,10 +24,10 @@ public class fightMenus {
     keyInput k;
     TextReader t;
     Player2 p2;
-    NPCs npc;
+    NPC npc;
     healthManager healthy;
     BufferedImage fight, fightSelected, defend, defendSelected, item, itemSelected, flee, fleeSelected, selector, health;
-public fightMenus(The_Hub hb, Player player, keyInput k, TextReader t, Player2 p2, healthManager healthy, NPCs npc) {
+public fightMenus(The_Hub hb, Player player, keyInput k, TextReader t, Player2 p2, healthManager healthy, NPC npc) {
 this.hb=hb;
 this.player=player;
 this.k=k;
@@ -204,27 +205,36 @@ public void draw(Graphics2D g2) {
                 g2.drawImage(image, x,250,48*hb.scale, 20*hb.scale, null);
                 break;
                 case 2:
-                double hBoiN=50/29;
-                int healthLossN=50-hb.necHealth;
+                for(int index=0; index<npc.entity.length; index++) {
+                    if (npc.entity[index].x==hb.resTileSize*10 && npc.entity[index].active==true) {
+                        double hBoiN=npc.entity[index].maxHealth/29;
+                int healthLossN=npc.entity[index].maxHealth-npc.entity[index].Health;
                 double healthLostN=(healthLossN/1.8)/hBoiN;
                 int totHealthLostN=(int) Math.round(healthLostN);
-                for(int index=0; index<=29; index++) {
-                    if(index==totHealthLostN) {
-                        image=healthy.helath[index];
+                for(int i=0; i<=29; i++) {
+                    if(i==totHealthLostN) {
+                        image=healthy.helath[i];
                     }
+                    }
+                }
+                
                 }
                 x=hb.resTileSize*9;
                 y=100;
                 g2.drawImage(image, x,150,48*hb.scale, 20*hb.scale, null);
                 break;
                 case 3:
-                double hBoiNp=50/29;
-                int healthLossNp=50-hb.skelHealth;
+                for(int index=0; index<npc.entity.length; index++) {
+                    if (npc.entity[index].x==hb.resTileSize*10+100 &&  npc.entity[index].active==true) {
+                        double hBoiNp=npc.entity[index].maxHealth/29;
+                int healthLossNp=npc.entity[index].maxHealth-npc.entity[index].Health;
                 double healthLostNp=(healthLossNp/1.8)/hBoiNp;
                 int totHealthLostNp=(int) Math.round(healthLostNp);
-                for(int index=0; index<=29; index++) {
-                    if(index==totHealthLostNp) {
-                        image=healthy.helath[index];
+                for(int i=0; i<=29; i++) {
+                    if(i==totHealthLostNp) {
+                        image=healthy.helath[i];
+                    }
+                }
                     }
                 }
                 x=hb.resTileSize*9+100;
@@ -261,15 +271,6 @@ public void draw(Graphics2D g2) {
                         hb.wPlayer=1;
                     }
                     
-                }
-                else if(hb.charDefend==true) {
-                   /*  player.defendMode=true;
-                    if(wPlayer==1) {
-                        wPlayer=2;
-                    }
-                    else if(wPlayer==2) {
-                        wPlayer=1;
-                    }*/
                 }
                 else if(hb.charItem==true) {
                     itemBoi=true;

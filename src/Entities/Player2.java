@@ -16,10 +16,13 @@ public class Player2 extends Entity{
     public boolean attackMode2;
     public boolean defendMode;
     public boolean healthTaker=false;
+    NPC npc;
     Player player;
-    public Player2(The_Hub hb, keyInput2 k, Player player) {
+    public Player2(The_Hub hb, keyInput2 k, Player player, NPC npc) {
         this.hb=hb;
         this.k=k;
+        this.npc=npc;
+        active=true;
         this.player=player;
         setDefaultValues();
         playerImageLoader();
@@ -111,13 +114,20 @@ public class Player2 extends Entity{
                 
             }
             else if(attackMode2==true) {
-                if (player.cursorX==2 && healthTaker==false) {
-                    hb.necHealth-=10;
-                    healthTaker=true;
-                }
-                else if(player.cursorX==3 && healthTaker==false) {
-                    hb.skelHealth-=10;
-                    healthTaker=true;
+                for(int index=0; index<npc.entity.length; index++) {
+                    if (player.cursorX==2 && healthTaker==false) {
+                        if (npc.entity[index].x==hb.resTileSize*10 && npc.entity[index].active==true) {
+                            npc.entity[index].Health-=10;
+                        healthTaker=true;
+                        }
+                        
+                    }
+                    else if(player.cursorX==3 && healthTaker==false) {
+                        if (npc.entity[index].x==hb.resTileSize*10+100 && npc.entity[index].active==true) {
+                            npc.entity[index].Health-=10;
+                        healthTaker=true;
+                        }
+                    }
                 }
                 if(x!=200) {
                     x-=10;
@@ -127,6 +137,7 @@ public class Player2 extends Entity{
                         y+=10;
                     }
                     else if(y==200) {
+                        player.cursorX=0;
                         healthTaker=false;
                         attackMode2=false;
                     }
