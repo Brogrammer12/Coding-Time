@@ -124,7 +124,7 @@ public void draw(Graphics2D g2) {
                 itemBoi=false;
             }
         }
-        if(hb.flee==false && hb.item==false && hb.defend==false && hb.fight==false && k.enterPressed==true && k.hasMoved==false && hb.charSelected==false) {
+        if(hb.flee==false && hb.item==false && hb.defend==false && hb.fight==false && k.enterPressed==true && k.hasMoved==false && hb.charSelected==false && npc.attacking==false) {
                 if(fleeImage==fleeSelected) {
                     hb.flee=true;
                     hb.fight=false;
