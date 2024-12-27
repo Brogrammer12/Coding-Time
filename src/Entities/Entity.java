@@ -1,6 +1,7 @@
 package Entities;
 
 import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 
 public class Entity {
     public int x, y;
@@ -25,4 +26,12 @@ public class Entity {
     public boolean moveToFight;
     public boolean attacking;
     public int maxHealth;
+    public int startX;
+    public int damage;
+    public boolean defendMode;
+    public int defenseValue;
+    public boolean plSwitch;
+    public boolean ded;
+    public BufferedImage Dead1;
+    public BufferedImage Dead2;
 }

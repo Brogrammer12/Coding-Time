@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
+import Entities.Entity;
 import Entities.NPC;
 import Entities.NPCs;
 import Entities.Nec;
@@ -43,16 +44,20 @@ public class The_Hub extends JPanel  implements Runnable{
     final int FPS=60;
     Thread gameThread;
     TileManager tileguy=new TileManager(this);
+    TextReader textboi=new TextReader(this);
     keyInput keyBoi=new keyInput();
     Nec necromancer=new Nec(this);
     Skelly skellywag=new Skelly(this);
-    NPC npc=new NPC(this, skellywag, necromancer);
-    Player player=new Player(this, keyBoi, npc);
+    NPC npc=new NPC(this, skellywag, necromancer, textboi);
+    public Player player=new Player(this, keyBoi, npc);
     keyInput2 keyBoi2=new keyInput2();
-    Player2 player2=new Player2(this, keyBoi2, player, npc);
+    public Player2 player2=new Player2(this, keyBoi2, player, npc, textboi);
     healthManager health=new healthManager(this, player);
-    TextReader textboi=new TextReader(this);
     fightMenus fightingboi=new fightMenus(this, player, keyBoi, textboi, player2, health, npc);
+    public Entity[] Players=new Entity[]{
+        player,
+        player2
+    };
     public The_Hub() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);

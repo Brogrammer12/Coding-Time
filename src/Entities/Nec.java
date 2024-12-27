@@ -11,14 +11,16 @@ public class Nec extends Entity{
 The_Hub hb;
     public Nec(The_Hub hb) {
         this.hb=hb;
-        active=false;
+        active=true;
         attack=new BufferedImage[2];
         moveToFight=false;
         attacking=false;
+        damage=10;
         maxHealth=50;
         x=hb.resTileSize*10;
+        startX=hb.resTileSize*10;
         y=100;
-        Health=10;
+        Health=50;
         necLoader();
     }
     public void necLoader() {

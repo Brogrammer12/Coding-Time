@@ -54,6 +54,12 @@ public void menuLoader() {
     }
 }
 public void draw(Graphics2D g2) {
+   if (hb.Players[0].Health<=0) {
+       hb.wPlayer=2;
+   }
+    else if(hb.Players[1].Health<=0) {
+        hb.wPlayer=1;
+    }
     BufferedImage fightImage=null;
     BufferedImage defendImage=null;
     BufferedImage itemImage=null;
@@ -96,11 +102,25 @@ public void draw(Graphics2D g2) {
             else if(ITimer>=100) {
                 ITimer=0;
                 if(player.cursorX==0) {
-                    player.p1Health+=10;
+                    player.Health+=10;
                 }
                 else if(player.cursorX==1) {
-                    p2.p2Health+=10;
+                    p2.Health+=10;
                 }
+                if (hb.wPlayer==1) {
+                    if (hb.Players[1].Health<=0) {
+                        npc.attacking=true;
+                    }
+                    else if(hb.Players[1].Health>0) {
+                        hb.wPlayer=2;
+                    }
+                }
+                else if(hb.wPlayer==2) {
+                    if (hb.Players[0].Health>0) {
+                        hb.wPlayer=1;
+                    }
+                    npc.attacking=true;
+                } 
                 itemBoi=false;
             }
         }
@@ -154,7 +174,7 @@ public void draw(Graphics2D g2) {
         BufferedImage imageMenu1=null;
         BufferedImage imageMenu2=null;
         double hBoi=50/29;
-                int healthLoss=50-player.p1Health;
+                int healthLoss=50-player.Health;
                 double healthLost=(healthLoss/1.8)/hBoi;
                 int totHealthLost=(int) Math.round(healthLost);
                 for(int index=0; index<=29; index++) {
@@ -164,7 +184,7 @@ public void draw(Graphics2D g2) {
                 }
 
                 double hBoi2=50/29;
-                int healthLoss2=50-p2.p2Health;
+                int healthLoss2=50-p2.Health;
                 double healthLost2=(healthLoss2/1.8)/hBoi2;
                 int totHealthLost2=(int) Math.round(healthLost2);
                 for(int index=0; index<=29; index++) {
@@ -261,14 +281,17 @@ public void draw(Graphics2D g2) {
                         else if(hb.wPlayer==2) {
                             p2.attackMode=true;
                         }
+                        if(hb.wPlayer==1) {
+                            if (hb.Players[1].Health>0) {
+                                hb.wPlayer=2;
+                            }
+                        }
+                        else if(hb.wPlayer==2) {
+                            if (hb.Players[0].Health>0) {
+                                hb.wPlayer=1;
+                            }
+                        }
                         
-                    }
-                    
-                    if(hb.wPlayer==1) {
-                        hb.wPlayer=2;
-                    }
-                    else if(hb.wPlayer==2) {
-                        hb.wPlayer=1;
                     }
                     
                 }
@@ -286,10 +309,10 @@ public void draw(Graphics2D g2) {
         }
         int plHealth=1;
         if(hb.wPlayer==1) {
-            plHealth=player.p1Health;
+            plHealth=player.Health;
         }
         else if(hb.wPlayer==2) {
-            plHealth=p2.p2Health;
+            plHealth=p2.Health;
         }
         if(hb.flee==false && hb.fight==false && hb.item==false && hb.defend==false && hb.charSelected==false) {
             t.draw(g2, "HP:"+plHealth+"/50", (hb.screenWidth/2)-hb.resTileSize*2, 14*hb.resTileSize/2, hb.resTileSize/2, hb.resTileSize/2);
@@ -365,7 +388,22 @@ public void draw(Graphics2D g2) {
             t.draw(g2, "DEFEND?", 12*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
                 System.out.println("IT WORKED(DEFEND)");
-                player.defendMode=true;
+                if (hb.wPlayer==2) {
+                    hb.Players[1].defendMode=true;
+                    if (hb.Players[0].Health>0) {
+                        hb.wPlayer=1;
+                    }
+                    npc.attacking=true;
+                }
+                else if(hb.wPlayer==1) {
+                    hb.Players[0].defendMode=true;
+                    if (hb.Players[1].Health>0) {
+                        hb.wPlayer=2;
+                    }
+                    else if(hb.Players[1].Health<=0) {
+                        npc.attacking=true;
+                    }
+                }
                 hb.defend=false;
                 k.hasMoved=true;
             
@@ -407,7 +445,6 @@ public void draw(Graphics2D g2) {
                 hb.item=false;
                 player.Selector=0;
                 k.hasMoved=true;
-            
         }
         else if(player.Selector==1 && k.enterPressed==true && k.hasMoved==false) {
             System.out.println("You ate a banana. tastes rotten. -5hp.");
@@ -443,6 +480,7 @@ public void draw(Graphics2D g2) {
             t.draw(g2, "YOU TRIED TO RUN BUT FAILED.", 10*hb.resTileSize/2, 5*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
         }
         else if(failTimer>=100) {
+            npc.attacking=true;
             failTimer=0;
             runFailed=false;
             hb.flee=false;
@@ -460,6 +498,9 @@ public void draw(Graphics2D g2) {
                         p2.x-=10;
                     }
                     if(timer>=100) {
+                        for(int index=0; index<npc.entity.length; index++) {
+                            npc.entity[index].active=false;
+                        }
                         player.fightMode=false;
                     p2.fightMode=false;
                     player.x=100;
@@ -467,12 +508,6 @@ public void draw(Graphics2D g2) {
                     p2.x=200;
                     p2.y=200;
                     hb.flee=false;
-                    if(hb.wPlayer==1) {
-                        hb.wPlayer=2;
-                    }
-                    else if(hb.wPlayer==2) {
-                        hb.wPlayer=1;
-                    }
                     runAway=false;
                     }
                     

@@ -20,17 +20,22 @@ public class Player extends Entity{
     public String[] running;
     public int arrayLength;
     public int cursorX;
-    public int p1Health;
+    public int dedCounter=0;
     public boolean healthTaker=false;
+    public boolean ded1;
     public boolean attackMode;
     public boolean attackMode2;
-    public boolean defendMode;
     public Player(The_Hub hb, keyInput k, NPC npc) {
         this.hb=hb;
         this.k=k;
         this.npc=npc;
         active=true;
-        p1Health=1;
+        damage=5;
+        Health=50;
+        ded1=false;
+        ded=false;
+        plSwitch=false;
+        defenseValue=5;
         attackMode=false;
         attackMode2=false;
         defendMode=false;
@@ -76,6 +81,9 @@ public class Player extends Entity{
 
     }
     public void update() {
+        if (Health<=0) {
+            ded=true;
+        }
         if(hb.fight==true) {
             arrayLength=weapons.length;
         }
@@ -179,6 +187,7 @@ public class Player extends Entity{
                         k.hasMoved=true;
                     }
                     if(k.leftPressed==true && k.hasMoved==false) {
+                        
                         if(hb.fight==true || hb.defend==true || hb.item==true || hb.flee==true) {
                             if(Selector==0) {
                                 Selector=arrayLength-1;
@@ -247,21 +256,8 @@ public class Player extends Entity{
                 }
             }
             if(fightMode==true){
-                if (p1Health>50) {
-                    p1Health=50;
-                }
-                if(defendMode==true) {
-                    timer++;
-                    if (timer>=100) {
-                        timer=0;
-                        if(hb.wPlayer==1) {
-                            hb.wPlayer=2;
-                        }
-                        else if(hb.wPlayer==2) {
-                            hb.wPlayer=1;
-                        }
-                        defendMode=false;
-                    }
+                if (Health>50) {
+                    Health=50;
                 }
                 if(attackMode==true) {
                     if (x>hb.gSelectedX) {
@@ -299,14 +295,14 @@ public class Player extends Entity{
                     for(int index=0; index<npc.entity.length; index++) {
                         if (cursorX==2 && healthTaker==false) {
                             if (npc.entity[index].x==hb.resTileSize*10 && npc.entity[index].active==true) {
-                                npc.entity[index].Health-=10;
+                                npc.entity[index].Health-=damage;
                             healthTaker=true;
                             }
                             
                         }
                         else if(cursorX==3 && healthTaker==false) {
                             if (npc.entity[index].x==hb.resTileSize*10+100 && npc.entity[index].active==true) {
-                                npc.entity[index].Health-=10;
+                                npc.entity[index].Health-=damage;
                             healthTaker=true;
                             }
                         }
@@ -319,6 +315,9 @@ public class Player extends Entity{
                             y-=10;
                         }
                         else if(y==100) {
+                            if (hb.Players[1].Health<=0) {
+                                npc.attacking=true;
+                            }
                             cursorX=0;
                             healthTaker=false;
                             attackMode2=false;
@@ -329,7 +328,6 @@ public class Player extends Entity{
                         x+=10;
                     }
                 }
-                else {
                     SpriteCounter++;
                     if(SpriteCounter>20) {
                         if(SpriteNum==1) {
@@ -342,7 +340,7 @@ public class Player extends Entity{
                         }
                         SpriteCounter=0;
                     }
-                }
+                
                 
             }
         
@@ -368,6 +366,8 @@ public class Player extends Entity{
             attack[4]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackFive.png"));
             attack[5]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackSix.png"));
             defenseSprite=ImageIO.read(getClass().getResourceAsStream("/Resources/Buttons/DefenseSprite.png"));
+            Dead1=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/p1Defeat1.png"));
+            Dead2=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/p1Defeat2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -433,6 +433,20 @@ public class Player extends Entity{
                     break;
                 }
             }
+            else if(ded==true) {
+                if (ded1==false) {
+                    dedCounter++;
+                    if (dedCounter<30) {
+                        image=Dead1;
+                    }
+                    else if(dedCounter>=30) {
+                        ded1=true;
+                    }
+                }
+                else if(ded1==true) {
+                    image=Dead2;
+                }
+            }
             else {
                 switch(SpriteNum) {
                     case 1:
@@ -444,11 +458,10 @@ public class Player extends Entity{
                 }
             }
             if (defendMode==true) {
-                if(hb.wPlayer==1) {
-                    g2.drawImage(defenseSprite, (hb.resTileSize*3)/2+100, 100-hb.resTileSize/4, (hb.resTileSize*3)/2, (hb.resTileSize*4)/2, null);
-                }
-                else if(hb.wPlayer==2) {
-                    g2.drawImage(defenseSprite,(hb.resTileSize*3)/2+200, 200-hb.resTileSize/4, (hb.resTileSize*3)/2, (hb.resTileSize*4)/2, null);
+            g2.drawImage(defenseSprite, (hb.resTileSize*3)/2+100, 100-hb.resTileSize/4, (hb.resTileSize*3)/2, (hb.resTileSize*4)/2, null);
+                if (plSwitch==false) {
+                    hb.wPlayer=2;
+                    plSwitch=true;
                 }
                 
             }
