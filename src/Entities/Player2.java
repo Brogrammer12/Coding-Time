@@ -1,4 +1,5 @@
 package Entities;
+import Main.TextReader;
 import Main.The_Hub;
 import Main.keyInput2;
 
@@ -11,15 +12,41 @@ import javax.imageio.ImageIO;
 public class Player2 extends Entity{
     The_Hub hb;
     keyInput2 k;
-    public Player2(The_Hub hb, keyInput2 k) {
+    TextReader t;
+    public boolean attackMode;
+    public boolean attackMode2;
+    public boolean uWon=false;
+    public boolean finished=false;
+    public boolean healthTaker=false;
+    public boolean ded1=false;
+    public int dedCounter=0;
+    public boolean dedNum=false;
+    NPC npc;
+    Player player;
+    public Player2(The_Hub hb, keyInput2 k, Player player, NPC npc, TextReader t) {
         this.hb=hb;
         this.k=k;
+        this.t=t;
+        defenseValue=5;
+        damage=5;
+        ded=false;
+        this.npc=npc;
+        active=true;
+        this.player=player;
         setDefaultValues();
         playerImageLoader();
     }
     public void setDefaultValues() {
         x=200;
         y=200;
+        Health=50;
+        plSwitch=false;
+        attack=new BufferedImage[6];
+        attackMode=false;
+        attackMode2=false;
+        defendMode=false;
+        attackSpriteNum=1;
+        attackSpriteCounter=0;
         moveSpeed=4;
         direction="down";
         SpriteNum=1;
@@ -29,6 +56,9 @@ public class Player2 extends Entity{
 
     }
     public void update() {
+        if (Health<=0) {
+            ded=true;
+        }
             if(k.upPressed==true || k.leftPressed==true || k.downPressed==true || k.rightPressed==true) {
                 if(fightMode==false) {
                     if(k.upPressed==true) {
@@ -62,7 +92,77 @@ public class Player2 extends Entity{
                 }
             }
         if(fightMode==true) {
-            SpriteCounter++;
+            if(Health>50) {
+                Health=50;
+            }
+            if(attackMode==true) {
+                if (x>hb.gSelectedX) {
+                    if (y!=hb.gSelectedY) {
+                        y-=10;
+                    }
+                    else {
+                        attackSpriteCounter++;
+                if(attackSpriteCounter>4) {
+                    attackSpriteNum++;
+                    if(attackSpriteNum>6) {
+                        attackSpriteNum=1;
+                        attackMode2=true;
+                        attackMode=false;
+                    }
+                    attackSpriteCounter=0;
+                }
+                    }
+                    
+                }
+                else if(attackMode2==true) {
+                    if(x!=100) {
+                        x-=10;
+                    }
+                }
+                else {
+                    SpriteNum=1;
+                    x+=10;
+                }
+
+                
+            }
+            else if(attackMode2==true) {
+                for(int index=0; index<npc.entity.length; index++) {
+                    if (player.cursorX==2 && healthTaker==false) {
+                        if (npc.entity[index].x==hb.resTileSize*10 && npc.entity[index].active==true) {
+                            npc.entity[index].Health-=damage;
+                        healthTaker=true;
+                        }
+                        
+                    }
+                    else if(player.cursorX==3 && healthTaker==false) {
+                        if (npc.entity[index].x==hb.resTileSize*10+100 && npc.entity[index].active==true) {
+                            npc.entity[index].Health-=damage;
+                        healthTaker=true;
+                        }
+                    }
+                }
+                if(x!=200) {
+                    x-=10;
+                }
+                else if(x==200){
+                    if (y!=200) {
+                        y+=10;
+                    }
+                    else if(y==200) {
+                        npc.attacking=true;
+                        player.cursorX=0;
+                        healthTaker=false;
+                        attackMode2=false;
+                    }
+                    
+                }
+                else {
+                    SpriteNum=1;
+                    x+=10;
+                }
+            }
+                SpriteCounter++;
                     if(SpriteCounter>20) {
                         if(SpriteNum==1) {
                             SpriteNum=2;
@@ -74,6 +174,8 @@ public class Player2 extends Entity{
                         }
                         SpriteCounter=0;
                     }
+            
+            
         }
        
     }
@@ -89,11 +191,68 @@ public class Player2 extends Entity{
             right2=ImageIO.read(getClass().getResourceAsStream("/Resources/Player2/Player2Right2.png"));
             bob1=ImageIO.read(getClass().getResourceAsStream("/Resources/Player2/Player2Fight1.png"));
             bob2=ImageIO.read(getClass().getResourceAsStream("/Resources/Player2/Player2Fight2.png"));
+            attack[0]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player2/PlayerTwoAttackOne.png"));
+            attack[1]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player2/PlayerTwoAttackTwo.png"));
+            attack[2]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player2/PlayerTwoAttackThree.png"));
+            attack[3]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player2/PlayerTwoAttackFour.png"));
+            attack[4]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player2/PlayerTwoAttackFive.png"));
+            attack[5]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player2/PlayerTwoAttackSix.png"));
+            defenseSprite=ImageIO.read(getClass().getResourceAsStream("/Resources/Buttons/DefenseSprite.png"));
+            Dead1=ImageIO.read(getClass().getResourceAsStream("/Resources/Player2/p2Defeat1.png"));
+            Dead2=ImageIO.read(getClass().getResourceAsStream("/Resources/Player2/p2Defeat2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     public void draw(Graphics2D g2) {
+        if (Health<=0) {
+            if (player.Health<=0) {
+                if (dedCounter<240) {
+                    dedCounter++;
+                    t.draw(g2, "YOU LOST...", 200, 100, hb.resTileSize/2, hb.resTileSize/2);
+                }
+                else if(dedCounter>=240) {
+                    player.fightMode=false;
+                    fightMode=false;
+                    dedNum=true;
+                    dedCounter=0;
+                    player.Health=50;
+                    Health=50;
+                }
+            }
+        }
+        //Here's the code for the winning animation
+        boolean someLeft=false;
+        boolean healthLeft=false;
+        for(int index=0; index<npc.entity.length; index++) {
+            if (dedNum==true) {
+                npc.entity[index].active=false;
+            }
+            if (npc.entity[index].Health>0) {
+                healthLeft=true;
+            }
+            if (npc.entity[index].active==true) {
+                someLeft=true;
+            }
+            else if(index==npc.entity.length-1 && someLeft==false && finished==false && healthLeft==false) {
+                uWon=true;
+            }
+        }
+        if (uWon==true) {
+                t.draw(g2, "YOU WON!", 100, 100, hb.resTileSize/2, hb.resTileSize/2);
+            timer++;
+            if (timer>=100) {
+            player.fightMode=false;
+            this.fightMode=false;
+            someLeft=false;
+            uWon=false;
+            healthLeft=false;
+            finished=true;
+            timer=0;
+            }
+            
+        }
+        //Winning animation code ends here
         BufferedImage image=null;
         if(fightMode==false) {
             switch(direction) {
@@ -132,14 +291,61 @@ public class Player2 extends Entity{
             }
         }
         else if(fightMode==true) {
-            switch(SpriteNum) {
-                case 1:
-                image=bob1;
-                break;
-                case 2:
-                image=bob2;
-                break;
+            if(attackMode==true) {
+                switch(attackSpriteNum) {
+                    case 1:
+                    image=attack[0];
+                    break;
+                    case 2:
+                    image=attack[1];
+                    break;
+                    case 3:
+                    image=attack[2];
+                    break;
+                    case 4:
+                    image=attack[3];
+                    break;
+                    case 5:
+                    image=attack[4];
+                    break;
+                    case 6:
+                    image=attack[5];
+                    break;
+                }
             }
+            else if(ded==true) {
+                if (ded1==false) {
+                    dedCounter++;
+                    if (dedCounter<30) {
+                        image=Dead1;
+                    }
+                    else if(dedCounter>=30) {
+                        ded1=true;
+                    }
+                }
+                else if(ded1==true) {
+                    image=Dead2;
+                }
+            }
+                else {
+                    switch(SpriteNum) {
+                        case 1:
+                        image=bob1;
+                        break;
+                        case 2:
+                        image=bob2;
+                        break;
+                    } 
+                }
+                if (defendMode==true) {
+                g2.drawImage(defenseSprite,(hb.resTileSize*3)/2+200, 200-hb.resTileSize/4, (hb.resTileSize*3)/2, (hb.resTileSize*4)/2, null);
+                if (plSwitch==false) {
+                    hb.wPlayer=1;
+                    plSwitch=true;
+                }
+                    
+                }
+            
         }
         if(fightMode==false) {
             Width=hb.resTileSize;

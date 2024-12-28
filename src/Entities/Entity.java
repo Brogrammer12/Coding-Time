@@ -1,12 +1,15 @@
 package Entities;
 
 import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 
 public class Entity {
-    int x, y;
+    public int x, y;
     int moveSpeed;
     BufferedImage up1, up2, left1, left2, down1, down2, right1, right2;
     BufferedImage bob1, bob2;
+    BufferedImage[] attack;
+    BufferedImage defenseSprite;
     String direction;
     int SpriteCounter=0;
     int SpriteNum;
@@ -14,4 +17,21 @@ public class Entity {
     int Width;
     int Height;
     public int buttonX;
+    public int Health;
+    public int attackSpriteNum;
+    public int attackSpriteCounter;
+    public int timer;
+    public boolean timeUp;
+    public boolean active;
+    public boolean moveToFight;
+    public boolean attacking;
+    public int maxHealth;
+    public int startX;
+    public int damage;
+    public boolean defendMode;
+    public int defenseValue;
+    public boolean plSwitch;
+    public boolean ded;
+    public BufferedImage Dead1;
+    public BufferedImage Dead2;
 }

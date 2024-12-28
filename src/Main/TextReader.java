@@ -16,7 +16,7 @@ public class TextReader {
     public int boxWidth;
     int boxHeight;
     public int boxHeight2;
-    BufferedImage a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, period, exclamation, question;
+    BufferedImage a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, period, exclamation, question, one, two, three, four, five, six, seven, eight, nine, colon, slash, zero, plus, minus;
     
     public TextReader(The_Hub hb)  {
         this.hb=hb;
@@ -53,23 +53,36 @@ public class TextReader {
         period=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/Period.png"));
         exclamation=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/Exclamation Mark.png"));
         question=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/Question Mark.png"));
-
+        zero=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/zero.png"));
+        one=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/one.png"));
+        two=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/two.png"));
+        three=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/three.png"));
+        four=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/four.png"));
+        five=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/five.png"));
+        six=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/six.png"));
+        seven=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/seven.png"));
+        eight=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/eight.png"));
+        nine=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/nine.png"));
+        colon=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/colon.png"));
+        slash=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/Slash.png"));
+        plus=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/Plus.png"));
+        minus=ImageIO.read(getClass().getResourceAsStream("/Resources/Letters/Minus.png"));
     } catch (IOException e) {
         e.printStackTrace();
     }
         }
-        public void draw(Graphics2D g2, String boi, int xCoord, int yCoord) {
+        public void draw(Graphics2D g2, String boi, int xCoord, int yCoord, int sizeX, int sizeY) {
             this.boi=boi;
             this.xCoord=xCoord;
             this.yCoord=yCoord;
         if(boi.length()>=16) {
-            boxWidth=16*(hb.resTileSize/2);
+            boxWidth=16*sizeX;
         }
         else if(boi.length()<16) {
-            boxWidth=boi.length()*(hb.resTileSize/2);
+            boxWidth=boi.length()*sizeX;
         }
         boxHeight=(boi.length()/16)+1;
-        boxHeight2=boxHeight*(hb.resTileSize/2);
+        boxHeight2=boxHeight*sizeY;
         boi2=boi.toCharArray();
         stringEnd=boi.length()-1;
         g2.setColor(Color.BLACK);
@@ -170,13 +183,62 @@ public class TextReader {
                     case ' ':
                     image=null;
                     break;
+                    case '1':
+                    image=one;
+                    break;
+                    case '2':
+                    image=two;
+                    break;
+                    case '3':
+                    image=three;
+                    break;
+                    case '4':
+                    image=four;
+                    break;
+                    case '5':
+                    image=five;
+                    break;
+                    case '6':
+                    image=six;
+                    break;
+                    case '7':
+                    image=seven;
+                    break;
+                    case '8':
+                    image=eight;
+                    break;
+                    case '9':
+                    image=nine;
+                    break;
+                    case ':':
+                    image=colon;
+                    break;
+                    case '/':
+                    image=slash;
+                    break;
+                    case '0':
+                    image=zero;
+                    break;
+                    case '+':
+                    image=plus;
+                    break;
+                    case '-':
+                    image=minus;
                 }
                
                 col=index%hb.maxScreenHoriz;
                 row=index/hb.maxScreenHoriz;
-                int X=xCoord+col*hb.resTileSize/2;
-                int Y=yCoord+row*hb.resTileSize/2;
-            g2.drawImage(image, X, Y, hb.resTileSize/2, hb.resTileSize/2, null); 
+                int X;
+                int Y;
+                if(sizeX==hb.resTileSize/3 && sizeY==hb.resTileSize/3) {
+                    X=xCoord+col*hb.resTileSize/3;
+                    Y=yCoord+row*hb.resTileSize/3;
+                }
+                else {
+                    X=xCoord+col*hb.resTileSize/2;
+                    Y=yCoord+row*hb.resTileSize/2;
+                }
+            g2.drawImage(image, X, Y, sizeX, sizeY, null); 
             }
     
         }

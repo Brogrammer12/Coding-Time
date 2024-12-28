@@ -4,9 +4,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
+import Entities.Entity;
+import Entities.NPC;
+import Entities.NPCs;
+import Entities.Nec;
 import Entities.Player;
 import Entities.Player2;
+import Entities.Skelly;
 import FightingSystem.fightMenus;
+import FightingSystem.healthManager;
 import Tile.TileManager;
 
 import java.awt.Color;
@@ -20,20 +26,38 @@ public class The_Hub extends JPanel  implements Runnable{
     public final int screenHeight=resTileSize*maxScreenVert;
     public int fightHeight=72;
     public int fightWidth=85;
+    public int skelHealth=25;
+    public int necHealth=10;
     public boolean fight=false;
     public boolean defend=false;
     public boolean item=false;
     public boolean flee=false;
+    public boolean charSelected=false;
+    public boolean charFight=false;
+    public boolean charDefend=false;
+    public boolean charItem=false;
+    public boolean charFlee=false;
+    public boolean p2Active=true;
+    public int wPlayer=1;
+    public int gSelectedX=0;
+    public int gSelectedY=0;
     final int FPS=60;
     Thread gameThread;
     TileManager tileguy=new TileManager(this);
-    keyInput keyBoi=new keyInput();
-    Player player=new Player(this, keyBoi);
-    keyInput2 keyBoi2=new keyInput2();
-    Player2 player2=new Player2(this, keyBoi2);
     TextReader textboi=new TextReader(this);
-    fightMenus fightingboi=new fightMenus(this, player, keyBoi, textboi, player2);
-
+    keyInput keyBoi=new keyInput();
+    Nec necromancer=new Nec(this);
+    Skelly skellywag=new Skelly(this);
+    NPC npc=new NPC(this, skellywag, necromancer, textboi);
+    public Player player=new Player(this, keyBoi, npc);
+    keyInput2 keyBoi2=new keyInput2();
+    public Player2 player2=new Player2(this, keyBoi2, player, npc, textboi);
+    healthManager health=new healthManager(this, player);
+    fightMenus fightingboi=new fightMenus(this, player, keyBoi, textboi, player2, health, npc);
+    public Entity[] Players=new Entity[]{
+        player,
+        player2
+    };
     public The_Hub() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -71,6 +95,7 @@ public class The_Hub extends JPanel  implements Runnable{
     public void update() {
         player2.update();
         player.update();
+        npc.update();
 
     }
     public void paintComponent(Graphics g)  {
@@ -81,6 +106,7 @@ public class The_Hub extends JPanel  implements Runnable{
         tileguy.draw(g2);
         player2.draw(g2);
         player.draw(g2);
+        npc.draw(g2);
             fightingboi.draw(g2);
         g2.dispose();
 

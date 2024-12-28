@@ -10,27 +10,65 @@ import javax.imageio.ImageIO;
 public class Player extends Entity{
     The_Hub hb;
     keyInput k;
+    NPC npc;
     public int Selector;
+    public int timer=0;
     public int selectorX;
-    public int realSelectorX;
     public String[] items;
-    public Player(The_Hub hb, keyInput k) {
+    public String[] weapons;
+    public String[] defenses;
+    public String[] running;
+    public int arrayLength;
+    public int cursorX;
+    public int dedCounter=0;
+    public boolean healthTaker=false;
+    public boolean ded1;
+    public boolean attackMode;
+    public boolean attackMode2;
+    public Player(The_Hub hb, keyInput k, NPC npc) {
         this.hb=hb;
         this.k=k;
+        this.npc=npc;
+        active=true;
+        damage=5;
+        Health=50;
+        ded1=false;
+        ded=false;
+        plSwitch=false;
+        defenseValue=5;
+        attackMode=false;
+        attackMode2=false;
+        defendMode=false;
+        items=new String[4];
+        weapons=new String[2];
+        defenses=new String[2];
+        running=new String[2];
+        weapons[0]="YES";
+        weapons[1]="NO";
+        defenses[0]="YES";
+        defenses[1]="NO";
+        items[0]="APPLE";
+        items[1]=" BANANA";
+        items[2]=" HEALTH POTION";
+        items[3]="BANDAGE";
+        running[0]="YES";
+        running[1]="NO";
         setDefaultValues();
-        itemLoader();
         playerImageLoader();
     }
     public void setDefaultValues() {
-        realSelectorX=4*hb.resTileSize/2;
         x=100;
         y=100;
+        attack=new BufferedImage[7];
+        attackSpriteNum=1;
+        attackSpriteCounter=0;
         moveSpeed=4;
         direction="down";
         SpriteNum=1;
         fightMode=true;
         buttonX=0;
         Selector=0;
+        cursorX=0;
         selectorX=4*hb.resTileSize/2;
         if(fightMode==false) {
             Width=hb.resTileSize;
@@ -42,14 +80,22 @@ public class Player extends Entity{
         }
 
     }
-    public void itemLoader() {
-        items=new String[5];
-        items[0]="APPLE";
-        items[1]="BANANA";
-        items[3]="ORANGE";
-        items[4]="KIWI";
-    }
     public void update() {
+        if (Health<=0) {
+            ded=true;
+        }
+        if(hb.fight==true) {
+            arrayLength=weapons.length;
+        }
+        else if(hb.defend==true) {
+            arrayLength=defenses.length;
+        }
+        else if(hb.item==true) {
+            arrayLength=items.length;
+        }
+        else if(hb.flee==true) {
+            arrayLength=running.length;
+        }
             if(k.upPressed==true || k.leftPressed==true || k.downPressed==true || k.rightPressed==true) {
                 if(fightMode==false) {
                     if(k.upPressed==true) {
@@ -81,19 +127,18 @@ public class Player extends Entity{
                         SpriteCounter=0;
                     }
                 }
+                
                 else if(fightMode==true) {
                     if(k.rightPressed==true && k.hasMoved==false) {
                         if(hb.fight==true || hb.defend==true || hb.item==true || hb.flee==true) {
-                            if(Selector==0) {
-                                Selector=1;
-                                selectorX=22*hb.resTileSize/2;
-                            }
-                            else if(Selector==1) {
+                            if(Selector==arrayLength-1) {
                                 Selector=0;
-                                selectorX=4*hb.resTileSize/2;
+                            }
+                            else {
+                                Selector+=1;
                             }
                         }
-                        else {
+                        else if(hb.charSelected==false){
                             if(buttonX==3) {
                                 buttonX=0;
                             }
@@ -101,20 +146,57 @@ public class Player extends Entity{
                                 buttonX+=1;
                                }
                         }
+                        else if(hb.charSelected==true) {
+                            if (cursorX==1) {
+                                if (npc.entity[0].active==true) {
+                                    cursorX=2;
+                                }
+                                else if(npc.entity[0].active==false) {
+                                    if (npc.entity[1].active==true) {
+                                        cursorX=3;
+                                    }
+                                    else if(npc.entity[1].active==false) {
+                                        cursorX=0;
+                                    }
+                                    
+                                }
+                            }
+                            else if(cursorX==2) {
+                                if (npc.entity[1].active==true) {
+                                    cursorX=3;
+                                }
+                                else if(npc.entity[1].active==false) {
+                                    if (this.active==true) {
+                                        cursorX=0;
+                                    }
+                                    else if(this.active==false) {
+                                        cursorX=1;
+                                    }
+                                }
+                            }
+                            else {
+                                if(cursorX==3) {
+                                    cursorX=0;
+                                }
+                                else {
+                                    cursorX+=1;
+                                }
+                            }
+                            
+                        }
                         k.hasMoved=true;
                     }
                     if(k.leftPressed==true && k.hasMoved==false) {
+                        
                         if(hb.fight==true || hb.defend==true || hb.item==true || hb.flee==true) {
                             if(Selector==0) {
-                                Selector=1;
-                                selectorX=22*hb.resTileSize/2;
+                                Selector=arrayLength-1;
                             }
-                            else if(Selector==1) {
-                                Selector=0;
-                                selectorX=4*hb.resTileSize/2;
+                            else {
+                                Selector-=1;
                             }
                         }
-                        else {
+                        else if(hb.charSelected==false){
                             if(buttonX==0) {
                                 buttonX=3;
                             }
@@ -122,12 +204,131 @@ public class Player extends Entity{
                                 buttonX-=1;
                             }
                         }
+                        else if(hb.charSelected==true) {
+                            if (cursorX==3) {
+                                if (npc.entity[0].active==true) {
+                                    cursorX=2;
+                                }
+                                else if(npc.entity[0].active==false) {
+                                    if (hb.p2Active==true) {
+                                        cursorX=1;
+                                    }
+                                    else if(hb.p2Active==false) {
+                                        cursorX=0;
+                                    }
+                                }
+                            }
+                            else if(cursorX==2) {
+                                if (hb.p2Active==true) {
+                                    cursorX=1;
+                                }
+                                else if(hb.p2Active==false) {
+                                    if (this.active==true) {
+                                        cursorX=0;
+                                    }
+                                    else if(this.active==false) {
+                                        cursorX=3;
+                                    }
+                                }
+                            }
+                            else {
+                                if(cursorX==0) {
+                                    if (npc.entity[1].active==true) {
+                                        cursorX=3;
+                                    }
+                                    else if(npc.entity[1].active==false) {
+                                        if (npc.entity[0].active==true) {
+                                            cursorX=2;
+                                        }
+                                        else if(npc.entity[0].active==false) {
+                                            cursorX=1;
+                                        }
+                                    }
+                                }
+                                else {
+                                    cursorX-=1;
+                                }
+                            }
+                            
+                        }
                         k.hasMoved=true;
                     }
                 }
             }
             if(fightMode==true){
-                SpriteCounter++;
+                if (Health>50) {
+                    Health=50;
+                }
+                if(attackMode==true) {
+                    if (x>hb.gSelectedX) {
+                        if (y!=hb.gSelectedY) {
+                            y+=10;
+                        }
+                        else {
+                            attackSpriteCounter++;
+                    if(attackSpriteCounter>4) {
+                        attackSpriteNum++;
+                        if(attackSpriteNum>6) {
+                            attackSpriteNum=1;
+                            attackMode2=true;
+                            attackMode=false;
+                        }
+                        attackSpriteCounter=0;
+                    }
+                        }
+                        
+                    }
+                    else if(attackMode2==true) {    
+                        if(x!=100) {
+                            x-=10;
+                        }
+                        
+                    }
+                    else {
+                        SpriteNum=1;
+                        x+=10;
+                    }
+
+                    
+                }
+                else if(attackMode2==true) {
+                    for(int index=0; index<npc.entity.length; index++) {
+                        if (cursorX==2 && healthTaker==false) {
+                            if (npc.entity[index].x==hb.resTileSize*10 && npc.entity[index].active==true) {
+                                npc.entity[index].Health-=damage;
+                            healthTaker=true;
+                            }
+                            
+                        }
+                        else if(cursorX==3 && healthTaker==false) {
+                            if (npc.entity[index].x==hb.resTileSize*10+100 && npc.entity[index].active==true) {
+                                npc.entity[index].Health-=damage;
+                            healthTaker=true;
+                            }
+                        }
+                    }
+                    if(x!=100) {
+                        x-=10;
+                    }
+                    else if(x==100){
+                        if (y!=100) {
+                            y-=10;
+                        }
+                        else if(y==100) {
+                            if (hb.Players[1].Health<=0) {
+                                npc.attacking=true;
+                            }
+                            cursorX=0;
+                            healthTaker=false;
+                            attackMode2=false;
+                        }
+                    }
+                    else {
+                        SpriteNum=1;
+                        x+=10;
+                    }
+                }
+                    SpriteCounter++;
                     if(SpriteCounter>20) {
                         if(SpriteNum==1) {
                             SpriteNum=2;
@@ -139,6 +340,8 @@ public class Player extends Entity{
                         }
                         SpriteCounter=0;
                     }
+                
+                
             }
         
         }
@@ -156,6 +359,15 @@ public class Player extends Entity{
             right2=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerRight2.png"));
             bob1=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerFight1.png"));
             bob2=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerFight2.png"));
+            attack[0]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackOne.png"));
+            attack[1]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackTwo.png"));
+            attack[2]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackThree.png"));
+            attack[3]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackFour.png"));
+            attack[4]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackFive.png"));
+            attack[5]=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/PlayerAttackSix.png"));
+            defenseSprite=ImageIO.read(getClass().getResourceAsStream("/Resources/Buttons/DefenseSprite.png"));
+            Dead1=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/p1Defeat1.png"));
+            Dead2=ImageIO.read(getClass().getResourceAsStream("/Resources/Player1/p1Defeat2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -199,14 +411,61 @@ public class Player extends Entity{
             }
         }
         else if(fightMode==true) {
-            switch(SpriteNum) {
-                case 1:
-                image=bob1;
-                break;
-                case 2:
-                image=bob2;
-                break;
+            if(attackMode==true) {
+                switch(attackSpriteNum) {
+                    case 1:
+                    image=attack[0];
+                    break;
+                    case 2:
+                    image=attack[1];
+                    break;
+                    case 3:
+                    image=attack[2];
+                    break;
+                    case 4:
+                    image=attack[3];
+                    break;
+                    case 5:
+                    image=attack[4];
+                    break;
+                    case 6:
+                    image=attack[5];
+                    break;
+                }
             }
+            else if(ded==true) {
+                if (ded1==false) {
+                    dedCounter++;
+                    if (dedCounter<30) {
+                        image=Dead1;
+                    }
+                    else if(dedCounter>=30) {
+                        ded1=true;
+                    }
+                }
+                else if(ded1==true) {
+                    image=Dead2;
+                }
+            }
+            else {
+                switch(SpriteNum) {
+                    case 1:
+                    image=bob1;
+                    break;
+                    case 2:
+                    image=bob2;
+                    break;
+                }
+            }
+            if (defendMode==true) {
+            g2.drawImage(defenseSprite, (hb.resTileSize*3)/2+100, 100-hb.resTileSize/4, (hb.resTileSize*3)/2, (hb.resTileSize*4)/2, null);
+                if (plSwitch==false) {
+                    hb.wPlayer=2;
+                    plSwitch=true;
+                }
+                
+            }
+            
         }
         if(fightMode==false) {
             Width=hb.resTileSize;
