@@ -17,7 +17,7 @@ public class TileManager extends Tiles{
     public TileManager(The_Hub hb) {
         this.hb=hb;
         tile=new Tiles[10];
-        mapTileNum=new int[hb.maxScreenHoriz][hb.maxScreenVert];
+        mapTileNum=new int[hb.maxWorldHoriz][hb.maxWorldVert];
         tileLoader();
         loadMap();
         
@@ -44,20 +44,20 @@ public class TileManager extends Tiles{
     }
     public void loadMap() {
         try {
-            InputStream is=getClass().getResourceAsStream("/Resources/tileMaps/firstMap.txt");
+            InputStream is=getClass().getResourceAsStream("/Resources/tileMaps/worldMap.txt");
         BufferedReader br=new BufferedReader(new InputStreamReader(is));
             int col=0;
             int row=0;
-            while(col<hb.maxScreenHoriz && row<hb.maxScreenVert) {
+            while(col<hb.maxWorldHoriz && row<hb.maxWorldVert) {
                 String line=br.readLine();
-                while(col<hb.maxScreenHoriz) {
+                while(col<hb.maxWorldHoriz) {
                     String numbers[]=line.split(" ");
                     int num=Integer.parseInt(numbers[col]);
                     mapTileNum[col][row]=num;
                     col++;
                     
                     }
-                    if(col==hb.maxScreenHoriz) {
+                    if(col==hb.maxWorldHoriz) {
                         col=0;
                         row++;
                 }
@@ -73,12 +73,12 @@ public class TileManager extends Tiles{
         int row=0;
         int x=0;
         int y=0;
-        while(col<hb.maxScreenHoriz && row<hb.maxScreenVert) {
+        while(col<hb.maxWorldHoriz && row<hb.maxWorldVert) {
             int tileNum=mapTileNum[col][row];
             g2.drawImage(tile[tileNum].image, x, y, hb.resTileSize, hb.resTileSize, null);
             col++;
             x+=hb.resTileSize;
-            if(col==hb.maxScreenHoriz) {
+            if(col==hb.maxWorldHoriz) {
                 col=0;
                 x=0;
                 row++;

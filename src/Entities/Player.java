@@ -65,7 +65,7 @@ public class Player extends Entity{
         moveSpeed=4;
         direction="down";
         SpriteNum=1;
-        fightMode=true;
+        fightMode=false;
         buttonX=0;
         Selector=0;
         cursorX=0;
@@ -81,6 +81,10 @@ public class Player extends Entity{
 
     }
     public void update() {
+        if (fightMode==false) {
+            x=hb.screenWidth/2-hb.resTileSize/2;
+            y=hb.screenHeight/2-hb.resTileSize/2;
+        }
         if (Health<=0) {
             ded=true;
         }
