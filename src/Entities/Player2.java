@@ -50,7 +50,7 @@ public class Player2 extends Entity{
         moveSpeed=4;
         direction="down";
         SpriteNum=1;
-        fightMode=false;
+        fightMode=true;
             Width=hb.resTileSize;
             Height=hb.resTileSize;
 

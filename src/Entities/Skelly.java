@@ -11,7 +11,7 @@ public class Skelly extends Entity{
 The_Hub hb;
     public Skelly(The_Hub hb) {
 this.hb=hb;
-active=false;
+active=true;
 moveToFight=true;
 attacking=false;
 maxHealth=50;

@@ -1,7 +1,7 @@
 package Entities;
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
 public class Entity {
     public int x, y;
@@ -34,4 +34,9 @@ public class Entity {
     public boolean ded;
     public BufferedImage Dead1;
     public BufferedImage Dead2;
+    public Rectangle colBox;
+    public int worldX;
+    public int worldY;
+    public int screenX;
+    public int screenY;
 }

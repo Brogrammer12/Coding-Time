@@ -2,6 +2,7 @@ package Entities;
 import Main.The_Hub;
 import Main.keyInput;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -57,15 +58,18 @@ public class Player extends Entity{
         playerImageLoader();
     }
     public void setDefaultValues() {
-        x=100;
-        y=100;
+        worldX=100;
+        worldY=100;
+        screenX=hb.screenWidth/2-hb.resTileSize/2;
+        screenY=hb.screenHeight/2-hb.resTileSize/2;
+        colBox=new Rectangle(12, 21,30,27);
         attack=new BufferedImage[7];
         attackSpriteNum=1;
         attackSpriteCounter=0;
         moveSpeed=4;
         direction="down";
         SpriteNum=1;
-        fightMode=false;
+        fightMode=true;
         buttonX=0;
         Selector=0;
         cursorX=0;
@@ -81,10 +85,6 @@ public class Player extends Entity{
 
     }
     public void update() {
-        if (fightMode==false) {
-            x=hb.screenWidth/2-hb.resTileSize/2;
-            y=hb.screenHeight/2-hb.resTileSize/2;
-        }
         if (Health<=0) {
             ded=true;
         }
@@ -103,19 +103,19 @@ public class Player extends Entity{
             if(k.upPressed==true || k.leftPressed==true || k.downPressed==true || k.rightPressed==true) {
                 if(fightMode==false) {
                     if(k.upPressed==true) {
-                        y-=moveSpeed;
+                        worldY-=moveSpeed;
                         direction="up";
                     }
                     else if (k.leftPressed==true) {
-                        x-=moveSpeed;
+                        worldX-=moveSpeed;
                         direction="left";
                     }
                     else if(k.downPressed==true) {
-                        y+=moveSpeed;
+                        worldY+=moveSpeed;
                         direction="down";
                     }
                     else if(k.rightPressed==true) {
-                        x+=moveSpeed;
+                        worldX+=moveSpeed;
                         direction="right";
                     }
                     SpriteCounter++;
@@ -264,9 +264,9 @@ public class Player extends Entity{
                     Health=50;
                 }
                 if(attackMode==true) {
-                    if (x>hb.gSelectedX) {
-                        if (y!=hb.gSelectedY) {
-                            y+=10;
+                    if (worldX>hb.gSelectedX) {
+                        if (worldY!=hb.gSelectedY) {
+                            worldY+=10;
                         }
                         else {
                             attackSpriteCounter++;
@@ -283,14 +283,14 @@ public class Player extends Entity{
                         
                     }
                     else if(attackMode2==true) {    
-                        if(x!=100) {
-                            x-=10;
+                        if(worldX!=100) {
+                            worldX-=10;
                         }
                         
                     }
                     else {
                         SpriteNum=1;
-                        x+=10;
+                        worldX+=10;
                     }
 
                     
@@ -311,14 +311,14 @@ public class Player extends Entity{
                             }
                         }
                     }
-                    if(x!=100) {
-                        x-=10;
+                    if(worldX!=100) {
+                        worldX-=10;
                     }
-                    else if(x==100){
-                        if (y!=100) {
-                            y-=10;
+                    else if(worldX==100){
+                        if (worldY!=100) {
+                            worldY-=10;
                         }
-                        else if(y==100) {
+                        else if(worldY==100) {
                             if (hb.Players[1].Health<=0) {
                                 npc.attacking=true;
                             }
@@ -329,7 +329,7 @@ public class Player extends Entity{
                     }
                     else {
                         SpriteNum=1;
-                        x+=10;
+                        worldX+=10;
                     }
                 }
                     SpriteCounter++;
@@ -479,6 +479,11 @@ public class Player extends Entity{
             Width=hb.fightWidth;
             Height=hb.fightHeight;
         }
-        g2.drawImage(image, x, y, Width, Height, null);
+        if (fightMode==false) {
+            g2.drawImage(image, screenX, screenY, Width, Height, null);
+        }
+        else if(fightMode==true) {
+            g2.drawImage(image, worldX, worldY, Width, Height, null);
+        }
     }
 }

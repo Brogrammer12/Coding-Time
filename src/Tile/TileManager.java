@@ -69,21 +69,22 @@ public class TileManager extends Tiles{
 
     }
     public void draw(Graphics2D g2) {
-        int col=0;
+        if (hb.Players[0].fightMode==false) {
+            int col=0;
         int row=0;
-        int x=0;
-        int y=0;
         while(col<hb.maxWorldHoriz && row<hb.maxWorldVert) {
             int tileNum=mapTileNum[col][row];
-            g2.drawImage(tile[tileNum].image, x, y, hb.resTileSize, hb.resTileSize, null);
+            int worldX=col*hb.resTileSize;
+            int worldY=row*hb.resTileSize;
+            int screenX=worldX-hb.Players[0].worldX+hb.Players[0].screenX;
+            int screenY=worldY-hb.Players[0].worldY+hb.Players[0].screenY;
+            g2.drawImage(tile[tileNum].image, screenX, screenY, hb.resTileSize, hb.resTileSize, null);
             col++;
-            x+=hb.resTileSize;
             if(col==hb.maxWorldHoriz) {
                 col=0;
-                x=0;
                 row++;
-                y+=hb.resTileSize;
             }
+        }
         }
         
     }
