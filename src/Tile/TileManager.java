@@ -86,6 +86,9 @@ public class TileManager extends Tiles{
             }
         }
         }
+        else if(hb.Players[0].fightMode==true) {
+            
+        }
         
     }
 }
