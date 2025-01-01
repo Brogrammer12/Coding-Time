@@ -31,7 +31,7 @@ public class Player extends Entity{
         this.k=k;
         this.npc=npc;
         active=true;
-        damage=5;
+        damage=10;
         Health=50;
         ded1=false;
         ded=false;
@@ -58,8 +58,8 @@ public class Player extends Entity{
         playerImageLoader();
     }
     public void setDefaultValues() {
-        worldX=100;
-        worldY=100;
+        worldX=hb.resTileSize*16;
+        worldY=hb.resTileSize*19;
         screenX=hb.screenWidth/2-hb.resTileSize/2;
         screenY=hb.screenHeight/2-hb.resTileSize/2;
         colBox=new Rectangle(12, 21,30,27);
@@ -69,7 +69,7 @@ public class Player extends Entity{
         moveSpeed=4;
         direction="down";
         SpriteNum=1;
-        fightMode=true;
+        fightMode=false;
         buttonX=0;
         Selector=0;
         cursorX=0;
@@ -81,6 +81,8 @@ public class Player extends Entity{
         else if(fightMode==true) {
             Width=hb.fightWidth;
             Height=hb.fightHeight;
+            worldX=100;
+            worldY=100;
         }
 
     }

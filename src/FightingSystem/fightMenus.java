@@ -491,8 +491,8 @@ public void draw(Graphics2D g2) {
                 t.draw(g2, "YOU RAN AWAY.", 10*hb.resTileSize/2, 5*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             }
                 if(realValue>=0.5) {
-                    if(player.x>-100 && runAway==true) {
-                        player.x-=10;
+                    if(player.worldX>-100 && runAway==true) {
+                        player.worldX-=10;
                     }
                     if(p2.x>-100 && runAway==true) {
                         p2.x-=10;
@@ -503,8 +503,8 @@ public void draw(Graphics2D g2) {
                         }
                         player.fightMode=false;
                     p2.fightMode=false;
-                    player.x=100;
-                    player.y=100;
+                    player.worldX=100;
+                    player.worldX=100;
                     p2.x=200;
                     p2.y=200;
                     hb.flee=false;

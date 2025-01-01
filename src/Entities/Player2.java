@@ -28,17 +28,17 @@ public class Player2 extends Entity{
         this.k=k;
         this.t=t;
         defenseValue=5;
-        damage=5;
+        damage=10;
         ded=false;
         this.npc=npc;
-        active=true;
+        active=false;
         this.player=player;
         setDefaultValues();
         playerImageLoader();
     }
     public void setDefaultValues() {
-        x=200;
-        y=200;
+        x=hb.resTileSize*16;
+        y=hb.resTileSize*19;
         Health=50;
         plSwitch=false;
         attack=new BufferedImage[6];
@@ -50,7 +50,7 @@ public class Player2 extends Entity{
         moveSpeed=4;
         direction="down";
         SpriteNum=1;
-        fightMode=true;
+        fightMode=false;
             Width=hb.resTileSize;
             Height=hb.resTileSize;
 
@@ -350,11 +350,14 @@ public class Player2 extends Entity{
         if(fightMode==false) {
             Width=hb.resTileSize;
             Height=hb.resTileSize;
+            int screenX=x-hb.Players[0].worldX+hb.Players[0].screenX;
+            int screenY=y-hb.Players[0].worldY+hb.Players[0].screenY;
+            g2.drawImage(image, screenX, screenY, Width, Height, null);
         }
         else if(fightMode==true) {
             Width=hb.fightWidth;
             Height=hb.fightHeight;
+            g2.drawImage(image, x, y, Width, Height, null);
         }
-        g2.drawImage(image, x, y, Width, Height, null);
     }
 }
