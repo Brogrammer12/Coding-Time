@@ -26,6 +26,8 @@ public class Player extends Entity{
     public boolean ded1;
     public boolean attackMode;
     public boolean attackMode2;
+    public boolean mapBorder=false;
+    public boolean load=false;
     public Player(The_Hub hb, keyInput k, NPC npc) {
         this.hb=hb;
         this.k=k;
@@ -59,7 +61,7 @@ public class Player extends Entity{
     }
     public void setDefaultValues() {
         worldX=hb.resTileSize*16;
-        worldY=hb.resTileSize*19;
+        worldY=hb.resTileSize*17;
         screenX=hb.screenWidth/2-hb.resTileSize/2;
         screenY=hb.screenHeight/2-hb.resTileSize/2;
         colBox=new Rectangle(12, 21,30,27);
@@ -81,8 +83,8 @@ public class Player extends Entity{
         else if(fightMode==true) {
             Width=hb.fightWidth;
             Height=hb.fightHeight;
-            worldX=100;
-            worldY=100;
+            //worldX=100;
+            //worldY=100;
         }
 
     }
@@ -105,19 +107,39 @@ public class Player extends Entity{
             if(k.upPressed==true || k.leftPressed==true || k.downPressed==true || k.rightPressed==true) {
                 if(fightMode==false) {
                     if(k.upPressed==true) {
-                        worldY-=moveSpeed;
+                        if (mapBorder==false) {
+                            worldY-=moveSpeed;
+                        }
+                        else if(mapBorder==true) {
+                            screenY-=moveSpeed;
+                        }
                         direction="up";
                     }
                     else if (k.leftPressed==true) {
-                        worldX-=moveSpeed;
+                        if (mapBorder==false) {
+                            worldX-=moveSpeed;
+                        }
+                        else if(mapBorder==true) {
+                            screenX-=moveSpeed;
+                        }
                         direction="left";
                     }
                     else if(k.downPressed==true) {
-                        worldY+=moveSpeed;
+                        if (mapBorder==false) {
+                            worldY+=moveSpeed;
+                        }
+                        else if(mapBorder==true) {
+                            screenY+=moveSpeed;
+                        }
                         direction="down";
                     }
                     else if(k.rightPressed==true) {
-                        worldX+=moveSpeed;
+                        if (mapBorder==false) {
+                            worldX+=moveSpeed;
+                        }
+                        else if(mapBorder==true) {
+                            screenX+=moveSpeed;
+                        }
                         direction="right";
                     }
                     SpriteCounter++;
@@ -266,9 +288,9 @@ public class Player extends Entity{
                     Health=50;
                 }
                 if(attackMode==true) {
-                    if (worldX>hb.gSelectedX) {
-                        if (worldY!=hb.gSelectedY) {
-                            worldY+=10;
+                    if (screenX>hb.gSelectedX) {
+                        if (screenY!=hb.gSelectedY) {
+                            screenY+=10;
                         }
                         else {
                             attackSpriteCounter++;
@@ -285,14 +307,14 @@ public class Player extends Entity{
                         
                     }
                     else if(attackMode2==true) {    
-                        if(worldX!=100) {
-                            worldX-=10;
+                        if(screenX!=100) {
+                            screenX-=10;
                         }
                         
                     }
                     else {
                         SpriteNum=1;
-                        worldX+=10;
+                        screenX+=10;
                     }
 
                     
@@ -313,14 +335,14 @@ public class Player extends Entity{
                             }
                         }
                     }
-                    if(worldX!=100) {
-                        worldX-=10;
+                    if(screenX!=100) {
+                        screenX-=10;
                     }
-                    else if(worldX==100){
-                        if (worldY!=100) {
-                            worldY-=10;
+                    else if(screenX==100){
+                        if (screenY!=100) {
+                            screenY-=10;
                         }
-                        else if(worldY==100) {
+                        else if(screenY==100) {
                             if (hb.Players[1].Health<=0) {
                                 npc.attacking=true;
                             }
@@ -331,7 +353,7 @@ public class Player extends Entity{
                     }
                     else {
                         SpriteNum=1;
-                        worldX+=10;
+                        screenX+=10;
                     }
                 }
                     SpriteCounter++;
@@ -481,11 +503,13 @@ public class Player extends Entity{
             Width=hb.fightWidth;
             Height=hb.fightHeight;
         }
-        if (fightMode==false) {
-            g2.drawImage(image, screenX, screenY, Width, Height, null);
+        if (fightMode==true && load==false) {
+            screenX=100;
+            screenY=100;
+            load=true;
+            System.out.println("I worked");
         }
-        else if(fightMode==true) {
-            g2.drawImage(image, worldX, worldY, Width, Height, null);
-        }
+                g2.drawImage(image, screenX, screenY, Width, Height, null);
+            
     }
 }

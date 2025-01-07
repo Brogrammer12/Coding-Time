@@ -14,7 +14,16 @@ public class TileManager extends Tiles{
     The_Hub hb;
     Tiles[] tile;
     int mapTileNum[][];
-    public boolean check1=false;
+    public int WorldX;
+    public int WorldY;
+    public int tileCoordX;
+    public int tileCoordY;
+    public boolean loadDone=false;
+    public boolean firstLoad=false;
+    public int ogScreenX;
+    public int ogScreenY;
+    public int ogWorldX;
+    public int ogWorldY;
     public TileManager(The_Hub hb) {
         this.hb=hb;
         tile=new Tiles[10];
@@ -39,6 +48,8 @@ public class TileManager extends Tiles{
             tile[4].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Tiles/Sand.png"));
             tile[5]=new Tiles();
             tile[5].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Tiles/Dirt.png"));
+            tile[6]=new Tiles();
+            tile[6].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Tiles/Tall Grass.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,68 +81,118 @@ public class TileManager extends Tiles{
 
     }
     public void draw(Graphics2D g2) {
+        if (loadDone==false) {
+            WorldX=0*hb.resTileSize;
+    WorldY=0*hb.resTileSize;
+    tileCoordX=WorldX-hb.Players[0].worldX+hb.Players[0].screenX;
+    tileCoordY=WorldY-hb.Players[0].worldY+hb.Players[0].screenY;
+    loadDone=true;
+        }
         if (hb.Players[0].fightMode==false) {
             int col=0;
             int row=0;
             if (hb.Players[0].worldY < hb.Players[0].screenY) {
                 hb.Players[0].worldY = hb.Players[0].screenY;
-                check1 = false;
+                if (hb.Players[0].screenY<=hb.screenHeight/2) {
+                    hb.player.mapBorder=true;
+                }
+                else {
+                    hb.Players[0].screenX=ogScreenX;
+                    hb.Players[0].screenY=ogScreenY;
+                    firstLoad=false;
+                    hb.player.mapBorder=false;
+                }
             }
             
             else if (hb.Players[0].worldY > (hb.maxWorldVert * hb.resTileSize) - (hb.resTileSize * (hb.maxScreenVert - hb.Players[0].screenY / hb.resTileSize))) {
-                hb.Players[0].worldY = (hb.maxWorldVert * hb.resTileSize) - (hb.resTileSize * (hb.maxScreenVert - hb.Players[0].screenY / hb.resTileSize));
-                check1 = false;
-            }            
-            else {
-                check1=true;
+                if (hb.Players[0].screenY>=hb.screenHeight/2-hb.resTileSize/2) {
+                    hb.player.mapBorder=true;
+                }
+                else {
+                    hb.Players[0].screenX=ogScreenX;
+                    hb.Players[0].screenY=ogScreenY;
+                    firstLoad=false;
+                    hb.player.mapBorder=false;
+                }
             }
             
             if (hb.Players[0].worldX < hb.Players[0].screenX) {
-                hb.Players[0].worldX = hb.Players[0].screenX;
-                check1 = false;
+                if (hb.Players[0].screenX<=hb.screenWidth/2) {
+                    hb.player.mapBorder=true;
+                }
+                else {
+                    hb.Players[0].screenX=ogScreenX;
+                    hb.Players[0].screenY=ogScreenY;
+                    firstLoad=false;
+                    hb.player.mapBorder=false;
+                }
             }
             
             else if (hb.Players[0].worldX > (hb.maxWorldHoriz * hb.resTileSize) - (hb.resTileSize * (hb.maxScreenHoriz - hb.Players[0].screenX / hb.resTileSize))) {
-                hb.Players[0].worldX = (hb.maxWorldHoriz * hb.resTileSize) - (hb.resTileSize * (hb.maxScreenHoriz - hb.Players[0].screenX / hb.resTileSize));
-                check1 = false;
+                if (hb.Players[0].screenX>=hb.screenWidth/2-hb.resTileSize/2) {
+                    hb.player.mapBorder=true;
+                }
+                else {
+                    hb.Players[0].screenX=ogScreenX;
+                    hb.Players[0].screenY=ogScreenY;
+                    firstLoad=false;
+                    hb.player.mapBorder=false;
+                }
             }
-            
-            else {
-                if (check1==true) {
+            System.out.println(hb.player.mapBorder);
                     while(col<hb.maxWorldHoriz && row<hb.maxWorldVert) {
                         int tileNum=mapTileNum[col][row];
                         int worldX=col*hb.resTileSize;
                         int worldY=row*hb.resTileSize;
                         int screenX=worldX-hb.Players[0].worldX+hb.Players[0].screenX;
                         int screenY=worldY-hb.Players[0].worldY+hb.Players[0].screenY;
-                        if (worldX+hb.resTileSize>hb.Players[0].worldX-hb.Players[0].screenX &&
-                            worldX-hb.resTileSize<hb.Players[0].worldX+hb.Players[0].screenX && 
-                            worldY+hb.resTileSize>hb.Players[0].worldY-hb.Players[0].screenY && 
-                            worldY-hb.resTileSize<hb.Players[0].worldY+hb.Players[0].screenY) {
+                        if (hb.player.mapBorder==true && firstLoad==false) {
+                            ogWorldX=hb.Players[0].worldX;
+                            ogWorldY=hb.Players[0].worldY;
+                            ogScreenX=hb.Players[0].screenX;
+                            ogScreenY=hb.Players[0].screenY;
+                            firstLoad=true;
+                        }
+                        if (col==0) {
+                            if (row==0) {
+                                tileCoordX=screenX;
+                                tileCoordY=screenY;
+                            }
+                        }
+                        //if (worldX+hb.resTileSize>hb.Players[0].worldX-hb.Players[0].screenX &&
+                          //  worldX-hb.resTileSize<hb.Players[0].worldX+hb.Players[0].screenX && 
+                         //  worldY+hb.resTileSize>hb.Players[0].worldY-hb.Players[0].screenY && 
+                         // worldY-hb.resTileSize<hb.Players[0].worldY+hb.Players[0].screenY) {
+                            if (hb.player.mapBorder==false) {
                                 g2.drawImage(tile[tileNum].image, screenX, screenY, hb.resTileSize, hb.resTileSize, null);
                             }
+                            else if(hb.player.mapBorder==true) {
+                                int finalScreenX=worldX-hb.Players[0].worldX+ogScreenX;
+                            int finalScreenY=worldY-hb.Players[0].worldY+ogScreenY;
+                                g2.drawImage(tile[tileNum].image, finalScreenX, finalScreenY, hb.resTileSize, hb.resTileSize, null);
+                            }
+                            //}
                         col++;
                         if(col==hb.maxWorldHoriz) {
                             col=0;
                             row++;
                         }
                     }
-                }
-            }
+            
         }
         else if(hb.Players[0].fightMode==true) {
             int col=0;
         int row=0;
-        int x=0;
-        int y=0;
-        while(col<hb.maxScreenHoriz && row<hb.maxScreenVert) {
+        int x=tileCoordX;
+        int y=tileCoordY;
+        while(col<hb.maxWorldHoriz && row<hb.maxWorldVert) {
             int tileNum=mapTileNum[col][row];
             g2.drawImage(tile[tileNum].image, x, y, hb.resTileSize, hb.resTileSize, null);
             col++;
             x+=hb.resTileSize;
-            if(col==hb.maxScreenHoriz) {
+            if(col==hb.maxWorldHoriz) {
                 col=0;
-                x=0;
+                x=tileCoordX;
                 row++;
                 y+=hb.resTileSize;
             }

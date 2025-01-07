@@ -37,8 +37,10 @@ public class Player2 extends Entity{
         playerImageLoader();
     }
     public void setDefaultValues() {
-        x=hb.resTileSize*16;
-        y=hb.resTileSize*19;
+        worldX=hb.resTileSize*16;
+        worldY=hb.resTileSize*19;
+        screenX=hb.screenWidth/2+hb.resTileSize;
+        screenY=hb.screenHeight/2+hb.resTileSize;
         Health=50;
         plSwitch=false;
         attack=new BufferedImage[6];
@@ -62,19 +64,23 @@ public class Player2 extends Entity{
             if(k.upPressed==true || k.leftPressed==true || k.downPressed==true || k.rightPressed==true) {
                 if(fightMode==false) {
                     if(k.upPressed==true) {
-                        y-=moveSpeed;
+                            screenY-=moveSpeed;
+                            worldY-=moveSpeed;
                         direction="up";
                     }
                     else if (k.leftPressed==true) {
-                        x-=moveSpeed;
+                        screenX-=moveSpeed;
+                        worldX-=moveSpeed;
                         direction="left";
                     }
                     else if(k.downPressed==true) {
-                        y+=moveSpeed;
+                        screenY+=moveSpeed;
+                        worldY+=moveSpeed;
                         direction="down";
                     }
                     else if(k.rightPressed==true) {
-                        x+=moveSpeed;
+                        screenX+=moveSpeed;
+                        worldX+=moveSpeed;
                         direction="right";
                     }
                     SpriteCounter++;
@@ -96,9 +102,9 @@ public class Player2 extends Entity{
                 Health=50;
             }
             if(attackMode==true) {
-                if (x>hb.gSelectedX) {
-                    if (y!=hb.gSelectedY) {
-                        y-=10;
+                if (screenX>hb.gSelectedX) {
+                    if (screenY!=hb.gSelectedY) {
+                        screenY-=10;
                     }
                     else {
                         attackSpriteCounter++;
@@ -115,13 +121,13 @@ public class Player2 extends Entity{
                     
                 }
                 else if(attackMode2==true) {
-                    if(x!=100) {
-                        x-=10;
+                    if(screenX!=100) {
+                        screenX-=10;
                     }
                 }
                 else {
                     SpriteNum=1;
-                    x+=10;
+                    screenX+=10;
                 }
 
                 
@@ -142,14 +148,14 @@ public class Player2 extends Entity{
                         }
                     }
                 }
-                if(x!=200) {
-                    x-=10;
+                if(screenX!=200) {
+                    screenX-=10;
                 }
-                else if(x==200){
-                    if (y!=200) {
-                        y+=10;
+                else if(screenX==200){
+                    if (screenY!=200) {
+                        screenY+=10;
                     }
-                    else if(y==200) {
+                    else if(screenY==200) {
                         npc.attacking=true;
                         player.cursorX=0;
                         healthTaker=false;
@@ -159,7 +165,7 @@ public class Player2 extends Entity{
                 }
                 else {
                     SpriteNum=1;
-                    x+=10;
+                    screenX+=10;
                 }
             }
                 SpriteCounter++;
@@ -350,14 +356,15 @@ public class Player2 extends Entity{
         if(fightMode==false) {
             Width=hb.resTileSize;
             Height=hb.resTileSize;
-            int screenX=x-hb.Players[0].worldX+hb.Players[0].screenX;
-            int screenY=y-hb.Players[0].worldY+hb.Players[0].screenY;
-            g2.drawImage(image, screenX, screenY, Width, Height, null);
+            if (player.mapBorder==false) {
+                screenX=worldX-hb.Players[0].worldX+hb.Players[0].screenX;
+                screenY=worldY-hb.Players[0].worldY+hb.Players[0].screenY;
+            }
         }
         else if(fightMode==true) {
             Width=hb.fightWidth;
             Height=hb.fightHeight;
-            g2.drawImage(image, x, y, Width, Height, null);
         }
+        g2.drawImage(image, screenX, screenY, Width, Height, null);
     }
 }
