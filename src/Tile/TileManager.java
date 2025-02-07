@@ -20,10 +20,19 @@ public class TileManager extends Tiles{
     public int tileCoordY;
     public boolean loadDone=false;
     public boolean firstLoad=false;
+    public String realFile="/Resources/tileMaps/worldMap.txt";
     public int ogScreenX;
     public int ogScreenY;
     public int ogWorldX;
     public int ogWorldY;
+    public boolean up=false;
+    public boolean left=false;
+    public boolean right=false;
+    public boolean down=false;
+    public double leftBorder=520;
+    public double rightBorder=520;
+    public double upBorder=320;
+    public double downBorder=320;
     public TileManager(The_Hub hb) {
         this.hb=hb;
         tile=new Tiles[10];
@@ -56,7 +65,7 @@ public class TileManager extends Tiles{
     }
     public void loadMap() {
         try {
-            InputStream is=getClass().getResourceAsStream("/Resources/tileMaps/worldMap.txt");
+            InputStream is=getClass().getResourceAsStream(realFile);
         BufferedReader br=new BufferedReader(new InputStreamReader(is));
             int col=0;
             int row=0;
@@ -80,7 +89,68 @@ public class TileManager extends Tiles{
         }
 
     }
-    public void draw(Graphics2D g2) {
+    public void newMap(String fileName, int mapBorderLeft,int mapBorderRight, int mapBorderUp, int mapBorderDown) {
+        try {
+            int numCol = 0;
+            int numRow = 0;
+    
+            // Read the map file to determine the number of columns and rows
+            InputStream is = getClass().getResourceAsStream(fileName);
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            String line;
+            while ((line = br.readLine()) != null) {
+                String numbers[] = line.split(" ");
+                numRow++;
+                numCol = numbers.length;
+            }
+            br.close();
+    
+            // Load the map data into a new array
+            is = getClass().getResourceAsStream(fileName);
+            br = new BufferedReader(new InputStreamReader(is));
+            int[][] newMapTileNum = new int[numCol][numRow];
+            int row = 0;
+            while ((line = br.readLine()) != null) {
+                String numbers[] = line.split(" ");
+                for (int col = 0; col < numCol; col++) {
+                    newMapTileNum[col][row] = Integer.parseInt(numbers[col]);
+                }
+                row++;
+            }
+            br.close();
+    
+            if (numCol > 0 && numRow > 0) {
+                realFile = fileName;
+                leftBorder=mapBorderLeft;
+                rightBorder=mapBorderRight;
+                upBorder=mapBorderUp;
+                downBorder=mapBorderDown;
+                hb.maxWorldVert = numRow;
+                hb.maxWorldHoriz = numCol;
+                hb.maxWorldHeight = hb.maxWorldVert * hb.resTileSize;
+                hb.maxWorldWidth = hb.maxWorldHoriz * hb.resTileSize;
+    
+                // Update the mapTileNum array dimensions and copy data
+                mapTileNum = new int[numCol][numRow];
+                for (int i = 0; i < numCol; i++) {
+                    for (int j = 0; j < numRow; j++) {
+                        mapTileNum[i][j] = newMapTileNum[i][j];
+                    }
+                }
+    
+                // Reset player's coordinates
+                hb.Players[0].screenX = ogScreenX;
+                hb.Players[0].screenY = ogScreenY;
+                firstLoad = false;
+                hb.player.mapBorder = false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public synchronized void draw(Graphics2D g2) {
+        System.out.println(hb.maxWorldWidth);
         if (loadDone==false) {
             WorldX=0*hb.resTileSize;
     WorldY=0*hb.resTileSize;
@@ -91,8 +161,8 @@ public class TileManager extends Tiles{
         if (hb.Players[0].fightMode==false) {
             int col=0;
             int row=0;
-            if (hb.Players[0].worldY < hb.Players[0].screenY) {
-                hb.Players[0].worldY = hb.Players[0].screenY;
+            if (hb.Players[0].worldY<=upBorder) {
+                
                 if (hb.Players[0].screenY<=hb.screenHeight/2) {
                     hb.player.mapBorder=true;
                 }
@@ -104,8 +174,8 @@ public class TileManager extends Tiles{
                 }
             }
             
-            else if (hb.Players[0].worldY > (hb.maxWorldVert * hb.resTileSize) - (hb.resTileSize * (hb.maxScreenVert - hb.Players[0].screenY / hb.resTileSize))) {
-                if (hb.Players[0].screenY>=hb.screenHeight/2-hb.resTileSize/2) {
+            else if (hb.Players[0].worldY>=hb.maxWorldHeight-downBorder) {
+                if (hb.Players[0].screenY>=hb.screenHeight/2-hb.resTileSize) {
                     hb.player.mapBorder=true;
                 }
                 else {
@@ -116,7 +186,7 @@ public class TileManager extends Tiles{
                 }
             }
             
-            if (hb.Players[0].worldX < hb.Players[0].screenX) {
+            if (hb.Players[0].worldX<=leftBorder) {
                 if (hb.Players[0].screenX<=hb.screenWidth/2) {
                     hb.player.mapBorder=true;
                 }
@@ -128,8 +198,8 @@ public class TileManager extends Tiles{
                 }
             }
             
-            else if (hb.Players[0].worldX > (hb.maxWorldHoriz * hb.resTileSize) - (hb.resTileSize * (hb.maxScreenHoriz - hb.Players[0].screenX / hb.resTileSize))) {
-                if (hb.Players[0].screenX>=hb.screenWidth/2-hb.resTileSize/2) {
+            else if (hb.Players[0].worldX>=hb.maxWorldWidth-rightBorder) {
+                if (hb.Players[0].screenX>=hb.screenWidth/2-hb.resTileSize) {
                     hb.player.mapBorder=true;
                 }
                 else {
@@ -139,7 +209,6 @@ public class TileManager extends Tiles{
                     hb.player.mapBorder=false;
                 }
             }
-            System.out.println(hb.player.mapBorder);
                     while(col<hb.maxWorldHoriz && row<hb.maxWorldVert) {
                         int tileNum=mapTileNum[col][row];
                         int worldX=col*hb.resTileSize;
@@ -159,10 +228,6 @@ public class TileManager extends Tiles{
                                 tileCoordY=screenY;
                             }
                         }
-                        //if (worldX+hb.resTileSize>hb.Players[0].worldX-hb.Players[0].screenX &&
-                          //  worldX-hb.resTileSize<hb.Players[0].worldX+hb.Players[0].screenX && 
-                         //  worldY+hb.resTileSize>hb.Players[0].worldY-hb.Players[0].screenY && 
-                         // worldY-hb.resTileSize<hb.Players[0].worldY+hb.Players[0].screenY) {
                             if (hb.player.mapBorder==false) {
                                 g2.drawImage(tile[tileNum].image, screenX, screenY, hb.resTileSize, hb.resTileSize, null);
                             }
@@ -171,7 +236,6 @@ public class TileManager extends Tiles{
                             int finalScreenY=worldY-hb.Players[0].worldY+ogScreenY;
                                 g2.drawImage(tile[tileNum].image, finalScreenX, finalScreenY, hb.resTileSize, hb.resTileSize, null);
                             }
-                            //}
                         col++;
                         if(col==hb.maxWorldHoriz) {
                             col=0;
@@ -180,6 +244,7 @@ public class TileManager extends Tiles{
                     }
             
         }
+
         else if(hb.Players[0].fightMode==true) {
             int col=0;
         int row=0;

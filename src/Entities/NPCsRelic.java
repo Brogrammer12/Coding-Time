@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 import Main.TextReader;
 import Main.The_Hub;
-public class NPCs extends Entity{
+public class NPCsRelic extends Entity{
     The_Hub hb;
     Player player;
     int amountSprites;
@@ -28,7 +28,7 @@ public class NPCs extends Entity{
     public boolean skelAttacker=false;
     Nec necromancer;
     Skelly skellywag;
-    public NPCs(The_Hub hb, Player player, TextReader t, Player2 p2, Nec necromancer, Skelly skellywag) {
+    public NPCsRelic(The_Hub hb, Player player, TextReader t, Player2 p2, Nec necromancer, Skelly skellywag) {
         this.hb=hb;
         this.t=t;
         this.p2=p2;

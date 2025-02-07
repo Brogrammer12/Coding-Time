@@ -1,6 +1,6 @@
 package FightingSystem;
 import Entities.NPC;
-import Entities.NPCs;
+import Entities.NPCsRelic;
 import Entities.Player;
 import Entities.Player2;
 import Main.TextReader;
@@ -491,11 +491,11 @@ public void draw(Graphics2D g2) {
                 t.draw(g2, "YOU RAN AWAY.", 10*hb.resTileSize/2, 5*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             }
                 if(realValue>=0.5) {
-                    if(player.worldX>-100 && runAway==true) {
-                        player.worldX-=10;
+                    if(player.screenX>-100 && runAway==true) {
+                        player.screenX-=10;
                     }
-                    if(p2.x>-100 && runAway==true) {
-                        p2.x-=10;
+                    if(p2.screenX>-100 && runAway==true) {
+                        p2.screenX-=10;
                     }
                     if(timer>=100) {
                         for(int index=0; index<npc.entity.length; index++) {
@@ -503,10 +503,10 @@ public void draw(Graphics2D g2) {
                         }
                         player.fightMode=false;
                     p2.fightMode=false;
-                    player.worldX=100;
-                    player.worldX=100;
-                    p2.x=200;
-                    p2.y=200;
+                    player.screenX=hb.screenWidth/2-hb.resTileSize/2;
+                player.screenY=hb.screenHeight/2-hb.resTileSize/2;
+                p2.screenX=hb.screenWidth/2-hb.resTileSize/2;
+                p2.screenY=hb.screenHeight/2-hb.resTileSize/2;
                     hb.flee=false;
                     runAway=false;
                     }
@@ -536,22 +536,27 @@ public void draw(Graphics2D g2) {
             g2.drawImage(selectImage, e, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
             t.draw(g2, "RUN AWAY?", 12*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
-                if(realValue<0.5) {
-                    runFailed=true;
-                    
+                if (runAway==false && runFailed==false) {
+                    if(realValue<0.5) {
+                        runFailed=true;
                 }
                 else {
-                    runAway=true;
+                        runAway=true;
                     
+                    
+                    
+                }
                 }
                 k.hasMoved=true;
                 
                 
             }
             else if(player.Selector==1 && k.enterPressed==true && k.hasMoved==false) {
-                hb.flee=false;
-                player.Selector=0;
-                k.hasMoved=true;
+                if (runAway==false && runFailed==false) {
+                    hb.flee=false;
+                    player.Selector=0;
+                    k.hasMoved=true;
+                }
             }
         } 
             

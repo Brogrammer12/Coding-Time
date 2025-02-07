@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 import Entities.Entity;
 import Entities.NPC;
-import Entities.NPCs;
+import Entities.NPCsRelic;
 import Entities.Nec;
 import Entities.Player;
 import Entities.Player2;
@@ -24,10 +24,10 @@ public class The_Hub extends JPanel  implements Runnable{
     public final int maxScreenVert=12;
     public final int screenWidth=resTileSize*maxScreenHoriz;
     public final int screenHeight=resTileSize*maxScreenVert;
-    public final int maxWorldVert=25;
-    public final int maxWorldHoriz=33;
-    public final int maxWorldHeight=maxWorldVert*resTileSize;
-    public final int maxWorldWidth=maxWorldHoriz*resTileSize;
+    public int maxWorldVert=25;
+    public int maxWorldHoriz=33;
+    public int maxWorldHeight=maxWorldVert*resTileSize;
+    public int maxWorldWidth=maxWorldHoriz*resTileSize;
     public int fightHeight=72;
     public int fightWidth=85;
     public int skelHealth=25;
@@ -53,7 +53,7 @@ public class The_Hub extends JPanel  implements Runnable{
     Nec necromancer=new Nec(this);
     Skelly skellywag=new Skelly(this);
     NPC npc=new NPC(this, skellywag, necromancer, textboi);
-    public Player player=new Player(this, keyBoi, npc);
+    public Player player=new Player(this, keyBoi, npc, tileguy);
     keyInput2 keyBoi2=new keyInput2();
     public Player2 player2=new Player2(this, keyBoi2, player, npc, textboi);
     healthManager health=new healthManager(this, player);

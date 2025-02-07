@@ -21,6 +21,7 @@ public class Player2 extends Entity{
     public boolean ded1=false;
     public int dedCounter=0;
     public boolean dedNum=false;
+    public boolean load=false;
     NPC npc;
     Player player;
     public Player2(The_Hub hb, keyInput2 k, Player player, NPC npc, TextReader t) {
@@ -218,6 +219,10 @@ public class Player2 extends Entity{
                     t.draw(g2, "YOU LOST...", 200, 100, hb.resTileSize/2, hb.resTileSize/2);
                 }
                 else if(dedCounter>=240) {
+                    player.screenX=hb.screenWidth/2-hb.resTileSize/2;
+                player.screenY=hb.screenHeight/2-hb.resTileSize/2;
+                screenX=hb.screenWidth/2-hb.resTileSize/2;
+                screenY=hb.screenHeight/2-hb.resTileSize/2;
                     player.fightMode=false;
                     fightMode=false;
                     dedNum=true;
@@ -248,6 +253,10 @@ public class Player2 extends Entity{
                 t.draw(g2, "YOU WON!", 100, 100, hb.resTileSize/2, hb.resTileSize/2);
             timer++;
             if (timer>=100) {
+                player.screenX=hb.screenWidth/2-hb.resTileSize/2;
+                player.screenY=hb.screenHeight/2-hb.resTileSize/2;
+                screenX=hb.screenWidth/2-hb.resTileSize/2;
+                screenY=hb.screenHeight/2-hb.resTileSize/2;
             player.fightMode=false;
             this.fightMode=false;
             someLeft=false;
@@ -364,6 +373,11 @@ public class Player2 extends Entity{
         else if(fightMode==true) {
             Width=hb.fightWidth;
             Height=hb.fightHeight;
+        }
+        if (fightMode==true && load==false) {
+            screenX=200;
+            screenY=200;
+            load=true;
         }
         g2.drawImage(image, screenX, screenY, Width, Height, null);
     }
