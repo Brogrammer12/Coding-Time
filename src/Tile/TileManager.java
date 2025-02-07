@@ -20,7 +20,7 @@ public class TileManager extends Tiles{
     public int tileCoordY;
     public boolean loadDone=false;
     public boolean firstLoad=false;
-    public String realFile="/Resources/tileMaps/worldMap.txt";
+    public String realFile="/Resources/tileMaps/startingarea.txt";
     public int ogScreenX;
     public int ogScreenY;
     public int ogWorldX;
@@ -29,8 +29,8 @@ public class TileManager extends Tiles{
     public boolean left=false;
     public boolean right=false;
     public boolean down=false;
-    public double leftBorder=520;
-    public double rightBorder=520;
+    public double leftBorder=360;
+    public double rightBorder=430;
     public double upBorder=320;
     public double downBorder=320;
     public TileManager(The_Hub hb) {
@@ -150,7 +150,6 @@ public class TileManager extends Tiles{
     }
     
     public synchronized void draw(Graphics2D g2) {
-        System.out.println(hb.maxWorldWidth);
         if (loadDone==false) {
             WorldX=0*hb.resTileSize;
     WorldY=0*hb.resTileSize;

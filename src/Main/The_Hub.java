@@ -24,8 +24,8 @@ public class The_Hub extends JPanel  implements Runnable{
     public final int maxScreenVert=12;
     public final int screenWidth=resTileSize*maxScreenHoriz;
     public final int screenHeight=resTileSize*maxScreenVert;
-    public int maxWorldVert=25;
-    public int maxWorldHoriz=33;
+    public int maxWorldVert=19;
+    public int maxWorldHoriz=25;
     public int maxWorldHeight=maxWorldVert*resTileSize;
     public int maxWorldWidth=maxWorldHoriz*resTileSize;
     public int fightHeight=72;
