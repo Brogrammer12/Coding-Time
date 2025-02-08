@@ -32,24 +32,14 @@ public class Player extends Entity{
     public boolean mapBorder=false;
     public boolean load=false;
     String biome;
-    String[] yLevel={"/Resources/tileMaps/startingarea.txt","/Resources/tileMaps/the_path.txt", "/Resources/tileMaps/worldMap.txt"};
-    int[][] borderX=new int[20][2];
-    int[][] borderY=new int[20] [2];
+    String[][] location=new String[10][4];
     int YLevel=0;
+    int XLevel=0;
     public Player(The_Hub hb, keyInput k, NPC npc, TileManager tileguy) {
-        //with border x; first value is ylevel; second is whether its left or right map border
-        borderX[0] [0]=360;
-        borderX[0] [1]=430;
-        borderX[1] [0]=360;
-        borderX[1] [1]=410;
-        borderX[2] [0]=520;
-        borderX[2] [1]=520;
-        borderY[0] [0]=320;
-        borderY[0] [1]=320;
-        borderY[1] [0]=270;
-        borderY[1] [1]=310;
-        borderY[2] [0]=320;
-        borderY[2] [1]=320;
+        location[0] [0]="/Resources/tileMaps/startingarea.txt";
+        location[0] [1]="/Resources/tileMaps/the_path.txt";
+        location[0] [2]="/Resources/tileMaps/worldMap.txt";
+        location[0] [3]="/Resources/tileMaps/forest.txt";
         this.tileguy=tileguy;
         this.hb=hb;
         this.k=k;
@@ -113,7 +103,7 @@ public class Player extends Entity{
     }
     public void update() {
         if (screenY<=hb.resTileSize*2) {
-            if (YLevel!=yLevel.length-1) {
+            if (YLevel!=location[0].length-1) {
                 YLevel++;
             }
             //tileguy.ogWorldX=hb.resTileSize*8;
@@ -121,25 +111,26 @@ public class Player extends Entity{
             //tileguy.ogScreenX=screenX;
            // tileguy.ogScreenY=screenY;
            //tileguy.loadDone=false;
-            tileguy.newMap(yLevel[YLevel], borderX[YLevel][0], borderX[YLevel][1], borderY[YLevel][0], borderY[YLevel][1]);
+            tileguy.newMap(location[XLevel][YLevel]);
             tileguy.loadMap();
+            worldX=hb.maxWorldWidth/2;
+            worldY=hb.maxWorldHeight-320;
             screenX=hb.screenWidth/2-hb.resTileSize/2;
             screenY=hb.screenHeight/2-hb.resTileSize/2;
-            worldX=hb.maxWorldWidth/2;
-            worldY=hb.maxWorldHeight-7*hb.resTileSize;
-            hb.Players[1].worldX=hb.maxWorldWidth/2;
-            hb.Players[1].worldY=hb.maxWorldHeight/2;
+                hb.Players[1].worldX=hb.maxWorldWidth/2;
+                hb.Players[1].worldY=hb.maxWorldHeight/2;
+            
         }
         else if(screenY>=(hb.maxScreenVert*hb.resTileSize)-hb.resTileSize*2) {
             if (YLevel!=0) {
                 YLevel--;
             }
-            tileguy.newMap(yLevel[YLevel], borderX[YLevel][0], borderX[YLevel][1], borderY[YLevel][0], borderY[YLevel][1]);
+            tileguy.newMap(location[XLevel][YLevel]);
             tileguy.loadMap();
             screenX=hb.screenWidth/2-hb.resTileSize/2;
             screenY=hb.screenHeight/2-hb.resTileSize/2;
             worldX=hb.maxWorldWidth/2;
-            worldY=7*hb.resTileSize;
+            worldY=320;
             hb.Players[1].worldX=hb.maxWorldWidth/2;
             hb.Players[1].worldY=hb.maxWorldHeight/2;
         }

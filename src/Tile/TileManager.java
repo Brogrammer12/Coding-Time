@@ -89,7 +89,7 @@ public class TileManager extends Tiles{
         }
 
     }
-    public void newMap(String fileName, int mapBorderLeft,int mapBorderRight, int mapBorderUp, int mapBorderDown) {
+    public void newMap(String fileName) {
         try {
             int numCol = 0;
             int numRow = 0;
@@ -121,10 +121,6 @@ public class TileManager extends Tiles{
     
             if (numCol > 0 && numRow > 0) {
                 realFile = fileName;
-                leftBorder=mapBorderLeft;
-                rightBorder=mapBorderRight;
-                upBorder=mapBorderUp;
-                downBorder=mapBorderDown;
                 hb.maxWorldVert = numRow;
                 hb.maxWorldHoriz = numCol;
                 hb.maxWorldHeight = hb.maxWorldVert * hb.resTileSize;
@@ -160,7 +156,7 @@ public class TileManager extends Tiles{
         if (hb.Players[0].fightMode==false) {
             int col=0;
             int row=0;
-            if (hb.Players[0].worldY<=upBorder) {
+            if (hb.Players[0].worldY<=320) {
                 
                 if (hb.Players[0].screenY<=hb.screenHeight/2) {
                     hb.player.mapBorder=true;
@@ -173,7 +169,7 @@ public class TileManager extends Tiles{
                 }
             }
             
-            else if (hb.Players[0].worldY>=hb.maxWorldHeight-downBorder) {
+            else if (hb.Players[0].worldY>=hb.maxWorldHeight-320) {
                 if (hb.Players[0].screenY>=hb.screenHeight/2-hb.resTileSize) {
                     hb.player.mapBorder=true;
                 }
@@ -185,7 +181,7 @@ public class TileManager extends Tiles{
                 }
             }
             
-            if (hb.Players[0].worldX<=leftBorder) {
+            if (hb.Players[0].worldX<=500-2*hb.resTileSize) {
                 if (hb.Players[0].screenX<=hb.screenWidth/2) {
                     hb.player.mapBorder=true;
                 }
@@ -197,7 +193,7 @@ public class TileManager extends Tiles{
                 }
             }
             
-            else if (hb.Players[0].worldX>=hb.maxWorldWidth-rightBorder) {
+            else if (hb.Players[0].worldX>=hb.maxWorldWidth-500+hb.resTileSize/2) {
                 if (hb.Players[0].screenX>=hb.screenWidth/2-hb.resTileSize) {
                     hb.player.mapBorder=true;
                 }
