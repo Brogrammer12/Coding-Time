@@ -152,40 +152,54 @@ public class Player extends Entity{
             if(k.upPressed==true || k.leftPressed==true || k.downPressed==true || k.rightPressed==true) {
                 if(fightMode==false) {
                     if(k.upPressed==true) {
-                        if (mapBorder==false) {
-                            worldY-=moveSpeed;
-                        }
-                        else if(mapBorder==true) {
-                            screenY-=moveSpeed;
-                        }
                         direction="up";
                     }
                     else if (k.leftPressed==true) {
-                        if (mapBorder==false) {
-                            worldX-=moveSpeed;
-                        }
-                        else if(mapBorder==true) {
-                            screenX-=moveSpeed;
-                        }
                         direction="left";
                     }
                     else if(k.downPressed==true) {
-                        if (mapBorder==false) {
-                            worldY+=moveSpeed;
-                        }
-                        else if(mapBorder==true) {
-                            screenY+=moveSpeed;
-                        }
                         direction="down";
                     }
                     else if(k.rightPressed==true) {
-                        if (mapBorder==false) {
-                            worldX+=moveSpeed;
-                        }
-                        else if(mapBorder==true) {
-                            screenX+=moveSpeed;
-                        }
                         direction="right";
+                    }
+                    collisionOn=false;
+                    hb.cChecker.checkTile(this);
+                    if (collisionOn==false) {
+                        switch(direction) {
+                            case "up":
+                            if (mapBorder==false) {
+                                worldY-=moveSpeed;
+                            }
+                            else if(mapBorder==true) {
+                                screenY-=moveSpeed;
+                            }
+                            break;
+                            case "down":
+                            if (mapBorder==false) {
+                                worldY+=moveSpeed;
+                            }
+                            else if(mapBorder==true) {
+                                screenY+=moveSpeed;
+                            }
+                            break;
+                            case "left":
+                            if (mapBorder==false) {
+                                worldX-=moveSpeed;
+                            }
+                            else if(mapBorder==true) {
+                                screenX-=moveSpeed;
+                            }
+                            break;
+                            case "right":
+                            if (mapBorder==false) {
+                                worldX+=moveSpeed;
+                            }
+                            else if(mapBorder==true) {
+                                screenX+=moveSpeed;
+                            }
+                            break;
+                        }
                     }
                     SpriteCounter++;
                     if(SpriteCounter>12) {

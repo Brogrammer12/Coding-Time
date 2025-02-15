@@ -5,12 +5,12 @@ import java.awt.image.BufferedImage;
 
 public class Entity {
     public int x, y;
-    int moveSpeed;
+    public int moveSpeed;
     BufferedImage up1, up2, left1, left2, down1, down2, right1, right2;
     BufferedImage bob1, bob2;
     BufferedImage[] attack;
     BufferedImage defenseSprite;
-    String direction;
+    public String direction;
     int SpriteCounter=0;
     int SpriteNum;
     public boolean fightMode;
@@ -35,6 +35,7 @@ public class Entity {
     public BufferedImage Dead1;
     public BufferedImage Dead2;
     public Rectangle colBox;
+    public boolean collisionOn=false;
     public int worldX;
     public int worldY;
     public int screenX;

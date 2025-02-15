@@ -12,8 +12,8 @@ import Main.The_Hub;
 
 public class TileManager extends Tiles{
     The_Hub hb;
-    Tiles[] tile;
-    int mapTileNum[][];
+    public Tiles[] tile;
+    public int mapTileNum[][];
     public int WorldX;
     public int WorldY;
     public int tileCoordX;
@@ -49,16 +49,23 @@ public class TileManager extends Tiles{
             tile[0].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Tiles/Grass.png"));
             tile[1]=new Tiles();
             tile[1].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Tiles/Water.png"));
+            tile[1].collision=true;
             tile[2]=new Tiles();
             tile[2].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Tiles/Tree_Trunk.png"));
+            tile[2].collision=true;
             tile[3]=new Tiles();
             tile[3].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Tiles/Tree_Top.png"));
+            tile[3].collision=true;
             tile[4]=new Tiles();
             tile[4].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Tiles/Sand.png"));
             tile[5]=new Tiles();
             tile[5].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Tiles/Dirt.png"));
             tile[6]=new Tiles();
             tile[6].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Tiles/Tall Grass.png"));
+            tile[7]=new Tiles();
+            tile[7].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Tiles/PlankBridge1.png"));
+            tile[8]=new Tiles();
+            tile[8].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Tiles/PlankBridge2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

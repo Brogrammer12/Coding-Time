@@ -58,6 +58,7 @@ public class The_Hub extends JPanel  implements Runnable{
     public Player2 player2=new Player2(this, keyBoi2, player, npc, textboi);
     healthManager health=new healthManager(this, player);
     fightMenus fightingboi=new fightMenus(this, player, keyBoi, textboi, player2, health, npc);
+    public CollisionChecker cChecker=new CollisionChecker(this);
     public Entity[] Players=new Entity[]{
         player,
         player2
