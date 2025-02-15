@@ -34,12 +34,13 @@ public class Player extends Entity{
     String biome;
     String[][] location=new String[10][4];
     int YLevel=0;
-    int XLevel=0;
+    int XLevel=1;
     public Player(The_Hub hb, keyInput k, NPC npc, TileManager tileguy) {
-        location[0] [0]="/Resources/tileMaps/startingarea.txt";
-        location[0] [1]="/Resources/tileMaps/the_path.txt";
-        location[0] [2]="/Resources/tileMaps/worldMap.txt";
-        location[0] [3]="/Resources/tileMaps/forest.txt";
+        location[1] [0]="/Resources/tileMaps/startingarea.txt";
+        location[1] [1]="/Resources/tileMaps/the_path.txt";
+        location[1] [2]="/Resources/tileMaps/worldMap.txt";
+        location[1] [3]="/Resources/tileMaps/forest.txt";
+        location[0] [3]="/Resources/tileMaps/forestTreasure.txt";
         this.tileguy=tileguy;
         this.hb=hb;
         this.k=k;
@@ -102,16 +103,11 @@ public class Player extends Entity{
 
     }
     public void update() {
-        if (screenY<=hb.resTileSize*2) {
-            if (YLevel!=location[0].length-1) {
+        if (screenY<=hb.resTileSize/2) {
+            if (YLevel!=location[0].length-1 && location[XLevel] [YLevel+1]!=null) {
+                System.out.println("I worked");
                 YLevel++;
-            }
-            //tileguy.ogWorldX=hb.resTileSize*8;
-           // tileguy.ogWorldY=hb.resTileSize*6;
-            //tileguy.ogScreenX=screenX;
-           // tileguy.ogScreenY=screenY;
-           //tileguy.loadDone=false;
-            tileguy.newMap(location[XLevel][YLevel]);
+                tileguy.newMap(location[XLevel][YLevel]);
             tileguy.loadMap();
             worldX=hb.maxWorldWidth/2;
             worldY=hb.maxWorldHeight-320;
@@ -119,13 +115,14 @@ public class Player extends Entity{
             screenY=hb.screenHeight/2-hb.resTileSize/2;
                 hb.Players[1].worldX=hb.maxWorldWidth/2;
                 hb.Players[1].worldY=hb.maxWorldHeight/2;
+            }
             
         }
-        else if(screenY>=(hb.maxScreenVert*hb.resTileSize)-hb.resTileSize*2) {
-            if (YLevel!=0) {
+        else if(screenY>=(hb.maxScreenVert*hb.resTileSize)-hb.resTileSize/2) {
+            if (YLevel!=0 && location[XLevel] [YLevel-1]!=null) {
+                System.out.println("I worked");
                 YLevel--;
-            }
-            tileguy.newMap(location[XLevel][YLevel]);
+                tileguy.newMap(location[XLevel][YLevel]);
             tileguy.loadMap();
             screenX=hb.screenWidth/2-hb.resTileSize/2;
             screenY=hb.screenHeight/2-hb.resTileSize/2;
@@ -133,6 +130,35 @@ public class Player extends Entity{
             worldY=320;
             hb.Players[1].worldX=hb.maxWorldWidth/2;
             hb.Players[1].worldY=hb.maxWorldHeight/2;
+            }
+        }
+        else if(screenX<=hb.resTileSize/2) {
+            if (XLevel!=0 && location[XLevel-1] [YLevel]!=null) {
+                System.out.println("I worked");
+                XLevel--;
+                tileguy.newMap(location[XLevel][YLevel]);
+            tileguy.loadMap();
+            worldX=hb.maxWorldWidth-520;
+            worldY=hb.maxWorldHeight/2;
+            screenX=hb.screenWidth/2-hb.resTileSize/2;
+            screenY=hb.screenHeight/2-hb.resTileSize/2;
+                hb.Players[1].worldX=hb.maxWorldWidth/2;
+                hb.Players[1].worldY=hb.maxWorldHeight/2;
+            }
+        }
+        else if(screenX>=(hb.maxScreenHoriz*hb.resTileSize)-hb.resTileSize/2) {
+            if (XLevel!=location.length-1 && location[XLevel+1] [YLevel]!=null) {
+                System.out.println("I worked");
+                XLevel++;
+                tileguy.newMap(location[XLevel][YLevel]);
+            tileguy.loadMap();
+            screenX=hb.screenWidth/2-hb.resTileSize/2;
+            screenY=hb.screenHeight/2-hb.resTileSize/2;
+            worldX=520;
+            worldY=hb.maxWorldHeight/2;
+            hb.Players[1].worldX=hb.maxWorldWidth/2;
+            hb.Players[1].worldY=hb.maxWorldHeight/2;
+            }
         }
         if (Health<=0) {
             ded=true;
