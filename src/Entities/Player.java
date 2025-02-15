@@ -31,10 +31,11 @@ public class Player extends Entity{
     public boolean attackMode2;
     public boolean mapBorder=false;
     public boolean load=false;
+    public boolean readingSign=false;
     String biome;
     String[][] location=new String[10][4];
-    int YLevel=0;
-    int XLevel=1;
+    public int YLevel=0;
+    public int XLevel=1;
     public Player(The_Hub hb, keyInput k, NPC npc, TileManager tileguy) {
         location[1] [0]="/Resources/tileMaps/startingarea.txt";
         location[1] [1]="/Resources/tileMaps/the_path.txt";
@@ -79,6 +80,8 @@ public class Player extends Entity{
         screenX=hb.screenWidth/2-hb.resTileSize/2;
         screenY=hb.screenHeight/2-hb.resTileSize/2;
         colBox=new Rectangle(12, 21,30,27);
+        solidAreaDefaultX=colBox.x;
+        solidAreaDefaultY=colBox.y;
         attack=new BufferedImage[7];
         attackSpriteNum=1;
         attackSpriteCounter=0;
@@ -103,9 +106,8 @@ public class Player extends Entity{
 
     }
     public void update() {
-        if (screenY<=hb.resTileSize/2) {
+        if (screenY<=hb.resTileSize) {
             if (YLevel!=location[0].length-1 && location[XLevel] [YLevel+1]!=null) {
-                System.out.println("I worked");
                 YLevel++;
                 tileguy.newMap(location[XLevel][YLevel]);
             tileguy.loadMap();
@@ -114,13 +116,12 @@ public class Player extends Entity{
             screenX=hb.screenWidth/2-hb.resTileSize/2;
             screenY=hb.screenHeight/2-hb.resTileSize/2;
                 hb.Players[1].worldX=hb.maxWorldWidth/2;
-                hb.Players[1].worldY=hb.maxWorldHeight/2;
+                hb.Players[1].worldY=hb.maxWorldHeight-320;
             }
             
         }
-        else if(screenY>=(hb.maxScreenVert*hb.resTileSize)-hb.resTileSize/2) {
+        else if(screenY>=(hb.maxScreenVert*hb.resTileSize)-hb.resTileSize) {
             if (YLevel!=0 && location[XLevel] [YLevel-1]!=null) {
-                System.out.println("I worked");
                 YLevel--;
                 tileguy.newMap(location[XLevel][YLevel]);
             tileguy.loadMap();
@@ -129,12 +130,11 @@ public class Player extends Entity{
             worldX=hb.maxWorldWidth/2;
             worldY=320;
             hb.Players[1].worldX=hb.maxWorldWidth/2;
-            hb.Players[1].worldY=hb.maxWorldHeight/2;
+            hb.Players[1].worldY=320;
             }
         }
-        else if(screenX<=hb.resTileSize/2) {
+        else if(screenX<=hb.resTileSize) {
             if (XLevel!=0 && location[XLevel-1] [YLevel]!=null) {
-                System.out.println("I worked");
                 XLevel--;
                 tileguy.newMap(location[XLevel][YLevel]);
             tileguy.loadMap();
@@ -142,13 +142,12 @@ public class Player extends Entity{
             worldY=hb.maxWorldHeight/2;
             screenX=hb.screenWidth/2-hb.resTileSize/2;
             screenY=hb.screenHeight/2-hb.resTileSize/2;
-                hb.Players[1].worldX=hb.maxWorldWidth/2;
+                hb.Players[1].worldX=hb.maxWorldWidth-520;
                 hb.Players[1].worldY=hb.maxWorldHeight/2;
             }
         }
-        else if(screenX>=(hb.maxScreenHoriz*hb.resTileSize)-hb.resTileSize/2) {
+        else if(screenX>=(hb.maxScreenHoriz*hb.resTileSize)-hb.resTileSize) {
             if (XLevel!=location.length-1 && location[XLevel+1] [YLevel]!=null) {
-                System.out.println("I worked");
                 XLevel++;
                 tileguy.newMap(location[XLevel][YLevel]);
             tileguy.loadMap();
@@ -156,7 +155,7 @@ public class Player extends Entity{
             screenY=hb.screenHeight/2-hb.resTileSize/2;
             worldX=520;
             worldY=hb.maxWorldHeight/2;
-            hb.Players[1].worldX=hb.maxWorldWidth/2;
+            hb.Players[1].worldX=520;
             hb.Players[1].worldY=hb.maxWorldHeight/2;
             }
         }
@@ -191,6 +190,8 @@ public class Player extends Entity{
                     }
                     collisionOn=false;
                     hb.cChecker.checkTile(this);
+                    int objIndex=hb.cChecker.checkObject(this, true);
+                    interactWithObject(objIndex);
                     if (collisionOn==false) {
                         switch(direction) {
                             case "up":
@@ -458,6 +459,30 @@ public class Player extends Entity{
             }
         
         }
+        public void interactWithObject(int i) {
+            if (i!=999) {
+                if (k.enterPressed==true) {
+                    if (hb.obj[i].name=="Chest") {
+                        try {
+                            hb.obj[i].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Objects/openChest.png"));
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                    else if(hb.obj[i].name=="Sign") {
+                        if (readingSign==false && k.hasMoved==false) {
+                            readingSign=true;
+                            k.hasMoved=true;
+                        }
+                        else if(readingSign==true && k.hasMoved==false) {
+                            readingSign=false;
+                            k.hasMoved=true;
+                        }
+                    }
+                }
+            }
+        }
        
     
     public void playerImageLoader() {
@@ -488,6 +513,9 @@ public class Player extends Entity{
     public void draw(Graphics2D g2) {
         BufferedImage image=null;
         if(fightMode==false) {
+            if (readingSign==true) {
+                hb.textboi.draw(g2, "UR GAY", 100, 100, hb.resTileSize/2, hb.resTileSize/2);
+            }
             switch(direction) {
                 case "up":
                 if(SpriteNum==1) {

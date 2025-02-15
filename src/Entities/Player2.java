@@ -4,6 +4,7 @@ import Main.The_Hub;
 import Main.keyInput2;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -22,12 +23,16 @@ public class Player2 extends Entity{
     public int dedCounter=0;
     public boolean dedNum=false;
     public boolean load=false;
+    public boolean readingSign=false;
     NPC npc;
     Player player;
     public Player2(The_Hub hb, keyInput2 k, Player player, NPC npc, TextReader t) {
         this.hb=hb;
         this.k=k;
         this.t=t;
+        colBox=new Rectangle(12, 21,30,27);
+        solidAreaDefaultX=colBox.x;
+        solidAreaDefaultY=colBox.y;
         defenseValue=5;
         damage=10;
         ded=false;
@@ -38,8 +43,8 @@ public class Player2 extends Entity{
         playerImageLoader();
     }
     public void setDefaultValues() {
-        worldX=hb.resTileSize*16;
-        worldY=hb.resTileSize*19;
+        worldX=hb.player.worldX;
+        worldY=hb.player.worldY;
         screenX=hb.screenWidth/2+hb.resTileSize;
         screenY=hb.screenHeight/2+hb.resTileSize;
         Health=50;
@@ -65,128 +70,168 @@ public class Player2 extends Entity{
             if(k.upPressed==true || k.leftPressed==true || k.downPressed==true || k.rightPressed==true) {
                 if(fightMode==false) {
                     if(k.upPressed==true) {
-                            screenY-=moveSpeed;
-                            worldY-=moveSpeed;
                         direction="up";
                     }
                     else if (k.leftPressed==true) {
-                        screenX-=moveSpeed;
-                        worldX-=moveSpeed;
                         direction="left";
                     }
                     else if(k.downPressed==true) {
-                        screenY+=moveSpeed;
-                        worldY+=moveSpeed;
                         direction="down";
                     }
                     else if(k.rightPressed==true) {
-                        screenX+=moveSpeed;
-                        worldX+=moveSpeed;
                         direction="right";
                     }
-                    SpriteCounter++;
-                    if(SpriteCounter>12) {
-                        if(SpriteNum==1) {
-                            SpriteNum=2;
-                            
-                        }
-                        else if(SpriteNum==2) {
-                            SpriteNum=1;
-                            
-                        }
-                        SpriteCounter=0;
-                    }
-                }
-            }
-        if(fightMode==true) {
-            if(Health>50) {
-                Health=50;
-            }
-            if(attackMode==true) {
-                if (screenX>hb.gSelectedX) {
-                    if (screenY!=hb.gSelectedY) {
-                        screenY-=10;
-                    }
-                    else {
-                        attackSpriteCounter++;
-                if(attackSpriteCounter>4) {
-                    attackSpriteNum++;
-                    if(attackSpriteNum>6) {
-                        attackSpriteNum=1;
-                        attackMode2=true;
-                        attackMode=false;
-                    }
-                    attackSpriteCounter=0;
-                }
-                    }
+                    collisionOn=false;
+                    hb.cChecker.checkTile(this);
+                    int objIndex=hb.cChecker.checkObject(this, true);
+                    interactWithObject(objIndex);
+                                        if (collisionOn==false) {
+                                            switch (direction) {
+                                                case "up":
+                                                screenY-=moveSpeed;
+                                                worldY-=moveSpeed;
+                                                    break;
+                                                    case "down":
+                                                    screenY+=moveSpeed;
+                                                    worldY+=moveSpeed;
+                                                    break;
+                                                    case "left":
+                                                    screenX-=moveSpeed;
+                                                    worldX-=moveSpeed;
+                                                    break;
+                                                    case "right":
+                                                    screenX+=moveSpeed;
+                                                    worldX+=moveSpeed;
+                                                    break;
+                                            }
+                                        }
+                                        SpriteCounter++;
+                                        if(SpriteCounter>12) {
+                                            if(SpriteNum==1) {
+                                                SpriteNum=2;
+                                                
+                                            }
+                                            else if(SpriteNum==2) {
+                                                SpriteNum=1;
+                                                
+                                            }
+                                            SpriteCounter=0;
+                                        }
+                                    }
+                                }
+                            if(fightMode==true) {
+                                if(Health>50) {
+                                    Health=50;
+                                }
+                                if(attackMode==true) {
+                                    if (screenX>hb.gSelectedX) {
+                                        if (screenY!=hb.gSelectedY) {
+                                            screenY-=10;
+                                        }
+                                        else {
+                                            attackSpriteCounter++;
+                                    if(attackSpriteCounter>4) {
+                                        attackSpriteNum++;
+                                        if(attackSpriteNum>6) {
+                                            attackSpriteNum=1;
+                                            attackMode2=true;
+                                            attackMode=false;
+                                        }
+                                        attackSpriteCounter=0;
+                                    }
+                                        }
+                                        
+                                    }
+                                    else if(attackMode2==true) {
+                                        if(screenX!=100) {
+                                            screenX-=10;
+                                        }
+                                    }
+                                    else {
+                                        SpriteNum=1;
+                                        screenX+=10;
+                                    }
                     
-                }
-                else if(attackMode2==true) {
-                    if(screenX!=100) {
-                        screenX-=10;
-                    }
-                }
-                else {
-                    SpriteNum=1;
-                    screenX+=10;
-                }
-
-                
-            }
-            else if(attackMode2==true) {
-                for(int index=0; index<npc.entity.length; index++) {
-                    if (player.cursorX==2 && healthTaker==false) {
-                        if (npc.entity[index].x==hb.resTileSize*10 && npc.entity[index].active==true) {
-                            npc.entity[index].Health-=damage;
-                        healthTaker=true;
+                                    
+                                }
+                                else if(attackMode2==true) {
+                                    for(int index=0; index<npc.entity.length; index++) {
+                                        if (player.cursorX==2 && healthTaker==false) {
+                                            if (npc.entity[index].x==hb.resTileSize*10 && npc.entity[index].active==true) {
+                                                npc.entity[index].Health-=damage;
+                                            healthTaker=true;
+                                            }
+                                            
+                                        }
+                                        else if(player.cursorX==3 && healthTaker==false) {
+                                            if (npc.entity[index].x==hb.resTileSize*10+100 && npc.entity[index].active==true) {
+                                                npc.entity[index].Health-=damage;
+                                            healthTaker=true;
+                                            }
+                                        }
+                                    }
+                                    if(screenX!=200) {
+                                        screenX-=10;
+                                    }
+                                    else if(screenX==200){
+                                        if (screenY!=200) {
+                                            screenY+=10;
+                                        }
+                                        else if(screenY==200) {
+                                            npc.attacking=true;
+                                            player.cursorX=0;
+                                            healthTaker=false;
+                                            attackMode2=false;
+                                        }
+                                        
+                                    }
+                                    else {
+                                        SpriteNum=1;
+                                        screenX+=10;
+                                    }
+                                }
+                                    SpriteCounter++;
+                                        if(SpriteCounter>20) {
+                                            if(SpriteNum==1) {
+                                                SpriteNum=2;
+                                                
+                                            }
+                                            else if(SpriteNum==2) {
+                                                SpriteNum=1;
+                                                
+                                            }
+                                            SpriteCounter=0;
+                                        }
+                                
+                                
+                            }
+                           
                         }
-                        
-                    }
-                    else if(player.cursorX==3 && healthTaker==false) {
-                        if (npc.entity[index].x==hb.resTileSize*10+100 && npc.entity[index].active==true) {
-                            npc.entity[index].Health-=damage;
-                        healthTaker=true;
+                        public void interactWithObject(int i) {
+                            if (i!=999) {
+                                if (hb.keyBoi.enterPressed==true) {
+                                    if (hb.obj[i].name=="Chest") {
+                                        try {
+                                            hb.obj[i].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Objects/openChest.png"));
+                                        } catch (IOException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    else if(hb.obj[i].name=="Sign") {
+                                        if (readingSign==false && hb.keyBoi.hasMoved==false) {
+                                            readingSign=true;
+                                            hb.keyBoi.hasMoved=true;
+                                        }
+                                        else if(readingSign==true && hb.keyBoi.hasMoved==false) {
+                                            readingSign=false;
+                                            hb.keyBoi.hasMoved=true;
+                                        }
+                                    }
+                                }
+                            }
                         }
-                    }
-                }
-                if(screenX!=200) {
-                    screenX-=10;
-                }
-                else if(screenX==200){
-                    if (screenY!=200) {
-                        screenY+=10;
-                    }
-                    else if(screenY==200) {
-                        npc.attacking=true;
-                        player.cursorX=0;
-                        healthTaker=false;
-                        attackMode2=false;
-                    }
-                    
-                }
-                else {
-                    SpriteNum=1;
-                    screenX+=10;
-                }
-            }
-                SpriteCounter++;
-                    if(SpriteCounter>20) {
-                        if(SpriteNum==1) {
-                            SpriteNum=2;
-                            
-                        }
-                        else if(SpriteNum==2) {
-                            SpriteNum=1;
-                            
-                        }
-                        SpriteCounter=0;
-                    }
-            
-            
-        }
-       
-    }
-    public void playerImageLoader() {
+                        public void playerImageLoader() {
         try {
             up1=ImageIO.read(getClass().getResourceAsStream("/Resources/Player2/Player2Up1.png"));
             up2=ImageIO.read(getClass().getResourceAsStream("/Resources/Player2/Player2Up2.png"));
@@ -212,6 +257,9 @@ public class Player2 extends Entity{
         }
     }
     public void draw(Graphics2D g2) {
+        if (readingSign==true) {
+            hb.textboi.draw(g2, "FUCK YOU PLAYER 2", 100, 100, hb.resTileSize/2, hb.resTileSize/2);
+        }
         if (Health<=0) {
             if (player.Health<=0) {
                 if (dedCounter<240) {

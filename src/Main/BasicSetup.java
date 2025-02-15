@@ -13,6 +13,7 @@ public class BasicSetup {
         The_Hub JPwindow=new The_Hub();
         JFwindow.add(JPwindow);
         JFwindow.pack();
+        JPwindow.setupGame();
         JPwindow.startGameThread();
     }
 }

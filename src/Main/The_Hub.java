@@ -13,6 +13,7 @@ import Entities.Player2;
 import Entities.Skelly;
 import FightingSystem.fightMenus;
 import FightingSystem.healthManager;
+import Object.object;
 import Tile.TileManager;
 
 import java.awt.Color;
@@ -47,9 +48,9 @@ public class The_Hub extends JPanel  implements Runnable{
     public int gSelectedY=0;
     final int FPS=60;
     Thread gameThread;
-    TileManager tileguy=new TileManager(this);
-    TextReader textboi=new TextReader(this);
-    keyInput keyBoi=new keyInput();
+    public TileManager tileguy=new TileManager(this);
+    public TextReader textboi=new TextReader(this);
+    public keyInput keyBoi=new keyInput();
     Nec necromancer=new Nec(this);
     Skelly skellywag=new Skelly(this);
     NPC npc=new NPC(this, skellywag, necromancer, textboi);
@@ -58,7 +59,9 @@ public class The_Hub extends JPanel  implements Runnable{
     public Player2 player2=new Player2(this, keyBoi2, player, npc, textboi);
     healthManager health=new healthManager(this, player);
     fightMenus fightingboi=new fightMenus(this, player, keyBoi, textboi, player2, health, npc);
+    public objectHandler objHandler=new objectHandler(this);
     public CollisionChecker cChecker=new CollisionChecker(this);
+    public object obj[]=new object[10];
     public Entity[] Players=new Entity[]{
         player,
         player2
@@ -70,6 +73,9 @@ public class The_Hub extends JPanel  implements Runnable{
         this.addKeyListener(keyBoi);
         this.addKeyListener(keyBoi2);
         this.setFocusable(true);
+    }
+    public void setupGame() {
+        objHandler.setObject();
     }
     public void startGameThread() {
         gameThread=new Thread(this);
@@ -109,6 +115,13 @@ public class The_Hub extends JPanel  implements Runnable{
         super.paintComponent(g);
         Graphics2D g2=(Graphics2D)g;
         tileguy.draw(g2);
+        for (int i=0;i<obj.length; i++) {
+            if (obj[i]!=null) {
+                if (obj[i].locationX==player.XLevel && obj[i].locationY==player.YLevel) {
+                    obj[i].draw(g2,this);
+                }
+            }
+        }
         player2.draw(g2);
         player.draw(g2);
         npc.draw(g2);

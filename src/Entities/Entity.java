@@ -35,6 +35,7 @@ public class Entity {
     public BufferedImage Dead1;
     public BufferedImage Dead2;
     public Rectangle colBox;
+    public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn=false;
     public int worldX;
     public int worldY;
