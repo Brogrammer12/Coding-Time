@@ -48,6 +48,7 @@ public class The_Hub extends JPanel  implements Runnable{
     public int gSelectedY=0;
     final int FPS=60;
     Thread gameThread;
+    public Sound sound=new Sound();
     public TileManager tileguy=new TileManager(this);
     public TextReader textboi=new TextReader(this);
     public keyInput keyBoi=new keyInput();
@@ -76,6 +77,12 @@ public class The_Hub extends JPanel  implements Runnable{
     }
     public void setupGame() {
         objHandler.setObject();
+        if (player.fightMode==false) {
+            playMusic(0);
+        }
+        else {
+            playMusic(1);
+        }
     }
     public void startGameThread() {
         gameThread=new Thread(this);
@@ -128,6 +135,15 @@ public class The_Hub extends JPanel  implements Runnable{
             fightingboi.draw(g2);
         g2.dispose();
 
+    }
+    public void playMusic(int i) {
+        sound.playBackgroundMusic(i);
+    }
+    public void stopMusic() {
+        sound.stopBackgroundMusic();
+    }
+    public void soundEffect(int i) {
+        sound.playSoundEffect(i);
     }
 
 }

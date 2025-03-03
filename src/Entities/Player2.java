@@ -24,8 +24,11 @@ public class Player2 extends Entity{
     public boolean dedNum=false;
     public boolean load=false;
     public boolean readingSign=false;
+    public int objIndex;
+    public int I=90;
     NPC npc;
     Player player;
+    public boolean fuck=false;
     public Player2(The_Hub hb, keyInput2 k, Player player, NPC npc, TextReader t) {
         this.hb=hb;
         this.k=k;
@@ -58,7 +61,7 @@ public class Player2 extends Entity{
         moveSpeed=4;
         direction="down";
         SpriteNum=1;
-        fightMode=false;
+        fightMode=true;
             Width=hb.resTileSize;
             Height=hb.resTileSize;
 
@@ -83,7 +86,7 @@ public class Player2 extends Entity{
                     }
                     collisionOn=false;
                     hb.cChecker.checkTile(this);
-                    int objIndex=hb.cChecker.checkObject(this, true);
+                     objIndex=hb.cChecker.checkObject(this, true);
                     interactWithObject(objIndex);
                                         if (collisionOn==false) {
                                             switch (direction) {
@@ -129,6 +132,10 @@ public class Player2 extends Entity{
                                             screenY-=10;
                                         }
                                         else {
+                                            if (fuck==false) {
+                                                hb.soundEffect(3);
+                                                fuck=true;
+                                            }
                                             attackSpriteCounter++;
                                     if(attackSpriteCounter>4) {
                                         attackSpriteNum++;
@@ -182,6 +189,7 @@ public class Player2 extends Entity{
                                             player.cursorX=0;
                                             healthTaker=false;
                                             attackMode2=false;
+                                            fuck=false;
                                         }
                                         
                                     }
@@ -208,28 +216,7 @@ public class Player2 extends Entity{
                            
                         }
                         public void interactWithObject(int i) {
-                            if (i!=999) {
-                                if (hb.keyBoi.enterPressed==true) {
-                                    if (hb.obj[i].name=="Chest") {
-                                        try {
-                                            hb.obj[i].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Objects/openChest.png"));
-                                        } catch (IOException e) {
-                                            // TODO Auto-generated catch block
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                    else if(hb.obj[i].name=="Sign") {
-                                        if (readingSign==false && hb.keyBoi.hasMoved==false) {
-                                            readingSign=true;
-                                            hb.keyBoi.hasMoved=true;
-                                        }
-                                        else if(readingSign==true && hb.keyBoi.hasMoved==false) {
-                                            readingSign=false;
-                                            hb.keyBoi.hasMoved=true;
-                                        }
-                                    }
-                                }
-                            }
+                           
                         }
                         public void playerImageLoader() {
         try {
@@ -257,9 +244,26 @@ public class Player2 extends Entity{
         }
     }
     public void draw(Graphics2D g2) {
-        if (readingSign==true) {
-            hb.textboi.draw(g2, "FUCK YOU PLAYER 2", 100, 100, hb.resTileSize/2, hb.resTileSize/2);
-        }
+        int differenceX;
+        int differenceY;
+            if (I!=90) {
+                differenceX=worldX-(hb.obj[I].worldX+hb.resTileSize/2);
+             differenceY=worldY-(hb.obj[I].worldY+hb.resTileSize/2);
+            }
+            else {
+                differenceX=0;
+                differenceY=0;
+            }
+            if (differenceX>hb.resTileSize || differenceY>hb.resTileSize) {
+                hb.obj[I].yeItCollided=false;
+            }
+            if (I!=90 && hb.obj[I].yeItCollided==true) {
+                hb.obj[I].interaction(g2);
+            }
+            if (objIndex!=999) {
+                I=objIndex;
+                hb.obj[objIndex].yeItCollided=true;
+            }
         if (Health<=0) {
             if (player.Health<=0) {
                 if (dedCounter<240) {
@@ -274,6 +278,8 @@ public class Player2 extends Entity{
                     player.fightMode=false;
                     fightMode=false;
                     dedNum=true;
+                    hb.stopMusic();
+                    hb.playMusic(0);
                     dedCounter=0;
                     player.Health=50;
                     Health=50;
@@ -306,6 +312,8 @@ public class Player2 extends Entity{
                 screenX=hb.screenWidth/2-hb.resTileSize/2;
                 screenY=hb.screenHeight/2-hb.resTileSize/2;
             player.fightMode=false;
+            hb.stopMusic();
+            hb.playMusic(0);
             this.fightMode=false;
             someLeft=false;
             uWon=false;

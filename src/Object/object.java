@@ -4,8 +4,12 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import Main.The_Hub;
 public class object {
+    public void interaction(Graphics2D g2) {
+        //do yo shit here
+    }
 public BufferedImage image;
 public String name;
+public boolean yeItCollided=false;
 public boolean collision=false;
 public int worldX, worldY;
 public int locationX;

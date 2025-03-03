@@ -11,7 +11,7 @@ public class Nec extends Entity{
 The_Hub hb;
     public Nec(The_Hub hb) {
         this.hb=hb;
-        active=false;
+        active=true;
         attack=new BufferedImage[2];
         moveToFight=false;
         attacking=false;

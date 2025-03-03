@@ -3,6 +3,7 @@ import Main.The_Hub;
 import Main.keyInput;
 import Tile.TileManager;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -32,10 +33,16 @@ public class Player extends Entity{
     public boolean mapBorder=false;
     public boolean load=false;
     public boolean readingSign=false;
+    public boolean menu=false;
     String biome;
-    String[][] location=new String[10][4];
+    public int I=90;
+    public int objIndex;
+    public boolean interact;
+    public String[][] location=new String[10][4];
     public int YLevel=0;
     public int XLevel=1;
+    public int goldNuggets=0;
+    public boolean fuck=false;
     public Player(The_Hub hb, keyInput k, NPC npc, TileManager tileguy) {
         location[1] [0]="/Resources/tileMaps/startingarea.txt";
         location[1] [1]="/Resources/tileMaps/the_path.txt";
@@ -88,7 +95,7 @@ public class Player extends Entity{
         moveSpeed=4;
         direction="down";
         SpriteNum=1;
-        fightMode=false;
+        fightMode=true;
         buttonX=0;
         Selector=0;
         cursorX=0;
@@ -190,9 +197,9 @@ public class Player extends Entity{
                     }
                     collisionOn=false;
                     hb.cChecker.checkTile(this);
-                    int objIndex=hb.cChecker.checkObject(this, true);
+                    objIndex=hb.cChecker.checkObject(this, true);
                     interactWithObject(objIndex);
-                    if (collisionOn==false) {
+                    if (collisionOn==false && readingSign==false) {
                         switch(direction) {
                             case "up":
                             if (mapBorder==false) {
@@ -379,6 +386,10 @@ public class Player extends Entity{
                             screenY+=10;
                         }
                         else {
+                            if (fuck==false) {
+                                hb.soundEffect(3);
+                                fuck=true;
+                            }
                             attackSpriteCounter++;
                     if(attackSpriteCounter>4) {
                         attackSpriteNum++;
@@ -435,6 +446,7 @@ public class Player extends Entity{
                             cursorX=0;
                             healthTaker=false;
                             attackMode2=false;
+                            fuck=false;
                         }
                     }
                     else {
@@ -460,28 +472,7 @@ public class Player extends Entity{
         
         }
         public void interactWithObject(int i) {
-            if (i!=999) {
-                if (k.enterPressed==true) {
-                    if (hb.obj[i].name=="Chest") {
-                        try {
-                            hb.obj[i].image=ImageIO.read(getClass().getResourceAsStream("/Resources/Objects/openChest.png"));
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-                    else if(hb.obj[i].name=="Sign") {
-                        if (readingSign==false && k.hasMoved==false) {
-                            readingSign=true;
-                            k.hasMoved=true;
-                        }
-                        else if(readingSign==true && k.hasMoved==false) {
-                            readingSign=false;
-                            k.hasMoved=true;
-                        }
-                    }
-                }
-            }
+            interact=true;
         }
        
     
@@ -511,11 +502,31 @@ public class Player extends Entity{
         }
     }
     public void draw(Graphics2D g2) {
+        hb.textboi.draw(g2, "NUGGETS: "+goldNuggets, 0, 0, hb.resTileSize/2, hb.resTileSize/2);
+        hb.textboi.draw(g2, "HEALTH: "+Health, hb.maxScreenHoriz*hb.resTileSize-5*hb.resTileSize, 0, hb.resTileSize/2, hb.resTileSize/2);
+        int differenceX;
+        int differenceY;
+            if (I!=90) {
+                differenceX=worldX-(hb.obj[I].worldX+hb.resTileSize/2);
+             differenceY=worldY-(hb.obj[I].worldY+hb.resTileSize/2);
+            }
+            else {
+                differenceX=0;
+                differenceY=0;
+            }
+            if (Math.abs(differenceX)>hb.resTileSize || Math.abs(differenceY)>hb.resTileSize) {
+                hb.obj[I].yeItCollided=false;
+            }
+            if (I!=90 && hb.obj[I].yeItCollided==true) {
+                hb.obj[I].interaction(g2);
+            }
+            if (objIndex!=999) {
+                I=objIndex;
+                hb.obj[objIndex].yeItCollided=true;
+            }
+        
         BufferedImage image=null;
         if(fightMode==false) {
-            if (readingSign==true) {
-                hb.textboi.draw(g2, "UR GAY", 100, 100, hb.resTileSize/2, hb.resTileSize/2);
-            }
             switch(direction) {
                 case "up":
                 if(SpriteNum==1) {
@@ -623,6 +634,22 @@ public class Player extends Entity{
             System.out.println("I worked");
         }
                 g2.drawImage(image, screenX, screenY, Width, Height, null);
+                if (fightMode==false) {
+                    if (k.escPressed==true && k.hasMoved==false) {
+                        if (menu==false) {
+                            menu=true;
+                        }
+                        else if(menu==true) {
+                            menu=false;
+                        }
+                        k.hasMoved=true;
+                    }
+                    if (menu==true) {
+                        g2.setColor(Color.BLACK);
+                        g2.fillRect((hb.maxScreenHoriz*hb.resTileSize)/2-4*hb.resTileSize, (hb.maxScreenVert*hb.resTileSize)/2-5*hb.resTileSize, 8*hb.resTileSize, 9*hb.resTileSize);
+                        hb.textboi.draw(g2, "NUGGETS:"+goldNuggets, differenceY, differenceY, differenceX, differenceY);
+                    }
+                }
             
     }
 }

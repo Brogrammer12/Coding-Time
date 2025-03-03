@@ -502,6 +502,8 @@ public void draw(Graphics2D g2) {
                             npc.entity[index].active=false;
                         }
                         player.fightMode=false;
+                        hb.stopMusic();
+                        hb.playMusic(0);
                     p2.fightMode=false;
                     player.screenX=hb.screenWidth/2-hb.resTileSize/2;
                 player.screenY=hb.screenHeight/2-hb.resTileSize/2;
