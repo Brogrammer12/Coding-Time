@@ -29,6 +29,7 @@ public class Player2 extends Entity{
     NPC npc;
     Player player;
     public boolean fuck=false;
+    public boolean fucku=false;
     public Player2(The_Hub hb, keyInput2 k, Player player, NPC npc, TextReader t) {
         this.hb=hb;
         this.k=k;
@@ -162,6 +163,10 @@ public class Player2 extends Entity{
                                     
                                 }
                                 else if(attackMode2==true) {
+                                    if (fucku==false) {
+                                        hb.soundEffect(4);
+                                        fucku=true;
+                                    }  
                                     for(int index=0; index<npc.entity.length; index++) {
                                         if (player.cursorX==2 && healthTaker==false) {
                                             if (npc.entity[index].x==hb.resTileSize*10 && npc.entity[index].active==true) {
@@ -190,6 +195,7 @@ public class Player2 extends Entity{
                                             healthTaker=false;
                                             attackMode2=false;
                                             fuck=false;
+                                            fucku=false;
                                         }
                                         
                                     }

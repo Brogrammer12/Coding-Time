@@ -24,6 +24,8 @@ public class NPC extends Entity{
     public boolean entity1=false;
     public boolean entity2=false;
     TextReader t;
+    public boolean sound=false;
+    public boolean othersound=false;
     public NPC(The_Hub hb, Skelly Skellywag, Nec Necromancer, TextReader t) {
         this.hb=hb;
         this.t=t;
@@ -99,6 +101,10 @@ public class NPC extends Entity{
                                             }
                                     }
                                     else if(moveDone==true) {
+                                        if (othersound==false) {
+                                            hb.soundEffect(6);
+                                            othersound=true;
+                                        }
                                         switch(SpriteNum) {
                                             case 1:
                                             image=entity[index].attack[0];
@@ -108,6 +114,9 @@ public class NPC extends Entity{
                                         }
                                         timeUp=true;
                                         if (timer==60) {
+                                            if (timeUp==true) {
+                                                hb.soundEffect(4);
+                                            }
                                             timeUp=false;
                                             entity[index].x+=10;
                                         if (entity[index].x==hb.resTileSize*10) {
@@ -122,6 +131,7 @@ public class NPC extends Entity{
                                             moveDone=false;
                                             f1=false;
                                             Switch=true;
+                                            othersound=false;
                                             fighter=2;
                                             
                                         }
@@ -214,6 +224,10 @@ public class NPC extends Entity{
                             }
                             timeUp=true;
                             if (timer!=60) {
+                                if (sound==false) {
+                                    hb.soundEffect(5);
+                                    sound=true;
+                                }
                                 switch(SpriteNum) {
                                     case 1:
                                     Attack=entity[index].attack[0];
@@ -224,12 +238,14 @@ public class NPC extends Entity{
                             }
                             else if(timer==60) {
                                 if (Pl==0) {
+                                    hb.soundEffect(4);
                                     hb.Players[0].Health-=entity[index].damage;
                                     if (hb.Players[0].defendMode==true) {
                                         hb.Players[0].Health+=hb.Players[0].defenseValue;
                                     }
                                 }
                                 else if(Pl==1) {
+                                    hb.soundEffect(4);
                                     hb.Players[1].Health-=entity[index].damage;
                                     if (hb.Players[1].defendMode==true) {
                                         hb.Players[1].Health+=hb.Players[1].defenseValue;
@@ -237,6 +253,7 @@ public class NPC extends Entity{
                                 }
                                 timeUp=false;
                                 f1=false;
+                                sound=false;
                                 timer=0;
                                 fighter=2;
                             }
@@ -270,6 +287,10 @@ public class NPC extends Entity{
                                                 }
                                         }
                                         else if(moveDone==true) {
+                                            if (othersound==false) {
+                                                hb.soundEffect(6);
+                                                othersound=true;
+                                            }
                                             switch(SpriteNum) {
                                                 case 1:
                                                 image=entity[index].attack[0];
@@ -279,6 +300,10 @@ public class NPC extends Entity{
                                             }
                                             timeUp=true;
                                             if (timer==60) {
+                                                if (sound==false) {
+                                                    hb.soundEffect(4);
+                                                    sound=true;
+                                                }
                                                 timeUp=false;
                                                 entity[index].x+=10;
                                             if (entity[index].x==hb.resTileSize*10+100) {
@@ -295,6 +320,8 @@ public class NPC extends Entity{
                                                 moveDone=false;
                                                 fighter=1;
                                                 attacking=false;
+                                                sound=false;
+                                                othersound=false;
                                             }
                                             }
                                         }
@@ -322,6 +349,10 @@ public class NPC extends Entity{
                                                 }
                                         }
                                         else if(moveDone==true) {
+                                            if (othersound==false) {
+                                                hb.soundEffect(6);
+                                                othersound=true;
+                                            }
                                             switch(SpriteNum) {
                                                 case 1:
                                                 image=entity[index].attack[0];
@@ -332,6 +363,10 @@ public class NPC extends Entity{
                                             }
                                             timeUp=true;
                                             if (timer==60) {
+                                                if (sound==false) {
+                                                    hb.soundEffect(4);
+                                                    sound=true;
+                                                }
                                                 timeUp=false;
                                                 if (entity[index].x!=hb.resTileSize*10+100) {
                                                     entity[index].x+=10;
@@ -354,6 +389,8 @@ public class NPC extends Entity{
                                                         moveDone=false;
                                                         fighter=1;
                                                         attacking=false;
+                                                        sound=false;
+                                                        othersound=false;
                                                     }
                                                 }
                                             }
@@ -396,6 +433,7 @@ public class NPC extends Entity{
                                 }
                                 else if(timer==60) {
                                     if (Pl==0) {
+                                        hb.soundEffect(4);
                                         hb.Players[0].Health-=entity[index].damage;
                                         if (hb.Players[0].defendMode==true) {
                                             hb.Players[0].Health+=hb.Players[0].defenseValue;
@@ -403,6 +441,7 @@ public class NPC extends Entity{
                                         }
                                     }
                                     else if(Pl==1) {
+                                        hb.soundEffect(4);
                                         hb.Players[1].Health-=entity[index].damage;
                                         if (hb.Players[1].defendMode==true) {
                                             hb.Players[1].Health+=hb.Players[1].defenseValue;

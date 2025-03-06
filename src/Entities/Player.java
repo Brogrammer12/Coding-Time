@@ -43,6 +43,7 @@ public class Player extends Entity{
     public int XLevel=1;
     public int goldNuggets=0;
     public boolean fuck=false;
+    public boolean fucku=false;
     public Player(The_Hub hb, keyInput k, NPC npc, TileManager tileguy) {
         location[1] [0]="/Resources/tileMaps/startingarea.txt";
         location[1] [1]="/Resources/tileMaps/the_path.txt";
@@ -403,7 +404,7 @@ public class Player extends Entity{
                         }
                         
                     }
-                    else if(attackMode2==true) {    
+                    else if(attackMode2==true) {  
                         if(screenX!=100) {
                             screenX-=10;
                         }
@@ -417,6 +418,10 @@ public class Player extends Entity{
                     
                 }
                 else if(attackMode2==true) {
+                    if (fucku==false) {
+                        hb.soundEffect(4);
+                        fucku=true;
+                    }  
                     for(int index=0; index<npc.entity.length; index++) {
                         if (cursorX==2 && healthTaker==false) {
                             if (npc.entity[index].x==hb.resTileSize*10 && npc.entity[index].active==true) {
@@ -447,6 +452,7 @@ public class Player extends Entity{
                             healthTaker=false;
                             attackMode2=false;
                             fuck=false;
+                            fucku=false;
                         }
                     }
                     else {

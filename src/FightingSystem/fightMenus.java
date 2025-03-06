@@ -27,6 +27,7 @@ public class fightMenus {
     NPC npc;
     healthManager healthy;
     BufferedImage fight, fightSelected, defend, defendSelected, item, itemSelected, flee, fleeSelected, selector, health;
+    public boolean othersound=false;
 public fightMenus(The_Hub hb, Player player, keyInput k, TextReader t, Player2 p2, healthManager healthy, NPC npc) {
 this.hb=hb;
 this.player=player;
@@ -125,6 +126,7 @@ public void draw(Graphics2D g2) {
             }
         }
         if(hb.flee==false && hb.item==false && hb.defend==false && hb.fight==false && k.enterPressed==true && k.hasMoved==false && hb.charSelected==false && npc.attacking==false) {
+                hb.soundEffect(7);
                 if(fleeImage==fleeSelected) {
                     hb.flee=true;
                     hb.fight=false;
