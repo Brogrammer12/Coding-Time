@@ -44,12 +44,23 @@ public class Player extends Entity{
     public int goldNuggets=0;
     public boolean fuck=false;
     public boolean fucku=false;
+    public boolean p2check=false;
+    public String Armor="NONE";
+    public String weapon="SWORD";
+    public int menuSelector;
+    public int menuX;
+    public int menuY;
     public Player(The_Hub hb, keyInput k, NPC npc, TileManager tileguy) {
+        menuSelector=0;
+        menuX=0;
+        menuY=0;
         location[1] [0]="/Resources/tileMaps/startingarea.txt";
         location[1] [1]="/Resources/tileMaps/the_path.txt";
         location[1] [2]="/Resources/tileMaps/worldMap.txt";
         location[1] [3]="/Resources/tileMaps/forest.txt";
         location[0] [3]="/Resources/tileMaps/forestTreasure.txt";
+        location[2] [2]="/Resources/tileMaps/nope.txt";
+        location[0] [2]="/Resources/tileMaps/yup.txt";
         this.tileguy=tileguy;
         this.hb=hb;
         this.k=k;
@@ -513,8 +524,8 @@ public class Player extends Entity{
         int differenceX;
         int differenceY;
             if (I!=90) {
-                differenceX=worldX-(hb.obj[I].worldX+hb.resTileSize/2);
-             differenceY=worldY-(hb.obj[I].worldY+hb.resTileSize/2);
+                differenceX=(worldX+hb.resTileSize/2)-(hb.obj[I].worldX+hb.resTileSize/2);
+             differenceY=(worldY+hb.resTileSize/2)-(hb.obj[I].worldY+hb.resTileSize/2);
             }
             else {
                 differenceX=0;
@@ -522,6 +533,7 @@ public class Player extends Entity{
             }
             if (Math.abs(differenceX)>hb.resTileSize || Math.abs(differenceY)>hb.resTileSize) {
                 hb.obj[I].yeItCollided=false;
+                p2check=true;
             }
             if (I!=90 && hb.obj[I].yeItCollided==true) {
                 hb.obj[I].interaction(g2);
@@ -529,6 +541,7 @@ public class Player extends Entity{
             if (objIndex!=999) {
                 I=objIndex;
                 hb.obj[objIndex].yeItCollided=true;
+                p2check=false;
             }
         
         BufferedImage image=null;
@@ -651,9 +664,48 @@ public class Player extends Entity{
                         k.hasMoved=true;
                     }
                     if (menu==true) {
+                        if (k.downPressed==true && k.hasMoved==false) {
+                            if (menuSelector>=2) {
+                                menuSelector=0;
+                            }
+                            else {
+                                menuSelector++;
+                            }
+                            k.hasMoved=true;
+                        }
+                        else if(k.upPressed==true && k.hasMoved==false) {
+                            if (menuSelector<=0) {
+                                menuSelector=2;
+                            }
+                            else {
+                                menuSelector--;
+                            }
+                            k.hasMoved=true;
+                        }
                         g2.setColor(Color.BLACK);
-                        g2.fillRect((hb.maxScreenHoriz*hb.resTileSize)/2-4*hb.resTileSize, (hb.maxScreenVert*hb.resTileSize)/2-5*hb.resTileSize, 8*hb.resTileSize, 9*hb.resTileSize);
-                        hb.textboi.draw(g2, "NUGGETS:"+goldNuggets, differenceY, differenceY, differenceX, differenceY);
+                        g2.fillRect((hb.maxScreenHoriz*hb.resTileSize)/2-13*hb.resTileSize/2, (hb.maxScreenVert*hb.resTileSize)/2-6*hb.resTileSize, 12*hb.resTileSize, 13*hb.resTileSize);
+                        hb.textboi.draw(g2, "NUGGETS:"+goldNuggets, 100, 20, hb.resTileSize/2, hb.resTileSize/2);
+                        hb.textboi.draw(g2, "HP:"+Health, 100, 80, hb.resTileSize/2, hb.resTileSize/2);
+                        hb.textboi.draw(g2, "ARMOR:"+Armor, 350, 20, hb.resTileSize/2, hb.resTileSize/2);
+                        hb.textboi.draw(g2, "WEAPON:"+weapon, 350, 80, hb.resTileSize/2, hb.resTileSize/2);
+                        hb.textboi.draw(g2, "EQUIP", 270, 230, hb.resTileSize/2, hb.resTileSize/2);
+                        hb.textboi.draw(g2, "SETTINGS", 245, 320, hb.resTileSize/2, hb.resTileSize/2);
+                        hb.textboi.draw(g2, "EXIT GAME", 240, 410, hb.resTileSize/2, hb.resTileSize/2);
+                        switch (menuSelector) {
+                            case 0:
+                            menuX=200;
+                            menuY=220;
+                            break;
+                            case 1:
+                            menuX=180;
+                            menuY=310;
+                            break;
+                            case 2:
+                            menuX=170;
+                            menuY=400;
+                        }
+                        g2.drawImage(hb.fightingboi.selector, menuX, menuY, hb.resTileSize, hb.resTileSize, null);
+
                     }
                 }
             

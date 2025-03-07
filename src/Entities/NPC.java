@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 
 import Main.TextReader;
 import Main.The_Hub;
-import Main.keyInput;
 
 public class NPC extends Entity{
     The_Hub hb;
@@ -102,7 +101,7 @@ public class NPC extends Entity{
                                     }
                                     else if(moveDone==true) {
                                         if (othersound==false) {
-                                            hb.soundEffect(6);
+                                            hb.soundEffect(entity[index].soundurl);
                                             othersound=true;
                                         }
                                         switch(SpriteNum) {
@@ -225,7 +224,7 @@ public class NPC extends Entity{
                             timeUp=true;
                             if (timer!=60) {
                                 if (sound==false) {
-                                    hb.soundEffect(5);
+                                    hb.soundEffect(entity[index].soundurl);
                                     sound=true;
                                 }
                                 switch(SpriteNum) {
@@ -288,7 +287,7 @@ public class NPC extends Entity{
                                         }
                                         else if(moveDone==true) {
                                             if (othersound==false) {
-                                                hb.soundEffect(6);
+                                                hb.soundEffect(entity[index].soundurl);
                                                 othersound=true;
                                             }
                                             switch(SpriteNum) {
@@ -350,7 +349,7 @@ public class NPC extends Entity{
                                         }
                                         else if(moveDone==true) {
                                             if (othersound==false) {
-                                                hb.soundEffect(6);
+                                                hb.soundEffect(entity[index].soundurl);
                                                 othersound=true;
                                             }
                                             switch(SpriteNum) {

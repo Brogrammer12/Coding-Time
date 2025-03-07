@@ -14,6 +14,7 @@ this.hb=hb;
 active=true;
 moveToFight=true;
 attacking=false;
+soundurl=6;
 maxHealth=50;
 damage=10;
 attack=new BufferedImage[2];

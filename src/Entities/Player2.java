@@ -252,15 +252,16 @@ public class Player2 extends Entity{
     public void draw(Graphics2D g2) {
         int differenceX;
         int differenceY;
+        if (hb.player.p2check==true) {
             if (I!=90) {
-                differenceX=worldX-(hb.obj[I].worldX+hb.resTileSize/2);
-             differenceY=worldY-(hb.obj[I].worldY+hb.resTileSize/2);
+                differenceX=(worldX+hb.resTileSize/2)-(hb.obj[I].worldX+hb.resTileSize/2);
+             differenceY=(worldY+hb.resTileSize/2)-(hb.obj[I].worldY+hb.resTileSize/2);
             }
             else {
                 differenceX=0;
                 differenceY=0;
             }
-            if (differenceX>hb.resTileSize || differenceY>hb.resTileSize) {
+            if (Math.abs(differenceX)>hb.resTileSize || Math.abs(differenceY)>hb.resTileSize) {
                 hb.obj[I].yeItCollided=false;
             }
             if (I!=90 && hb.obj[I].yeItCollided==true) {
@@ -270,6 +271,7 @@ public class Player2 extends Entity{
                 I=objIndex;
                 hb.obj[objIndex].yeItCollided=true;
             }
+        }
         if (Health<=0) {
             if (player.Health<=0) {
                 if (dedCounter<240) {

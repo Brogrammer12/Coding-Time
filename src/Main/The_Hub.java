@@ -59,7 +59,7 @@ public class The_Hub extends JPanel  implements Runnable{
     keyInput2 keyBoi2=new keyInput2();
     public Player2 player2=new Player2(this, keyBoi2, player, npc, textboi);
     healthManager health=new healthManager(this, player);
-    fightMenus fightingboi=new fightMenus(this, player, keyBoi, textboi, player2, health, npc);
+    public fightMenus fightingboi=new fightMenus(this, player, keyBoi, textboi, player2, health, npc);
     public objectHandler objHandler=new objectHandler(this);
     public CollisionChecker cChecker=new CollisionChecker(this);
     public object obj[]=new object[10];

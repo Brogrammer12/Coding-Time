@@ -41,4 +41,5 @@ public class Entity {
     public int worldY;
     public int screenX;
     public int screenY;
+    public int soundurl;
 }

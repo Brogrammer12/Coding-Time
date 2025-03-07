@@ -42,6 +42,7 @@ public class keyInput implements KeyListener{
         int KeyCode=e.getKeyCode();
         if(KeyCode==KeyEvent.VK_W) {
             upPressed=false;
+            hasMoved=false;
         }
         if(KeyCode==KeyEvent.VK_A) {
             leftPressed=false;
@@ -49,6 +50,7 @@ public class keyInput implements KeyListener{
         }
         if(KeyCode==KeyEvent.VK_S) {
             downPressed=false;
+            hasMoved=false;
         }
         if(KeyCode==KeyEvent.VK_D) {
             rightPressed=false;

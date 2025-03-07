@@ -12,6 +12,7 @@ The_Hub hb;
     public Nec(The_Hub hb) {
         this.hb=hb;
         active=true;
+        soundurl=5;
         attack=new BufferedImage[2];
         moveToFight=false;
         attacking=false;

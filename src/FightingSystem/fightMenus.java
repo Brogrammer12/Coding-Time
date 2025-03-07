@@ -26,7 +26,7 @@ public class fightMenus {
     Player2 p2;
     NPC npc;
     healthManager healthy;
-    BufferedImage fight, fightSelected, defend, defendSelected, item, itemSelected, flee, fleeSelected, selector, health;
+    public BufferedImage fight, fightSelected, defend, defendSelected, item, itemSelected, flee, fleeSelected, selector, health;
     public boolean othersound=false;
 public fightMenus(The_Hub hb, Player player, keyInput k, TextReader t, Player2 p2, healthManager healthy, NPC npc) {
 this.hb=hb;
