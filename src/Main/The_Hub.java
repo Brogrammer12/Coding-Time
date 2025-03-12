@@ -46,6 +46,9 @@ public class The_Hub extends JPanel  implements Runnable{
     public int wPlayer=1;
     public int gSelectedX=0;
     public int gSelectedY=0;
+    public int gameState;
+    public int playState=1;
+    public int pauseState=2;
     final int FPS=60;
     Thread gameThread;
     public Sound sound=new Sound();
@@ -83,6 +86,7 @@ public class The_Hub extends JPanel  implements Runnable{
         else {
             playMusic(1);
         }
+        gameState=playState;
     }
     public void startGameThread() {
         gameThread=new Thread(this);
@@ -111,9 +115,16 @@ public class The_Hub extends JPanel  implements Runnable{
         }
     }
     public void update() {
-        player2.update();
+        if (gameState==playState) {
+            player2.update();
         player.update();
         npc.update();
+        for (int i=0; i<npc.entity.length; i++) {
+            if (npc.entity[i]!=null) {
+                npc.entity[i].update();
+            }
+        }
+        }
 
     }
     public void paintComponent(Graphics g)  {
@@ -127,6 +138,11 @@ public class The_Hub extends JPanel  implements Runnable{
                 if (obj[i].locationX==player.XLevel && obj[i].locationY==player.YLevel) {
                     obj[i].draw(g2,this);
                 }
+            }
+        }
+        for (int i=0;i<npc.entity.length; i++) {
+            if (npc.entity[i]!=null) {
+                npc.entity[i].draw(g2);
             }
         }
         player2.draw(g2);

@@ -47,11 +47,16 @@ public class Player extends Entity{
     public boolean p2check=false;
     public String Armor="NONE";
     public String weapon="SWORD";
-    public int menuSelector;
+    public int menuSelectorY;
+    public int menuSelectorX;
     public int menuX;
     public int menuY;
+    public boolean settings=false;
+    public boolean equip=false;
     public Player(The_Hub hb, keyInput k, NPC npc, TileManager tileguy) {
-        menuSelector=0;
+        super(hb);
+        menuSelectorY=0;
+        menuSelectorX=0;
         menuX=0;
         menuY=0;
         location[1] [0]="/Resources/tileMaps/startingarea.txt";
@@ -211,7 +216,7 @@ public class Player extends Entity{
                     hb.cChecker.checkTile(this);
                     objIndex=hb.cChecker.checkObject(this, true);
                     interactWithObject(objIndex);
-                    if (collisionOn==false && readingSign==false) {
+                    if (collisionOn==false) {
                         switch(direction) {
                             case "up":
                             if (mapBorder==false) {
@@ -519,8 +524,6 @@ public class Player extends Entity{
         }
     }
     public void draw(Graphics2D g2) {
-        hb.textboi.draw(g2, "NUGGETS: "+goldNuggets, 0, 0, hb.resTileSize/2, hb.resTileSize/2);
-        hb.textboi.draw(g2, "HEALTH: "+Health, hb.maxScreenHoriz*hb.resTileSize-5*hb.resTileSize, 0, hb.resTileSize/2, hb.resTileSize/2);
         int differenceX;
         int differenceY;
             if (I!=90) {
@@ -654,57 +657,131 @@ public class Player extends Entity{
         }
                 g2.drawImage(image, screenX, screenY, Width, Height, null);
                 if (fightMode==false) {
-                    if (k.escPressed==true && k.hasMoved==false) {
+                    if (k.escPressed==true && k.hasMoved==false && settings==false && equip==false) {
                         if (menu==false) {
+                            hb.gameState=hb.pauseState;
                             menu=true;
                         }
                         else if(menu==true) {
+                            hb.gameState=hb.playState;
                             menu=false;
                         }
                         k.hasMoved=true;
                     }
                     if (menu==true) {
                         if (k.downPressed==true && k.hasMoved==false) {
-                            if (menuSelector>=2) {
-                                menuSelector=0;
+                            if (menuSelectorY>=2) {
+                                menuSelectorY=0;
                             }
                             else {
-                                menuSelector++;
+                                menuSelectorY++;
                             }
                             k.hasMoved=true;
                         }
                         else if(k.upPressed==true && k.hasMoved==false) {
-                            if (menuSelector<=0) {
-                                menuSelector=2;
+                            if (menuSelectorY<=0) {
+                                menuSelectorY=2;
                             }
                             else {
-                                menuSelector--;
+                                menuSelectorY--;
                             }
                             k.hasMoved=true;
                         }
                         g2.setColor(Color.BLACK);
                         g2.fillRect((hb.maxScreenHoriz*hb.resTileSize)/2-13*hb.resTileSize/2, (hb.maxScreenVert*hb.resTileSize)/2-6*hb.resTileSize, 12*hb.resTileSize, 13*hb.resTileSize);
-                        hb.textboi.draw(g2, "NUGGETS:"+goldNuggets, 100, 20, hb.resTileSize/2, hb.resTileSize/2);
-                        hb.textboi.draw(g2, "HP:"+Health, 100, 80, hb.resTileSize/2, hb.resTileSize/2);
-                        hb.textboi.draw(g2, "ARMOR:"+Armor, 350, 20, hb.resTileSize/2, hb.resTileSize/2);
-                        hb.textboi.draw(g2, "WEAPON:"+weapon, 350, 80, hb.resTileSize/2, hb.resTileSize/2);
-                        hb.textboi.draw(g2, "EQUIP", 270, 230, hb.resTileSize/2, hb.resTileSize/2);
-                        hb.textboi.draw(g2, "SETTINGS", 245, 320, hb.resTileSize/2, hb.resTileSize/2);
-                        hb.textboi.draw(g2, "EXIT GAME", 240, 410, hb.resTileSize/2, hb.resTileSize/2);
-                        switch (menuSelector) {
-                            case 0:
-                            menuX=200;
-                            menuY=220;
-                            break;
-                            case 1:
-                            menuX=180;
-                            menuY=310;
-                            break;
-                            case 2:
-                            menuX=170;
-                            menuY=400;
+                        if (settings==false && equip==false) {
+                            if (k.enterPressed==true && k.hasMoved==false) {
+                                switch(menuSelectorY) {
+                                    case 0:
+                                    equip=true;
+                                    break;
+                                    case 1:
+                                    settings=true;
+                                    break;
+                                    case 2:
+                                    System.exit(0);
+                                    break;
+                                }
+                                k.hasMoved=true;
+                            }
+                            hb.textboi.draw(g2, "NUGGETS:"+goldNuggets, 100, 20, hb.resTileSize/2, hb.resTileSize/2);
+                            hb.textboi.draw(g2, "HP:"+Health, 100, 80, hb.resTileSize/2, hb.resTileSize/2);
+                            hb.textboi.draw(g2, "ARMOR:"+Armor, 350, 20, hb.resTileSize/2, hb.resTileSize/2);
+                            hb.textboi.draw(g2, "WEAPON:"+weapon, 350, 80, hb.resTileSize/2, hb.resTileSize/2);
+                            hb.textboi.draw(g2, "EQUIP", 270, 230, hb.resTileSize/2, hb.resTileSize/2);
+                            hb.textboi.draw(g2, "SETTINGS", 245, 320, hb.resTileSize/2, hb.resTileSize/2);
+                            hb.textboi.draw(g2, "EXIT GAME", 240, 410, hb.resTileSize/2, hb.resTileSize/2);
+                            switch (menuSelectorY) {
+                                case 0:
+                                menuX=200;
+                                menuY=220;
+                                break;
+                                case 1:
+                                menuX=180;
+                                menuY=310;
+                                break;
+                                case 2:
+                                menuX=170;
+                                menuY=400;
+                            }
                         }
-                        g2.drawImage(hb.fightingboi.selector, menuX, menuY, hb.resTileSize, hb.resTileSize, null);
+                        else if(settings==true) {
+                            if (k.escPressed==true && k.hasMoved==false) {
+                                settings=false;
+                                k.hasMoved=true;
+                            }
+                            hb.textboi.draw(g2, "NONE FOR NOW", menuX, menuY, hb.resTileSize/2, hb.resTileSize/2);
+                            g2.drawImage(hb.fightingboi.selector, menuX, menuY,hb.resTileSize, hb.resTileSize, null);
+                        }
+                        else if(equip==true) {
+                             if (k.escPressed==true && k.hasMoved==false) {
+                                equip=false;
+                                k.hasMoved=true;
+                            }
+                            else if(k.leftPressed==true && k.hasMoved==false) {
+                                if (menuSelectorX<=1) {
+                                    menuSelectorX=items.length;
+                                }
+                                else {
+                                    menuSelectorX--;
+                                }
+                                k.hasMoved=true;
+                            }
+                            else if(k.rightPressed==true && k.hasMoved==false) {
+                                if (menuSelectorX>=items.length) {
+                                    menuSelectorX=1;
+                                }
+                                else {
+                                    menuSelectorX++;
+                                }
+                                k.hasMoved=true;
+                            }
+                            int[] XCounter=new int[items.length];
+            int firstX=0;
+            int e=0;
+            for(int index=0; index<items.length; index++) {
+                String urmom=items[index];
+                int pixelLength=urmom.length()*16;
+                if(index>0) {
+                    XCounter[index]=XCounter[index-1]+pixelLength;
+                }
+                if(index==0) {
+                    firstX=hb.resTileSize*2;
+                    XCounter[0]=pixelLength+hb.resTileSize;
+                }
+                else {
+                    firstX=XCounter[index-1]+(index*(hb.resTileSize))+hb.resTileSize;
+                }
+                hb.textboi.draw(g2, urmom, firstX, 7*hb.resTileSize/2, hb.resTileSize/3, hb.resTileSize/3);
+                if(index==menuSelectorX) {
+                    e=firstX-hb.resTileSize;
+                }
+            }
+            g2.drawImage(hb.fightingboi.selector, e, 7*hb.resTileSize/2, hb.resTileSize, hb.resTileSize, null);
+                        }
+                        if (settings==false && equip==false) {
+                            g2.drawImage(hb.fightingboi.selector, menuX, menuY, hb.resTileSize, hb.resTileSize, null);
+                        }
 
                     }
                 }

@@ -11,15 +11,20 @@ public class Skelly extends Entity{
 The_Hub hb;
     public Skelly(The_Hub hb) {
 this.hb=hb;
+super(hb);
 active=true;
+direction="down";
 moveToFight=true;
 attacking=false;
 soundurl=6;
 maxHealth=50;
+colBox=solidArea;
 damage=10;
 attack=new BufferedImage[2];
 x=hb.resTileSize*10+100;
 startX=hb.resTileSize*10+100;
+worldX=hb.maxWorldWidth/2;
+worldY=hb.maxWorldHeight/2;
 y=200;
 Health=50;
 skelLoader();

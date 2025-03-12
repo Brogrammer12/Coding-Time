@@ -27,6 +27,7 @@ public class NPC extends Entity{
     public boolean othersound=false;
     public NPC(The_Hub hb, Skelly Skellywag, Nec Necromancer, TextReader t) {
         this.hb=hb;
+        super(hb);
         this.t=t;
         timer=0;
         Pl=0;

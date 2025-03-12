@@ -32,6 +32,7 @@ public class Player2 extends Entity{
     public boolean fucku=false;
     public Player2(The_Hub hb, keyInput2 k, Player player, NPC npc, TextReader t) {
         this.hb=hb;
+        super(hb);
         this.k=k;
         this.t=t;
         colBox=new Rectangle(12, 21,30,27);
