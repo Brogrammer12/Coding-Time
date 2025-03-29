@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import Entities.Entity;
+import Entities.Humanoid;
 import Entities.NPC;
 import Entities.NPCsRelic;
 import Entities.Nec;
@@ -55,9 +56,7 @@ public class The_Hub extends JPanel  implements Runnable{
     public TileManager tileguy=new TileManager(this);
     public TextReader textboi=new TextReader(this);
     public keyInput keyBoi=new keyInput();
-    Nec necromancer=new Nec(this);
-    Skelly skellywag=new Skelly(this);
-    NPC npc=new NPC(this, skellywag, necromancer, textboi);
+    NPC npc=new NPC(this, textboi);
     public Player player=new Player(this, keyBoi, npc, tileguy);
     keyInput2 keyBoi2=new keyInput2();
     public Player2 player2=new Player2(this, keyBoi2, player, npc, textboi);

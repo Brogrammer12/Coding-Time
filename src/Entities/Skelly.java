@@ -15,6 +15,7 @@ super(hb);
 active=true;
 direction="down";
 moveToFight=true;
+Playing=true;
 attacking=false;
 soundurl=6;
 maxHealth=50;

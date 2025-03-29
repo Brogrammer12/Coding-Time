@@ -13,7 +13,8 @@ The_Hub hb;
     public Nec(The_Hub hb) {
         this.hb=hb;
         super(hb);
-        active=true;
+        active=false;
+        Playing=false;
         direction="down";
         moveSpeed=1;
         soundurl=5;

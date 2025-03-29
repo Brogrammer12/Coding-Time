@@ -284,31 +284,35 @@ public class Player extends Entity{
                                 buttonX+=1;
                                }
                         }
-                        else if(hb.charSelected==true) {
+                        else if(hb.charSelected==true) { 
                             if (cursorX==1) {
-                                if (npc.entity[0].active==true) {
-                                    cursorX=2;
-                                }
-                                else if(npc.entity[0].active==false) {
-                                    if (npc.entity[1].active==true) {
-                                        cursorX=3;
+                                for (int i=0; i<npc.entity.length; i++) {
+                                    if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*10) {
+                                        cursorX=2;
                                     }
-                                    else if(npc.entity[1].active==false) {
-                                        cursorX=0;
+                                    else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*10 && npc.entity[i].Playing==true) {
+                                        if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*10+100) {
+                                            cursorX=3;
+                                        }
+                                        else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*10+100 && npc.entity[i].Playing==true) {
+                                            cursorX=0;
+                                        }
+                                        
                                     }
-                                    
                                 }
                             }
                             else if(cursorX==2) {
-                                if (npc.entity[1].active==true) {
-                                    cursorX=3;
-                                }
-                                else if(npc.entity[1].active==false) {
-                                    if (this.active==true) {
-                                        cursorX=0;
+                                for (int i=0; i<npc.entity.length; i++) {
+                                    if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*10+100) {
+                                        cursorX=3;
                                     }
-                                    else if(this.active==false) {
-                                        cursorX=1;
+                                    else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*10+100 && npc.entity[i].Playing==true) {
+                                        if (this.active==true) {
+                                            cursorX=0;
+                                        }
+                                        else if(this.active==false) {
+                                            cursorX=1;
+                                        }
                                     }
                                 }
                             }
@@ -344,15 +348,17 @@ public class Player extends Entity{
                         }
                         else if(hb.charSelected==true) {
                             if (cursorX==3) {
-                                if (npc.entity[0].active==true) {
-                                    cursorX=2;
-                                }
-                                else if(npc.entity[0].active==false) {
-                                    if (hb.p2Active==true) {
-                                        cursorX=1;
+                                for (int i=0; i<npc.entity.length; i++) {
+                                    if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*10) {
+                                        cursorX=2;
                                     }
-                                    else if(hb.p2Active==false) {
-                                        cursorX=0;
+                                    else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*10) {
+                                        if (hb.p2Active==true) {
+                                            cursorX=1;
+                                        }
+                                        else if(hb.p2Active==false) {
+                                            cursorX=0;
+                                        }
                                     }
                                 }
                             }
@@ -371,15 +377,17 @@ public class Player extends Entity{
                             }
                             else {
                                 if(cursorX==0) {
-                                    if (npc.entity[1].active==true) {
-                                        cursorX=3;
-                                    }
-                                    else if(npc.entity[1].active==false) {
-                                        if (npc.entity[0].active==true) {
-                                            cursorX=2;
+                                    for (int i=0; i<npc.entity.length; i++) {
+                                        if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*10) {
+                                            cursorX=3;
                                         }
-                                        else if(npc.entity[0].active==false) {
-                                            cursorX=1;
+                                        else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*10+100 && npc.entity[i].Playing==true) {
+                                            if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*10) {
+                                                cursorX=2;
+                                            }
+                                            else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*10 && npc.entity[i].Playing==true) {
+                                                cursorX=1;
+                                            }
                                         }
                                     }
                                 }

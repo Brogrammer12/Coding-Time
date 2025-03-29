@@ -25,7 +25,7 @@ public class NPC extends Entity{
     TextReader t;
     public boolean sound=false;
     public boolean othersound=false;
-    public NPC(The_Hub hb, Skelly Skellywag, Nec Necromancer, TextReader t) {
+    public NPC(The_Hub hb, TextReader t) {
         this.hb=hb;
         super(hb);
         this.t=t;
@@ -36,7 +36,8 @@ public class NPC extends Entity{
         SpriteNum=1;
         this.entity=new Entity[]{
             new Nec(hb),
-            new Skelly(hb)
+            new Skelly(hb),
+            new Humanoid(hb)
         };
     }
     public void update() {
@@ -64,7 +65,8 @@ public class NPC extends Entity{
                 timer++;
             }
             for(int index=0; index<entity.length; index++) {
-                    switch (SpriteNum) {
+                if (entity[index].Playing==true) {
+                     switch (SpriteNum) {
                         case 1:
                         image=entity[index].bob1;
                         break;
@@ -460,6 +462,7 @@ public class NPC extends Entity{
                 if (entity[index].active==true) {
                     g2.drawImage(image, entity[index].x,entity[index].y,hb.fightWidth,hb.fightHeight, null);
                     g2.drawImage(Attack, attackX, attackY, hb.fightWidth, hb.fightHeight, null);
+                }
                 }
                 
             }
