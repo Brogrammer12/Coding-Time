@@ -10,8 +10,8 @@ import Main.The_Hub;
 public class Humanoid extends Entity{
     The_Hub hb;
     public Humanoid(The_Hub hb) {
-        this.hb=hb;
         super(hb);
+        this.hb=hb;
         Playing=true;
         active=true;
         direction="down";
@@ -38,7 +38,6 @@ public class Humanoid extends Entity{
                 attack[0]=ImageIO.read(getClass().getResourceAsStream("/Resources/NPCs/HumanoidAttack1.png"));
                 attack[1]=ImageIO.read(getClass().getResourceAsStream("/Resources/NPCs/HumanoidAttack2.png"));
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
     }

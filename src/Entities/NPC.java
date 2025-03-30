@@ -26,8 +26,8 @@ public class NPC extends Entity{
     public boolean sound=false;
     public boolean othersound=false;
     public NPC(The_Hub hb, TextReader t) {
-        this.hb=hb;
         super(hb);
+        this.hb=hb;
         this.t=t;
         timer=0;
         Pl=0;

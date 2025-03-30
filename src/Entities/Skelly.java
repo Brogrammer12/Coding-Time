@@ -10,8 +10,8 @@ import Main.The_Hub;
 public class Skelly extends Entity{
 The_Hub hb;
     public Skelly(The_Hub hb) {
+        super(hb);
 this.hb=hb;
-super(hb);
 active=true;
 direction="down";
 moveToFight=true;

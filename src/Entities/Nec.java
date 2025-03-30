@@ -11,8 +11,8 @@ import Main.The_Hub;
 public class Nec extends Entity{
 The_Hub hb;
     public Nec(The_Hub hb) {
-        this.hb=hb;
         super(hb);
+        this.hb=hb;
         active=false;
         Playing=false;
         direction="down";
