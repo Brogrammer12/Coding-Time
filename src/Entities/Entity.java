@@ -58,7 +58,7 @@ public class Entity {
     }
     public void setaction() {}
     public void update() {
-        if (hb.player.fightMode==false) {
+      /*   if (hb.player.fightMode==false) {
             setaction();
             collisionOn=false;
             hb.cChecker.checkTile(this);
@@ -104,7 +104,7 @@ public class Entity {
                 }
                 SpriteCounter=0;
             }
-        }
+        }*/
     }
     public void draw(Graphics2D g2) {
         if (hb.player.fightMode==false) {

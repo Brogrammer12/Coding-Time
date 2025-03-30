@@ -220,7 +220,7 @@ public class TileManager extends Tiles{
                         int worldY=row*hb.resTileSize;
                         int screenX=worldX-hb.Players[0].worldX+hb.Players[0].screenX;
                         int screenY=worldY-hb.Players[0].worldY+hb.Players[0].screenY;
-                        if (hb.player.borderX==true || hb.player.borderY==true && firstLoad==false) {
+                        if ((hb.player.borderX==true || hb.player.borderY==true) && firstLoad==false) {
                             ogWorldX=hb.Players[0].worldX;
                             ogWorldY=hb.Players[0].worldY;
                             ogScreenX=hb.Players[0].screenX;
