@@ -147,7 +147,8 @@ public class TileManager extends Tiles{
                 hb.Players[0].worldX = (ogScreenX - hb.screenWidth / 2) + hb.Players[0].screenX;
                 hb.Players[0].worldY = (ogScreenY - hb.screenHeight / 2) + hb.Players[0].screenY;
                 firstLoad = false;
-                hb.player.mapBorder = false;
+                hb.player.borderX = false;
+                hb.player.borderY = false;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,49 +169,49 @@ public class TileManager extends Tiles{
             if (hb.Players[0].worldY<=320) {
                 
                 if (hb.Players[0].screenY<=hb.screenHeight/2) {
-                    hb.player.mapBorder=true;
+                    hb.player.borderY=true;
                 }
                 else {
-                    hb.Players[0].screenX=ogScreenX;
+                    //hb.Players[0].screenX=ogScreenX;
                     hb.Players[0].screenY=ogScreenY;
                     firstLoad=false;
-                    hb.player.mapBorder=false;
+                    hb.player.borderY=false;
                 }
             }
             
             else if (hb.Players[0].worldY>=hb.maxWorldHeight-320) {
                 if (hb.Players[0].screenY>=hb.screenHeight/2-hb.resTileSize) {
-                    hb.player.mapBorder=true;
+                    hb.player.borderY=true;
                 }
                 else {
-                    hb.Players[0].screenX=ogScreenX;
+                    //hb.Players[0].screenX=ogScreenX;
                     hb.Players[0].screenY=ogScreenY;
                     firstLoad=false;
-                    hb.player.mapBorder=false;
+                    hb.player.borderY=false;
                 }
             }
             
             if (hb.Players[0].worldX<=500-3*hb.resTileSize) {
                 if (hb.Players[0].screenX<=hb.screenWidth/2) {
-                    hb.player.mapBorder=true;
+                    hb.player.borderX=true;
                 }
                 else {
                     hb.Players[0].screenX=ogScreenX;
-                    hb.Players[0].screenY=ogScreenY;
+                    //hb.Players[0].screenY=ogScreenY;
                     firstLoad=false;
-                    hb.player.mapBorder=false;
+                    hb.player.borderX=false;
                 }
             }
             
             else if (hb.Players[0].worldX>=hb.maxWorldWidth-500+hb.resTileSize) {
                 if (hb.Players[0].screenX>=hb.screenWidth/2-hb.resTileSize) {
-                    hb.player.mapBorder=true;
+                    hb.player.borderX=true;
                 }
                 else {
                     hb.Players[0].screenX=ogScreenX;
-                    hb.Players[0].screenY=ogScreenY;
+                    //hb.Players[0].screenY=ogScreenY;
                     firstLoad=false;
-                    hb.player.mapBorder=false;
+                    hb.player.borderX=false;
                 }
             }
                     while(col<hb.maxWorldHoriz && row<hb.maxWorldVert) {
@@ -219,7 +220,7 @@ public class TileManager extends Tiles{
                         int worldY=row*hb.resTileSize;
                         int screenX=worldX-hb.Players[0].worldX+hb.Players[0].screenX;
                         int screenY=worldY-hb.Players[0].worldY+hb.Players[0].screenY;
-                        if (hb.player.mapBorder==true && firstLoad==false) {
+                        if (hb.player.borderX==true || hb.player.borderY==true && firstLoad==false) {
                             ogWorldX=hb.Players[0].worldX;
                             ogWorldY=hb.Players[0].worldY;
                             ogScreenX=hb.Players[0].screenX;
@@ -232,10 +233,10 @@ public class TileManager extends Tiles{
                                 tileCoordY=screenY;
                             }
                         }
-                            if (hb.player.mapBorder==false) {
+                            if (hb.player.borderX==false && hb.player.borderY==false) {
                                 g2.drawImage(tile[tileNum].image, screenX, screenY, hb.resTileSize, hb.resTileSize, null);
                             }
-                            else if(hb.player.mapBorder==true) {
+                            else if(hb.player.borderX==true || hb.player.borderY==true) {
                                 int finalScreenX=worldX-hb.Players[0].worldX+ogScreenX;
                             int finalScreenY=worldY-hb.Players[0].worldY+ogScreenY;
                                 g2.drawImage(tile[tileNum].image, finalScreenX, finalScreenY, hb.resTileSize, hb.resTileSize, null);

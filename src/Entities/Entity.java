@@ -65,27 +65,27 @@ public class Entity {
             if (collisionOn==false) {
                 switch(direction) {
                     case "up":
-                    if (hb.player.mapBorder==false) {
+                    if (hb.player.borderX==false && hb.player.borderY==false) {
                         worldY-=moveSpeed;
                     }
                         screenY-=moveSpeed;
                     
                     break;
                     case "down":
-                    if (hb.player.mapBorder==false) {
+                    if (hb.player.borderX==false && hb.player.borderY==false) {
                         worldY+=moveSpeed;
                     }
                         screenY+=moveSpeed;
                     
                     break;
                     case "left":
-                    if (hb.player.mapBorder==false) {
+                    if (hb.player.borderX==false && hb.player.borderY==false) {
                         worldX-=moveSpeed;
                     }
                         screenx-=moveSpeed;
                     break;
                     case "right":
-                    if (hb.player.mapBorder==false) {
+                    if (hb.player.borderX==false && hb.player.borderY==false) {
                         worldX+=moveSpeed;
                     }
                         screenx+=moveSpeed;
@@ -143,7 +143,7 @@ public class Entity {
                 }
                 break;
             }
-            if (hb.player.mapBorder==false) {
+            if (hb.player.borderX==false && hb.player.borderY==false) {
                 screenx=worldX-hb.player.worldX+hb.player.screenX;
                 screeny=worldY-hb.player.worldY+hb.player.screenY;
             }

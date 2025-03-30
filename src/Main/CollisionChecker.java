@@ -10,7 +10,7 @@ public class CollisionChecker {
     public void checkTile(Entity entity) {
         int worldX;
         int worldY;
-        if (hb.player.mapBorder==true) {
+        if (hb.player.borderX==true || hb.player.borderY==true) {
             worldX=entity.worldX+(entity.screenX-hb.tileguy.ogScreenX);
             worldY=entity.worldY+(entity.screenY-hb.tileguy.ogScreenY);
         if (worldX<0) {
@@ -36,7 +36,7 @@ public class CollisionChecker {
             int tileNum1,tileNum2;
         switch(entity.direction) {
             case "up":
-            if (hb.player.mapBorder==true) {
+            if (hb.player.borderX==true || hb.player.borderY==true) {
                 entityTopRow=(entityTopWorldY-entity.moveSpeed)/hb.resTileSize;
             tileNum1=hb.tileguy.mapTileNum[entityLeftCol] [entityTopRow];
             tileNum2=hb.tileguy.mapTileNum[entityRightCol] [entityTopRow];

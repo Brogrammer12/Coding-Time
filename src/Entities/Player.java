@@ -53,6 +53,8 @@ public class Player extends Entity{
     public int menuY;
     public boolean settings=false;
     public boolean equip=false;
+    public boolean borderX=false;
+    public boolean borderY=false;
     public Player(The_Hub hb, keyInput k, NPC npc, TileManager tileguy) {
         super(hb);
         menuSelectorY=0;
@@ -219,34 +221,34 @@ public class Player extends Entity{
                     if (collisionOn==false) {
                         switch(direction) {
                             case "up":
-                            if (mapBorder==false) {
+                            if (borderY==false) {
                                 worldY-=moveSpeed;
                             }
-                            else if(mapBorder==true) {
+                            else if(borderY==true) {
                                 screenY-=moveSpeed;
                             }
                             break;
                             case "down":
-                            if (mapBorder==false) {
+                            if (borderY==false) {
                                 worldY+=moveSpeed;
                             }
-                            else if(mapBorder==true) {
+                            else if(borderY==true) {
                                 screenY+=moveSpeed;
                             }
                             break;
                             case "left":
-                            if (mapBorder==false) {
+                            if (borderX==false) {
                                 worldX-=moveSpeed;
                             }
-                            else if(mapBorder==true) {
+                            else if(borderX==true) {
                                 screenX-=moveSpeed;
                             }
                             break;
                             case "right":
-                            if (mapBorder==false) {
+                            if (borderX==false) {
                                 worldX+=moveSpeed;
                             }
-                            else if(mapBorder==true) {
+                            else if(borderX==true) {
                                 screenX+=moveSpeed;
                             }
                             break;

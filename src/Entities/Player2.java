@@ -430,7 +430,7 @@ public class Player2 extends Entity{
         if(fightMode==false) {
             Width=hb.resTileSize;
             Height=hb.resTileSize;
-            if (player.mapBorder==false) {
+            if (player.borderX==false && player.borderY==false) {
                 screenX=worldX-hb.Players[0].worldX+hb.Players[0].screenX;
                 screenY=worldY-hb.Players[0].worldY+hb.Players[0].screenY;
             }

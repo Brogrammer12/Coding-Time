@@ -20,10 +20,10 @@ public int solidAreaDefaultY=0;
 public void draw(Graphics2D g2, The_Hub hb) {
     int screenX=worldX-hb.Players[0].worldX+hb.Players[0].screenX;
     int screenY=worldY-hb.Players[0].worldY+hb.Players[0].screenY;
-    if (hb.player.mapBorder==false) {
+    if (hb.player.borderX==false && hb.player.borderY==false) {
         g2.drawImage(image, screenX, screenY, hb.resTileSize, hb.resTileSize, null);
     }
-    else if(hb.player.mapBorder==true) {
+    else if(hb.player.borderX==true || hb.player.borderY==true) {
         int finalScreenX=worldX-hb.Players[0].worldX+hb.tileguy.ogScreenX;
     int finalScreenY=worldY-hb.Players[0].worldY+hb.tileguy.ogScreenY;
         g2.drawImage(image, finalScreenX, finalScreenY, hb.resTileSize, hb.resTileSize, null);
