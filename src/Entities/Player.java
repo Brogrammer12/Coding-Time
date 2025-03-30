@@ -55,6 +55,9 @@ public class Player extends Entity{
     public boolean equip=false;
     public boolean borderX=false;
     public boolean borderY=false;
+    public float opacity=1.0f;
+    public boolean fadeToBlack=false;
+    public boolean fadeback=false;
     public Player(The_Hub hb, keyInput k, NPC npc, TileManager tileguy) {
         super(hb);
         menuSelectorY=0;
@@ -218,6 +221,8 @@ public class Player extends Entity{
                     hb.cChecker.checkTile(this);
                     objIndex=hb.cChecker.checkObject(this, true);
                     interactWithObject(objIndex);
+                    int npcIndex=hb.cChecker.checkEntity(this, npc.entity);
+                    interactNPC(npcIndex);
                     if (collisionOn==false) {
                         switch(direction) {
                             case "up":
@@ -506,7 +511,11 @@ public class Player extends Entity{
         public void interactWithObject(int i) {
             interact=true;
         }
-       
+       public void interactNPC(int i) {
+        if (i!=999) {
+            fadeToBlack=true;
+        }
+       }
     
     public void playerImageLoader() {
         try {
@@ -534,7 +543,35 @@ public class Player extends Entity{
         }
     }
     public void draw(Graphics2D g2) {
-        System.out.println(tileguy.ogScreenX);
+      if (fadeToBlack==true) {
+        if (fadeback==false) {
+            opacity-=0.02f;
+        }
+         if(opacity<=0.0f && fadeback==false) {
+            opacity=0.0f;
+            fadeback=true;
+        }
+        else if(fadeback==true) {
+            //hb.stopMusic();
+            fightMode=true;
+            npc.entity[0].fightMode=true;
+            npc.entity[0].Playing=true;
+            npc.entity[1].fightMode=true;
+            npc.entity[1].Playing=true;
+            hb.player2.fightMode=true;
+            screenX=100;
+            screenY=100;
+            hb.player2.screenX=200;
+            hb.player2.screenY=200;
+            opacity+=0.02f;
+            if (opacity>=1.0f) {
+                opacity=1.0f;
+                fadeback=false;
+                fadeToBlack=false;
+                hb.playMusic(1);
+            }
+        }
+      }
         int differenceX;
         int differenceY;
             if (I!=90) {

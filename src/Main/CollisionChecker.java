@@ -143,4 +143,59 @@ public class CollisionChecker {
         }
         return index;
     }
+    public int checkEntity(Entity entity, Entity[] target) {
+        int index=999;
+        for (int i=0; i<target.length; i++) {
+            if (target[i]!=null) {
+              //  if (entity.locationx==hb.player.XLevel && entity.locationy==hb.player.YLevel) {
+                entity.colBox.x+=entity.worldX;
+                entity.colBox.y+=entity.worldY;
+                target[i].solidArea.x+=target[i].worldX;
+                target[i].solidArea.y+=target[i].worldY;
+                switch (entity.direction) {
+                    case "up":
+                    entity.colBox.y-=entity.moveSpeed;
+                    if (entity.colBox.intersects(target[i].solidArea)) {
+                            entity.collisionOn=true;
+                            index=i;
+                        
+                       
+                    }
+                    break;
+                    case "down":
+                    entity.colBox.y+=entity.moveSpeed;
+                    if (entity.colBox.intersects(target[i].solidArea)) {
+                        index=i;
+                            entity.collisionOn=true;
+                        
+                      
+                    }
+                    break;
+                    case "left":
+                    entity.colBox.x-=entity.moveSpeed;
+                    if (entity.colBox.intersects(target[i].solidArea)) {
+                            index=i;
+                            entity.collisionOn=true;
+                        
+                      
+                    }
+                    break;
+                    case "right":
+                    entity.colBox.x+=entity.moveSpeed;
+                    if (entity.colBox.intersects(target[i].solidArea)) {
+                        index=i;
+                            entity.collisionOn=true;
+                     
+                    }
+                    break;
+                }
+                entity.colBox.x=entity.solidAreaDefaultX;
+                entity.colBox.y=entity.solidAreaDefaultY;
+                target[i].solidArea.x=target[i].solidAreaDefaultX;
+                target[i].solidArea.y=target[i].solidAreaDefaultY;
+                //}
+            }
+        }
+        return index;
+    }
 }

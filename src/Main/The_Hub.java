@@ -17,6 +17,7 @@ import FightingSystem.healthManager;
 import Object.object;
 import Tile.TileManager;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 public class The_Hub extends JPanel  implements Runnable{
     public final int ogTileSize=16;
@@ -131,6 +132,12 @@ public class The_Hub extends JPanel  implements Runnable{
        
         super.paintComponent(g);
         Graphics2D g2=(Graphics2D)g;
+        if (player.fadeToBlack==true) {
+            float opacity = Math.max(0.0f, Math.min(1.0f, player.opacity));
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+            g2.setColor(Color.BLACK);
+            g2.fillRect(0, 0, screenWidth, screenHeight);
+        }
         tileguy.draw(g2);
         for (int i=0;i<obj.length; i++) {
             if (obj[i]!=null) {
