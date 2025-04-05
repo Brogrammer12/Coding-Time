@@ -554,9 +554,9 @@ public class Player extends Entity{
         else if(fadeback==true) {
             //hb.stopMusic();
             fightMode=true;
-            npc.entity[0].fightMode=true;
+            npc.entity[0].active=true;
             npc.entity[0].Playing=true;
-            npc.entity[1].fightMode=true;
+            npc.entity[1].active=true;
             npc.entity[1].Playing=true;
             hb.player2.fightMode=true;
             screenX=100;

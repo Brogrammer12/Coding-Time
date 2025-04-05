@@ -49,7 +49,7 @@ public class Sound {
             backgroundClip.stop();
             backgroundClip.close(); // Release previous clip resources
         }
-        backgroundClip = soundEffects.get(i);
+        backgroundClip = loadClip(i);
         if (backgroundClip != null) {
             backgroundClip.setFramePosition(0); // Reset to start
             backgroundClip.start();

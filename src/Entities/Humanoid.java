@@ -25,8 +25,8 @@ public class Humanoid extends Entity{
         maxHealth=50;
         x=hb.resTileSize*10;
         startX=hb.resTileSize*10;
-        worldX=hb.maxWorldWidth/2;
-        worldY=hb.maxWorldHeight/2;
+        worldX=hb.maxWorldWidth/2+300;
+        worldY=hb.maxWorldHeight/2-200;
         y=100;
         Health=50;
         humanoidLoader();
