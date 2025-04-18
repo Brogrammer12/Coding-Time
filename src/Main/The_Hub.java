@@ -98,8 +98,9 @@ public class The_Hub extends JPanel  implements Runnable{
         gameState=playState;
         tempScreen=new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2=(Graphics2D)tempScreen.getGraphics();
-        setFullScreen();
+        //setFullScreen();
     }
+    //note: Setting it to full screen will lag tremendously. In order to switch to fullscreen, dont use paintcomponent. use drawtotempscreen and drawtoscreen.
     public void setFullScreen() {
         GraphicsEnvironment ge=GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd=ge.getDefaultScreenDevice();
@@ -117,9 +118,9 @@ public class The_Hub extends JPanel  implements Runnable{
         double nextDrawTime=System.nanoTime()+drawInterval;
         while (gameThread!=null) {
             update();
-            //repaint();
-            drawToTempScreen();
-            drawToScreen();
+            repaint();
+            //drawToTempScreen();
+            //drawToScreen();
             try {
                 double remainingTime=nextDrawTime-System.nanoTime();
                 remainingTime/=1000000;
@@ -173,7 +174,7 @@ public class The_Hub extends JPanel  implements Runnable{
         npc.draw(g2);
             fightingboi.draw(g2);
     }
-   /*  public void paintComponent(Graphics g)  {
+     public void paintComponent(Graphics g)  {
         
        
         super.paintComponent(g);
@@ -203,7 +204,7 @@ public class The_Hub extends JPanel  implements Runnable{
             fightingboi.draw(g2);
         g2.dispose();
 
-    }*/
+    }
     public void drawToScreen() {
         Graphics g=getGraphics();
         g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);

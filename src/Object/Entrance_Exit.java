@@ -12,7 +12,6 @@ public class Entrance_Exit extends object{
     @Override
     public void interaction(Graphics2D g2) {
         if (hb.player.XLevel==locationX && hb.player.YLevel==locationY) {
-            //System.out.println("Entrance worked");
         }
     }
 

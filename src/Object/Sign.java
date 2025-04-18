@@ -25,9 +25,7 @@ public class Sign extends object{
     }
     @Override
     public void interaction(Graphics2D g2) {
-        System.out.println("Im working");
         if (hb.player.XLevel==locationX && hb.player.YLevel==locationY) {
-            System.out.println("Im working");
             if (readingSign==true) {
                 hb.textboi.draw(g2, text, 100, 100, hb.resTileSize/2, hb.resTileSize/2);
             }

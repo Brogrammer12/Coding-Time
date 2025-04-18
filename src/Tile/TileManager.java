@@ -191,7 +191,7 @@ public class TileManager extends Tiles{
                 }
             }
             
-            if (hb.Players[0].worldX<=500-3*hb.resTileSize) {
+            if (hb.Players[0].worldX<=600-3*hb.resTileSize) {
                 if (hb.Players[0].screenX<=hb.screenWidth/2) {
                     hb.player.borderX=true;
                 }
@@ -203,7 +203,7 @@ public class TileManager extends Tiles{
                 }
             }
             
-            else if (hb.Players[0].worldX>=hb.maxWorldWidth-500+hb.resTileSize) {
+            else if (hb.Players[0].worldX>=hb.maxWorldWidth-555+hb.resTileSize) {
                 if (hb.Players[0].screenX>=hb.screenWidth/2-hb.resTileSize) {
                     hb.player.borderX=true;
                 }

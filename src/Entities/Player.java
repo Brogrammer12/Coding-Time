@@ -182,7 +182,6 @@ public class Player extends Entity{
                     if (hb.Exits[i]!=null) {
                         if (i!=minIndex) {
                             if (Connection==hb.Exits[i].connector) {
-                                System.out.println(i);
                                 newWorldX=hb.Exits[i].worldX;
                                 newWorldY=hb.Exits[i].worldY;
                                 break;
@@ -190,7 +189,6 @@ public class Player extends Entity{
                         }
                     }
                 }
-                System.out.println(minIndex);
                 YLevel++;
                 tileguy.newMap(location[XLevel][YLevel]);
             tileguy.loadMap();
@@ -250,7 +248,6 @@ public class Player extends Entity{
                 if (hb.Exits[i]!=null) {
                     if (i!=minIndex) {
                         if (Connection==hb.Exits[i].connector) {
-                            System.out.println(i);
                             newWorldX=hb.Exits[i].worldX;
                             newWorldY=hb.Exits[i].worldY;
                             break;
@@ -258,7 +255,6 @@ public class Player extends Entity{
                     }
                 }
             }
-            System.out.println(minIndex);
                 YLevel--;
                 tileguy.newMap(location[XLevel][YLevel]);
             tileguy.loadMap();
@@ -829,7 +825,6 @@ public class Player extends Entity{
             screenX=100;
             screenY=100;
             load=true;
-            System.out.println("I worked");
         }
                 g2.drawImage(image, screenX, screenY, Width, Height, null);
                 if (fightMode==false) {

@@ -21,7 +21,6 @@ public class House extends object{
     @Override
     public void interaction(Graphics2D g2) {
         if (hb.player.XLevel==locationX && hb.player.YLevel==locationY) {
-            System.out.println("House worked");
         }
     }
 }

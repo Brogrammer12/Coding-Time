@@ -89,8 +89,7 @@ public class NPC extends Entity{
                                 if (Pl==0) {
                                     if (hb.Players[0].ded==true) {
                                         if (hb.Players[1].ded==true) {
-                               
-                                            System.out.println("I worked");
+
                                         }
                                         else if(hb.Players[1].ded==false) {
                                             Pl=1;
@@ -143,8 +142,7 @@ public class NPC extends Entity{
                                 else if(Pl==1) {
                                     if (hb.Players[1].ded==true) {
                                         if (hb.Players[0].ded==true) {
-                                  
-                                            System.out.println("I worked");
+
                                         }
                                         else if(hb.Players[0].ded==false) {
                                             Pl=0;
