@@ -59,50 +59,52 @@ public class Entity {
     public void setaction() {}
     public void update() {
          if (hb.player.fightMode==false) {
-            setaction();
-            collisionOn=false;
-            hb.cChecker.checkTile(this);
-            if (collisionOn==false) {
-                switch(direction) {
-                    case "up":
-                    if (hb.player.borderX==false && hb.player.borderY==false) {
-                        worldY-=moveSpeed;
+            if (locationx==hb.player.XLevel && locationy==hb.player.YLevel) {
+                setaction();
+                collisionOn=false;
+                hb.cChecker.checkTile(this);
+                if (collisionOn==false) {
+                    switch(direction) {
+                        case "up":
+                        if (hb.player.borderX==false && hb.player.borderY==false) {
+                            worldY-=moveSpeed;
+                        }
+                            screenY-=moveSpeed;
+                        
+                        break;
+                        case "down":
+                        if (hb.player.borderX==false && hb.player.borderY==false) {
+                            worldY+=moveSpeed;
+                        }
+                            screenY+=moveSpeed;
+                        
+                        break;
+                        case "left":
+                        if (hb.player.borderX==false && hb.player.borderY==false) {
+                            worldX-=moveSpeed;
+                        }
+                            screenx-=moveSpeed;
+                        break;
+                        case "right":
+                        if (hb.player.borderX==false && hb.player.borderY==false) {
+                            worldX+=moveSpeed;
+                        }
+                            screenx+=moveSpeed;
+                        break;
                     }
-                        screenY-=moveSpeed;
-                    
-                    break;
-                    case "down":
-                    if (hb.player.borderX==false && hb.player.borderY==false) {
-                        worldY+=moveSpeed;
-                    }
-                        screenY+=moveSpeed;
-                    
-                    break;
-                    case "left":
-                    if (hb.player.borderX==false && hb.player.borderY==false) {
-                        worldX-=moveSpeed;
-                    }
-                        screenx-=moveSpeed;
-                    break;
-                    case "right":
-                    if (hb.player.borderX==false && hb.player.borderY==false) {
-                        worldX+=moveSpeed;
-                    }
-                        screenx+=moveSpeed;
-                    break;
                 }
-            }
-            SpriteCounter++;
-            if(SpriteCounter>12) {
-                if(SpriteNum==1) {
-                    SpriteNum=2;
-                    
+                SpriteCounter++;
+                if(SpriteCounter>12) {
+                    if(SpriteNum==1) {
+                        SpriteNum=2;
+                        
+                    }
+                    else if(SpriteNum==2) {
+                        SpriteNum=1;
+                        
+                    }
+                    SpriteCounter=0;
                 }
-                else if(SpriteNum==2) {
-                    SpriteNum=1;
-                    
-                }
-                SpriteCounter=0;
             }
         }
     }
@@ -147,11 +149,11 @@ public class Entity {
                 screenx=worldX-hb.player.worldX+hb.player.screenX;
                 screeny=worldY-hb.player.worldY+hb.player.screenY;
             }
-           // if (locationx==hb.player.XLevel && locationy==hb.player.YLevel) {
+            if (locationx==hb.player.XLevel && locationy==hb.player.YLevel) {
            
             g2.drawImage(image, screenx, screeny, hb.resTileSize, hb.resTileSize, null);
            
-           // }
+         }
         }
     }
 }

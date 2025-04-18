@@ -76,7 +76,7 @@ public class TextReader {
             this.xCoord=xCoord;
             this.yCoord=yCoord;
         if(boi.length()>=16) {
-            boxWidth=16*sizeX;
+            boxWidth=20*sizeX;
         }
         else if(boi.length()<16) {
             boxWidth=boi.length()*sizeX;

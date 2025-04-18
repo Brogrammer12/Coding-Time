@@ -38,7 +38,7 @@ public class Player extends Entity{
     public int I=90;
     public int objIndex;
     public boolean interact;
-    public String[][] location=new String[10][4];
+    public String[][] location=new String[10][5];
     public int YLevel=0;
     public int XLevel=1;
     public int goldNuggets=0;
@@ -58,6 +58,7 @@ public class Player extends Entity{
     public float opacity=1.0f;
     public boolean fadeToBlack=false;
     public boolean fadeback=false;
+    public boolean E=false;
     public Player(The_Hub hb, keyInput k, NPC npc, TileManager tileguy) {
         super(hb);
         menuSelectorY=0;
@@ -68,6 +69,7 @@ public class Player extends Entity{
         location[1] [1]="/Resources/tileMaps/the_path.txt";
         location[1] [2]="/Resources/tileMaps/worldMap.txt";
         location[1] [3]="/Resources/tileMaps/forest.txt";
+        location[1] [4]="/Resources/tileMaps/Village.txt";
         location[0] [3]="/Resources/tileMaps/forestTreasure.txt";
         location[2] [2]="/Resources/tileMaps/nope.txt";
         location[0] [2]="/Resources/tileMaps/yup.txt";
@@ -137,27 +139,137 @@ public class Player extends Entity{
     public void update() {
         if (screenY<=hb.resTileSize) {
             if (YLevel!=location[0].length-1 && location[XLevel] [YLevel+1]!=null) {
+                int sum[]=new int[10];
+                int min=0;
+                int minIndex=0;
+                int newWorldX=0;
+                int newWorldY=0;
+                //int a=0;
+                for (int i=0; i<hb.Exits.length; i++) {
+                    if (hb.Exits[i]!=null) {
+                        if (hb.Exits[i].locationX==XLevel && hb.Exits[i].locationY==YLevel) {
+                            sum[i]=(Math.abs(worldX-hb.Exits[i].worldX))+(Math.abs(worldY-hb.Exits[i].worldY));
+                            //a++;
+                        }
+                    }
+                }
+                //a=0;
+                for (int i=0; i<sum.length; i++) {
+                    if (sum[i]!=0) {//check this boi later
+                        //if (i==0) {
+                        if (E==false) {
+                            for (int r=0; r<sum.length; r++) {
+                                if (sum[r]!=0) {
+                                    min=sum[r];
+                                    minIndex=r;
+                                    break;
+                                }
+                            }
+                            E=true;
+                        }
+                            //min=sum[0];
+                            //minIndex=0;
+                       // }
+                         if(sum[i]<min) {
+                            min=sum[i];
+                            minIndex=i;
+                        }
+                    }
+                }
+                E=false;
+                String Connection=hb.Exits[minIndex].connector;
+                for (int i=0;i<hb.Exits.length; i++) {
+                    if (hb.Exits[i]!=null) {
+                        if (i!=minIndex) {
+                            if (Connection==hb.Exits[i].connector) {
+                                System.out.println(i);
+                                newWorldX=hb.Exits[i].worldX;
+                                newWorldY=hb.Exits[i].worldY;
+                                break;
+                            }
+                        }
+                    }
+                }
+                System.out.println(minIndex);
                 YLevel++;
                 tileguy.newMap(location[XLevel][YLevel]);
             tileguy.loadMap();
-            worldX=hb.maxWorldWidth/2;
-            worldY=hb.maxWorldHeight-320;
+            worldX=newWorldX;
+            worldY=newWorldY;
+            newWorldX=0;
+            newWorldY=0;
+            //worldX=hb.maxWorldWidth/2;
+            //worldY=hb.maxWorldHeight-320;
             screenX=hb.screenWidth/2-hb.resTileSize/2;
             screenY=hb.screenHeight/2-hb.resTileSize/2;
                 hb.Players[1].worldX=hb.maxWorldWidth/2;
                 hb.Players[1].worldY=hb.maxWorldHeight-320;
             }
-            
         }
         else if(screenY>=(hb.maxScreenVert*hb.resTileSize)-hb.resTileSize) {
             if (YLevel!=0 && location[XLevel] [YLevel-1]!=null) {
+                int sum[]=new int[10];
+            int min=0;
+            int minIndex=0;
+            int newWorldX=0;
+            int newWorldY=0;
+            for (int i=0; i<hb.Exits.length; i++) {
+                if (hb.Exits[i]!=null) {
+                    if (hb.Exits[i].locationX==XLevel && hb.Exits[i].locationY==YLevel) {
+                        sum[i]=(Math.abs(worldX-hb.Exits[i].worldX))+(Math.abs(worldY-hb.Exits[i].worldY));
+                    }
+                }
+            }
+            for (int i=0; i<sum.length; i++) {
+                    if (sum[i]!=0) {
+                    //if (i==0) {
+                    if (E==false) {
+                        for (int r=0; r<sum.length; r++) {
+                            if (sum[r]!=0) {
+                                min=sum[r];
+                                minIndex=r;
+                                break;
+                            }
+                        }
+                        E=true;
+                    }
+                        //min=sum[0];//found the issue:right here
+                        //minIndex=0;
+                    //}
+                    //else {
+                        if(sum[i]<min) {
+                            min=sum[i];
+                            minIndex=i;
+                        }
+                   // }
+               }
+            }
+            E=false;
+            String Connection=hb.Exits[minIndex].connector;
+            for (int i=0;i<hb.Exits.length; i++) {
+                if (hb.Exits[i]!=null) {
+                    if (i!=minIndex) {
+                        if (Connection==hb.Exits[i].connector) {
+                            System.out.println(i);
+                            newWorldX=hb.Exits[i].worldX;
+                            newWorldY=hb.Exits[i].worldY;
+                            break;
+                        }
+                    }
+                }
+            }
+            System.out.println(minIndex);
                 YLevel--;
                 tileguy.newMap(location[XLevel][YLevel]);
             tileguy.loadMap();
             screenX=hb.screenWidth/2-hb.resTileSize/2;
             screenY=hb.screenHeight/2-hb.resTileSize/2;
-            worldX=hb.maxWorldWidth/2;
-            worldY=320;
+            worldX=newWorldX;
+            worldY=newWorldY;
+            newWorldX=0;
+            newWorldY=0;
+            //worldX=hb.maxWorldWidth/2;
+            //worldY=320;
             hb.Players[1].worldX=hb.maxWorldWidth/2;
             hb.Players[1].worldY=320;
             }
@@ -294,14 +406,14 @@ public class Player extends Entity{
                         else if(hb.charSelected==true) { 
                             if (cursorX==1) {
                                 for (int i=0; i<npc.entity.length; i++) {
-                                    if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*10) {
+                                    if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*13) {
                                         cursorX=2;
                                     }
-                                    else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*10 && npc.entity[i].Playing==true) {
-                                        if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*10+100) {
+                                    else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*13 && npc.entity[i].Playing==true) {
+                                        if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*13+100) {
                                             cursorX=3;
                                         }
-                                        else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*10+100 && npc.entity[i].Playing==true) {
+                                        else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*13+100 && npc.entity[i].Playing==true) {
                                             cursorX=0;
                                         }
                                         
@@ -310,10 +422,10 @@ public class Player extends Entity{
                             }
                             else if(cursorX==2) {
                                 for (int i=0; i<npc.entity.length; i++) {
-                                    if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*10+100) {
+                                    if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*13+100) {
                                         cursorX=3;
                                     }
-                                    else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*10+100 && npc.entity[i].Playing==true) {
+                                    else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*13+100 && npc.entity[i].Playing==true) {
                                         if (this.active==true) {
                                             cursorX=0;
                                         }
@@ -356,10 +468,10 @@ public class Player extends Entity{
                         else if(hb.charSelected==true) {
                             if (cursorX==3) {
                                 for (int i=0; i<npc.entity.length; i++) {
-                                    if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*10) {
+                                    if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*13) {
                                         cursorX=2;
                                     }
-                                    else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*10) {
+                                    else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*13) {
                                         if (hb.p2Active==true) {
                                             cursorX=1;
                                         }
@@ -385,14 +497,14 @@ public class Player extends Entity{
                             else {
                                 if(cursorX==0) {
                                     for (int i=0; i<npc.entity.length; i++) {
-                                        if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*10) {
+                                        if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*13) {
                                             cursorX=3;
                                         }
-                                        else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*10+100 && npc.entity[i].Playing==true) {
-                                            if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*10) {
+                                        else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*13+100 && npc.entity[i].Playing==true) {
+                                            if (npc.entity[i].active==true && npc.entity[i].startX==hb.resTileSize*13) {
                                                 cursorX=2;
                                             }
-                                            else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*10 && npc.entity[i].Playing==true) {
+                                            else if(npc.entity[i].active==false && npc.entity[i].startX==hb.resTileSize*13 && npc.entity[i].Playing==true) {
                                                 cursorX=1;
                                             }
                                         }
@@ -455,14 +567,14 @@ public class Player extends Entity{
                     }  
                     for(int index=0; index<npc.entity.length; index++) {
                         if (cursorX==2 && healthTaker==false) {
-                            if (npc.entity[index].x==hb.resTileSize*10 && npc.entity[index].active==true) {
+                            if (npc.entity[index].x==hb.resTileSize*12 && npc.entity[index].active==true) {
                                 npc.entity[index].Health-=damage;
                             healthTaker=true;
                             }
                             
                         }
                         else if(cursorX==3 && healthTaker==false) {
-                            if (npc.entity[index].x==hb.resTileSize*10+100 && npc.entity[index].active==true) {
+                            if (npc.entity[index].x==hb.resTileSize*13+100 && npc.entity[index].active==true) {
                                 npc.entity[index].Health-=damage;
                             healthTaker=true;
                             }
@@ -574,9 +686,25 @@ public class Player extends Entity{
       }
         int differenceX;
         int differenceY;
+        int WorldX;
+        int WorldY;
+        if (hb.player.borderX==true || hb.player.borderY==true) {
+            WorldX=worldX+(screenX-hb.tileguy.ogScreenX);
+            WorldY=worldY+(screenY-hb.tileguy.ogScreenY);
+        if (WorldX<0) {
+            WorldX=-WorldX;
+        }
+        if (WorldY<0) {
+            WorldY=-WorldY;
+        }
+        }
+        else {
+            WorldX=worldX;
+            WorldY=worldY;
+        }
             if (I!=90) {
-                differenceX=(worldX+hb.resTileSize/2)-(hb.obj[I].worldX+hb.resTileSize/2);
-             differenceY=(worldY+hb.resTileSize/2)-(hb.obj[I].worldY+hb.resTileSize/2);
+                differenceX=(WorldX+hb.resTileSize/2)-(hb.obj[I].worldX+hb.resTileSize/2);
+             differenceY=(WorldY+hb.resTileSize/2)-(hb.obj[I].worldY+hb.resTileSize/2);
             }
             else {
                 differenceX=0;
@@ -752,24 +880,24 @@ public class Player extends Entity{
                                 }
                                 k.hasMoved=true;
                             }
-                            hb.textboi.draw(g2, "NUGGETS:"+goldNuggets, 100, 20, hb.resTileSize/2, hb.resTileSize/2);
-                            hb.textboi.draw(g2, "HP:"+Health, 100, 80, hb.resTileSize/2, hb.resTileSize/2);
-                            hb.textboi.draw(g2, "ARMOR:"+Armor, 350, 20, hb.resTileSize/2, hb.resTileSize/2);
-                            hb.textboi.draw(g2, "WEAPON:"+weapon, 350, 80, hb.resTileSize/2, hb.resTileSize/2);
-                            hb.textboi.draw(g2, "EQUIP", 270, 230, hb.resTileSize/2, hb.resTileSize/2);
-                            hb.textboi.draw(g2, "SETTINGS", 245, 320, hb.resTileSize/2, hb.resTileSize/2);
-                            hb.textboi.draw(g2, "EXIT GAME", 240, 410, hb.resTileSize/2, hb.resTileSize/2);
+                            hb.textboi.draw(g2, "NUGGETS:"+goldNuggets, 200, 20, hb.resTileSize/2, hb.resTileSize/2);
+                            hb.textboi.draw(g2, "HP:"+Health, 200, 80, hb.resTileSize/2, hb.resTileSize/2);
+                            hb.textboi.draw(g2, "ARMOR:"+Armor, 450, 20, hb.resTileSize/2, hb.resTileSize/2);
+                            hb.textboi.draw(g2, "WEAPON:"+weapon, 450, 80, hb.resTileSize/2, hb.resTileSize/2);
+                            hb.textboi.draw(g2, "EQUIP", 370, 230, hb.resTileSize/2, hb.resTileSize/2);
+                            hb.textboi.draw(g2, "SETTINGS", 345, 320, hb.resTileSize/2, hb.resTileSize/2);
+                            hb.textboi.draw(g2, "EXIT GAME", 340, 410, hb.resTileSize/2, hb.resTileSize/2);
                             switch (menuSelectorY) {
                                 case 0:
-                                menuX=200;
+                                menuX=300;
                                 menuY=220;
                                 break;
                                 case 1:
-                                menuX=180;
+                                menuX=280;
                                 menuY=310;
                                 break;
                                 case 2:
-                                menuX=170;
+                                menuX=270;
                                 menuY=400;
                             }
                         }

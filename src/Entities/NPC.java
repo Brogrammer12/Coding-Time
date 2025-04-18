@@ -77,7 +77,7 @@ public class NPC extends Entity{
                 
                 if(attacking==true) {
                     if (fighter==1) {
-                        if (entity[index].active==false && entity[index].startX==hb.resTileSize*10) {
+                        if (entity[index].active==false && entity[index].startX==hb.resTileSize*13) {
                             fighter=2;
                         }
                         if (f1==false) {
@@ -85,7 +85,7 @@ public class NPC extends Entity{
                         Pl=Math.round(Pl);
                         f1=true;
                         }
-                        if(entity[index].moveToFight==true && entity[index].active==true && entity[index].startX==hb.resTileSize*10) {
+                        if(entity[index].moveToFight==true && entity[index].active==true && entity[index].startX==hb.resTileSize*13) {
                                 if (Pl==0) {
                                     if (hb.Players[0].ded==true) {
                                         if (hb.Players[1].ded==true) {
@@ -98,7 +98,7 @@ public class NPC extends Entity{
                                     }
                                     if (moveDone==false) {
                                         entity[index].x-=10;
-                                        if (entity[index].x==100) {
+                                        if (entity[index].x<=100) {
                                             moveDone=true;
                                             }
                                     }
@@ -121,7 +121,7 @@ public class NPC extends Entity{
                                             }
                                             timeUp=false;
                                             entity[index].x+=10;
-                                        if (entity[index].x==hb.resTileSize*10) {
+                                        if (entity[index].x>=hb.resTileSize*13) {
                                             timer=0;
                                             hb.Players[0].Health-=entity[index].damage;
                                             if (hb.Players[0].defendMode==true) {
@@ -151,14 +151,14 @@ public class NPC extends Entity{
                                         }
                                     }
                                     if (moveDone==false) {
-                                        if (entity[index].x!=200) {
+                                        if (entity[index].x>200) {
                                             entity[index].x-=10;
                                         }
-                                        else if (entity[index].x==200) {
-                                            if (entity[index].y!=200) {
+                                        else if (entity[index].x<=200) {
+                                            if (entity[index].y<200) {
                                                 entity[index].y+=10;
                                             }
-                                            else if(entity[index].y==200) {
+                                            else if(entity[index].y>=200) {
                                                 moveDone=true;
                                             }
                                             }
@@ -175,14 +175,14 @@ public class NPC extends Entity{
                                         timeUp=true;
                                         if (timer==60) {
                                             timeUp=false;
-                                            if (entity[index].x!=hb.resTileSize*10) {
+                                            if (entity[index].x<hb.resTileSize*13) {
                                                 entity[index].x+=10;
                                             }
-                                            else if(entity[index].x==hb.resTileSize*10) {
-                                                if (entity[index].y!=100) {
+                                            else if(entity[index].x>=hb.resTileSize*13) {
+                                                if (entity[index].y>100) {
                                                     entity[index].y-=10;
                                                 }
-                                                else if(entity[index].y==100) {
+                                                else if(entity[index].y<=100) {
                                                     hb.Players[1].Health-=entity[index].damage;
                                                     if (hb.Players[1].defendMode==true) {
                                                         hb.Players[1].Health+=hb.Players[1].defenseValue;
@@ -201,7 +201,7 @@ public class NPC extends Entity{
                                 }
                             
                         }
-                        else if(entity[index].moveToFight==false && entity[index].active==true && entity[index].startX==hb.resTileSize*10) {
+                        else if(entity[index].moveToFight==false && entity[index].active==true && entity[index].startX==hb.resTileSize*13) {
                             if (Pl==0) {
                                 attackX=100;
                                 attackY=100;
@@ -262,7 +262,7 @@ public class NPC extends Entity{
                         }
                     }
                     else if(fighter==2) {
-                        if (entity[index].active==false && entity[index].startX==hb.resTileSize*10+100) {
+                        if (entity[index].active==false && entity[index].startX==hb.resTileSize*13+100) {
                             hb.Players[0].defendMode=false;
                             hb.Players[1].defendMode=false;
                             attacking=false;
@@ -273,7 +273,7 @@ public class NPC extends Entity{
                         Pl=Math.round(Pl);
                         f2=true;
                         }
-                            if(entity[index].moveToFight==true && entity[index].active==true && entity[index].startX==hb.resTileSize*10+100) {
+                            if(entity[index].moveToFight==true && entity[index].active==true && entity[index].startX==hb.resTileSize*13+100) {
                                     if (Pl==1) {
                                         if (hb.Players[1].ded==true) {
                                             if (hb.Players[0].ded==true) {
@@ -308,7 +308,7 @@ public class NPC extends Entity{
                                                 }
                                                 timeUp=false;
                                                 entity[index].x+=10;
-                                            if (entity[index].x==hb.resTileSize*10+100) {
+                                            if (entity[index].x>=hb.resTileSize*13+100) {
                                                 hb.Players[1].Health-=entity[index].damage;
                                                 if (hb.Players[1].defendMode==true) {
                                                     hb.Players[1].Health+=hb.Players[1].defenseValue;
@@ -337,14 +337,14 @@ public class NPC extends Entity{
                                             }
                                         }
                                         if (moveDone==false) {
-                                            if (entity[index].x!=100) {
+                                            if (entity[index].x>100) {
                                                 entity[index].x-=10;
                                             }
-                                            else if (entity[index].x==100) {
-                                                if (entity[index].y!=100) {
+                                            else if (entity[index].x<=100) {
+                                                if (entity[index].y>100) {
                                                     entity[index].y-=10;
                                                 }
-                                                else if(entity[index].y==100) {
+                                                else if(entity[index].y<=100) {
                                                         moveDone=true;
                                                     
                                                 }
@@ -370,14 +370,14 @@ public class NPC extends Entity{
                                                     sound=true;
                                                 }
                                                 timeUp=false;
-                                                if (entity[index].x!=hb.resTileSize*10+100) {
+                                                if (entity[index].x<hb.resTileSize*13+100) {
                                                     entity[index].x+=10;
                                                 }
-                                                else if(entity[index].x==hb.resTileSize*10+100) {
-                                                    if (entity[index].y!=200) {
+                                                else if(entity[index].x>=hb.resTileSize*13+100) {
+                                                    if (entity[index].y<200) {
                                                         entity[index].y+=10;
                                                     }
-                                                    else if(entity[index].y==200) {
+                                                    else if(entity[index].y>=200) {
                                                         hb.Players[0].Health-=entity[index].damage;
                                                         if (hb.Players[0].defendMode==true) {
                                                             hb.Players[0].Health+=hb.Players[0].defenseValue;
@@ -400,7 +400,7 @@ public class NPC extends Entity{
                                     }
                                 
                             }
-                            else if(entity[index].moveToFight==false && entity[index].active==true && entity[index].startX==hb.resTileSize*10+100) {
+                            else if(entity[index].moveToFight==false && entity[index].active==true && entity[index].startX==hb.resTileSize*13+100) {
                                 if (Pl==0) {
                                     attackX=100;
                                     attackY=100;

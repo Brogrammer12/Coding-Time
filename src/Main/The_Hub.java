@@ -2,6 +2,10 @@ package Main;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JPanel;
 
 import Entities.Entity;
@@ -23,7 +27,7 @@ public class The_Hub extends JPanel  implements Runnable{
     public final int ogTileSize=16;
     public final int scale=3;
     public final int resTileSize=ogTileSize*scale;
-    public final int maxScreenHoriz=16;
+    public final int maxScreenHoriz=20;
     public final int maxScreenVert=12;
     public final int screenWidth=resTileSize*maxScreenHoriz;
     public final int screenHeight=resTileSize*maxScreenVert;
@@ -51,6 +55,10 @@ public class The_Hub extends JPanel  implements Runnable{
     public int gameState;
     public int playState=1;
     public int pauseState=2;
+    public int screenWidth2=screenWidth;
+    public int screenHeight2=screenHeight;
+    public BufferedImage tempScreen;
+    Graphics2D g2;
     final int FPS=60;
     Thread gameThread;
     public Sound sound=new Sound();
@@ -66,6 +74,7 @@ public class The_Hub extends JPanel  implements Runnable{
     public objectHandler objHandler=new objectHandler(this);
     public CollisionChecker cChecker=new CollisionChecker(this);
     public object obj[]=new object[10];
+    public object Exits[]=new object[10];
     public Entity[] Players=new Entity[]{
         player,
         player2
@@ -87,6 +96,16 @@ public class The_Hub extends JPanel  implements Runnable{
             playMusic(1);
         }
         gameState=playState;
+        tempScreen=new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
+        g2=(Graphics2D)tempScreen.getGraphics();
+        setFullScreen();
+    }
+    public void setFullScreen() {
+        GraphicsEnvironment ge=GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd=ge.getDefaultScreenDevice();
+        gd.setFullScreenWindow(BasicSetup.window);
+        screenWidth2=BasicSetup.window.getWidth();
+        screenHeight2=BasicSetup.window.getHeight();
     }
     public void startGameThread() {
         gameThread=new Thread(this);
@@ -98,7 +117,9 @@ public class The_Hub extends JPanel  implements Runnable{
         double nextDrawTime=System.nanoTime()+drawInterval;
         while (gameThread!=null) {
             update();
-            repaint();
+            //repaint();
+            drawToTempScreen();
+            drawToScreen();
             try {
                 double remainingTime=nextDrawTime-System.nanoTime();
                 remainingTime/=1000000;
@@ -127,7 +148,32 @@ public class The_Hub extends JPanel  implements Runnable{
         }
 
     }
-    public void paintComponent(Graphics g)  {
+    public void drawToTempScreen() {
+        if (player.fadeToBlack==true) {
+            float opacity = Math.max(0.0f, Math.min(1.0f, player.opacity));
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+            g2.setColor(Color.BLACK);
+            g2.fillRect(0, 0, screenWidth, screenHeight);
+        }
+        tileguy.draw(g2);
+        for (int i=0;i<obj.length; i++) {
+            if (obj[i]!=null) {
+                if (obj[i].locationX==player.XLevel && obj[i].locationY==player.YLevel) {
+                    obj[i].draw(g2,this);
+                }
+            }
+        }
+        for (int i=0;i<npc.entity.length; i++) {
+            if (npc.entity[i]!=null) {
+                npc.entity[i].draw(g2);
+            }
+        }
+        player2.draw(g2);
+        player.draw(g2);
+        npc.draw(g2);
+            fightingboi.draw(g2);
+    }
+   /*  public void paintComponent(Graphics g)  {
         
        
         super.paintComponent(g);
@@ -157,6 +203,11 @@ public class The_Hub extends JPanel  implements Runnable{
             fightingboi.draw(g2);
         g2.dispose();
 
+    }*/
+    public void drawToScreen() {
+        Graphics g=getGraphics();
+        g.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
+        g.dispose();
     }
     public void playMusic(int i) {
         sound.playBackgroundMusic(i);

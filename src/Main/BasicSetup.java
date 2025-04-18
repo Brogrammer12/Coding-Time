@@ -3,16 +3,18 @@ package Main;
 import javax.swing.JFrame;
 
 public class BasicSetup {
+    public static JFrame window;
     public static void main(String[] args){
-        JFrame JFwindow=new JFrame(); 
-        JFwindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JFwindow.setVisible(true);
-        JFwindow.setResizable(false);
-        JFwindow.setTitle("HUMANOID");
-        JFwindow.setLocationRelativeTo(null);
+        window=new JFrame(); 
+        window.setUndecorated(true);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setVisible(true);
+        window.setResizable(false);
+        window.setTitle("HUMANOID");
+        window.setLocationRelativeTo(null);
         The_Hub JPwindow=new The_Hub();
-        JFwindow.add(JPwindow);
-        JFwindow.pack();
+        window.add(JPwindow);
+        window.pack();
         JPwindow.setupGame();
         JPwindow.startGameThread();
     }

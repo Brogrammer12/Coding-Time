@@ -144,8 +144,8 @@ public class TileManager extends Tiles{
                 // Reset player's coordinates
                 hb.Players[0].screenX = ogScreenX;
                 hb.Players[0].screenY = ogScreenY;
-                hb.Players[0].worldX = (ogScreenX - hb.screenWidth / 2) + hb.Players[0].screenX;
-                hb.Players[0].worldY = (ogScreenY - hb.screenHeight / 2) + hb.Players[0].screenY;
+                //hb.Players[0].worldX = (ogScreenX - hb.screenWidth / 2) + hb.Players[0].screenX;
+                //hb.Players[0].worldY = (ogScreenY - hb.screenHeight / 2) + hb.Players[0].screenY;
                 firstLoad = false;
                 hb.player.borderX = false;
                 hb.player.borderY = false;

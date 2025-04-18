@@ -23,8 +23,8 @@ public class Humanoid extends Entity{
         damage=10;
         colBox=solidArea;
         maxHealth=50;
-        x=hb.resTileSize*10;
-        startX=hb.resTileSize*10;
+        x=hb.resTileSize*13;
+        startX=hb.resTileSize*13;
         worldX=hb.maxWorldWidth/2+300;
         worldY=hb.maxWorldHeight/2-200;
         y=100;

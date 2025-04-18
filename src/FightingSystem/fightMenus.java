@@ -228,7 +228,7 @@ public void draw(Graphics2D g2) {
                 break;
                 case 2:
                 for(int index=0; index<npc.entity.length; index++) {
-                    if (npc.entity[index].x==hb.resTileSize*10 && npc.entity[index].active==true) {
+                    if (npc.entity[index].x==hb.resTileSize*13 && npc.entity[index].active==true) {
                         double hBoiN=npc.entity[index].maxHealth/29;
                 int healthLossN=npc.entity[index].maxHealth-npc.entity[index].Health;
                 double healthLostN=(healthLossN/1.8)/hBoiN;
@@ -241,13 +241,13 @@ public void draw(Graphics2D g2) {
                 }
                 
                 }
-                x=hb.resTileSize*9;
+                x=hb.resTileSize*12;
                 y=100;
                 g2.drawImage(image, x,150,48*hb.scale, 20*hb.scale, null);
                 break;
                 case 3:
                 for(int index=0; index<npc.entity.length; index++) {
-                    if (npc.entity[index].x==hb.resTileSize*10+100 &&  npc.entity[index].active==true) {
+                    if (npc.entity[index].x==hb.resTileSize*13+100 &&  npc.entity[index].active==true) {
                         double hBoiNp=npc.entity[index].maxHealth/29;
                 int healthLossNp=npc.entity[index].maxHealth-npc.entity[index].Health;
                 double healthLostNp=(healthLossNp/1.8)/hBoiNp;
@@ -259,7 +259,7 @@ public void draw(Graphics2D g2) {
                 }
                     }
                 }
-                x=hb.resTileSize*9+100;
+                x=hb.resTileSize*12+100;
                 y=200;
                 g2.drawImage(image, x,250,48*hb.scale, 20*hb.scale, null);
                 break;
@@ -270,11 +270,11 @@ public void draw(Graphics2D g2) {
                 if (hb.charFight==true) {
                     if (player.cursorX>1) {
                         if (player.cursorX==2) {
-                            hb.gSelectedX=hb.resTileSize*8;
+                            hb.gSelectedX=hb.resTileSize*11;
                             hb.gSelectedY=100;
                         }
                         else if(player.cursorX==3) {
-                            hb.gSelectedX=hb.resTileSize*8+100;
+                            hb.gSelectedX=hb.resTileSize*11+100;
                             hb.gSelectedY=200;
                         }
                         if(hb.wPlayer==1) {
@@ -318,14 +318,14 @@ public void draw(Graphics2D g2) {
         }
         if(hb.flee==false && hb.fight==false && hb.item==false && hb.defend==false && hb.charSelected==false) {
             t.draw(g2, "HP:"+plHealth+"/50", (hb.screenWidth/2)-hb.resTileSize*2, 14*hb.resTileSize/2, hb.resTileSize/2, hb.resTileSize/2);
-            t.draw(g2, "XP:10/50", hb.resTileSize/2, 15*hb.resTileSize/2, hb.resTileSize/2, hb.resTileSize/2);
-            t.draw(g2, "LVL:1", 3*hb.resTileSize/2, 17*hb.resTileSize/2, hb.resTileSize/3, hb.resTileSize/3);
-            t.draw(g2, "INV:"+player.items.length+"/10", 23*hb.resTileSize/2, 15*hb.resTileSize/2, hb.resTileSize/2, hb.resTileSize/2);
-            t.draw(g2, "PL:"+hb.wPlayer, 25*hb.resTileSize/2, 17*hb.resTileSize/2, hb.resTileSize/3, hb.resTileSize/3);
-            g2.drawImage(fightImage,hb.resTileSize/2, 440, 128, 128, null);
-            g2.drawImage(defendImage,9*hb.resTileSize/2, 440, 128, 128, null);
-            g2.drawImage(itemImage,hb.screenWidth-14*hb.resTileSize/2, 440, 128, 128, null);
-            g2.drawImage(fleeImage,hb.screenWidth-6*hb.resTileSize/2, 440, 128, 128, null);
+            t.draw(g2, "XP:10/50", 3*hb.resTileSize/2, 15*hb.resTileSize/2, hb.resTileSize/2, hb.resTileSize/2);
+            t.draw(g2, "LVL:1", 5*hb.resTileSize/2, 17*hb.resTileSize/2, hb.resTileSize/3, hb.resTileSize/3);
+            t.draw(g2, "INV:"+player.items.length+"/10", 29*hb.resTileSize/2, 15*hb.resTileSize/2, hb.resTileSize/2, hb.resTileSize/2);
+            t.draw(g2, "PL:"+hb.wPlayer, 31*hb.resTileSize/2, 17*hb.resTileSize/2, hb.resTileSize/3, hb.resTileSize/3);
+            g2.drawImage(fightImage,2*hb.resTileSize/2, 440, 128, 128, null);
+            g2.drawImage(defendImage,12*hb.resTileSize/2, 440, 128, 128, null);
+            g2.drawImage(itemImage,hb.screenWidth-17*hb.resTileSize/2, 440, 128, 128, null);
+            g2.drawImage(fleeImage,hb.screenWidth-7*hb.resTileSize/2, 440, 128, 128, null);
         }
         else if(hb.fight==true) {
             int[] XCounter=new int[player.weapons.length];
@@ -338,11 +338,11 @@ public void draw(Graphics2D g2) {
                     XCounter[index]=XCounter[index-1]+pixelLength;
                 }
                 if(index==0) {
-                    firstX=4*hb.resTileSize;
+                    firstX=5*hb.resTileSize;
                     XCounter[0]=pixelLength;
                 }
                 else {
-                    firstX=XCounter[index-1]+(index*(5*hb.resTileSize))+4*hb.resTileSize;
+                    firstX=XCounter[index-1]+(index*(5*hb.resTileSize))+7*hb.resTileSize;
                 }
                 t.draw(g2, urmom, firstX, 19*hb.resTileSize/2, hb.resTileSize/2, hb.resTileSize/2);
                 if(index==player.Selector) {
@@ -350,7 +350,7 @@ public void draw(Graphics2D g2) {
                 }
             }
             g2.drawImage(selectImage, e, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
-            t.draw(g2, "ATTACK?", 12*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            t.draw(g2, "ATTACK?", 16*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
                 System.out.println("IT WORKED(FIGHT)");
                 hb.charSelected=true;
@@ -375,11 +375,11 @@ public void draw(Graphics2D g2) {
                     XCounter[index]=XCounter[index-1]+pixelLength;
                 }
                 if(index==0) {
-                    firstX=4*hb.resTileSize;
+                    firstX=5*hb.resTileSize;
                     XCounter[0]=pixelLength;
                 }
                 else {
-                    firstX=XCounter[index-1]+(index*(5*hb.resTileSize))+4*hb.resTileSize;
+                    firstX=XCounter[index-1]+(index*(5*hb.resTileSize))+7*hb.resTileSize;
                 }
                 t.draw(g2, urmom, firstX, 19*hb.resTileSize/2, hb.resTileSize/2, hb.resTileSize/2);
                 if(index==player.Selector) {
@@ -387,7 +387,7 @@ public void draw(Graphics2D g2) {
                 }
             }
             g2.drawImage(selectImage, e, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
-            t.draw(g2, "DEFEND?", 12*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            t.draw(g2, "DEFEND?", 16*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
                 System.out.println("IT WORKED(DEFEND)");
                 if (hb.wPlayer==2) {
@@ -431,7 +431,7 @@ public void draw(Graphics2D g2) {
                     XCounter[0]=pixelLength;
                 }
                 else {
-                    firstX=XCounter[index-1]+(index*(hb.resTileSize))+hb.resTileSize;
+                    firstX=XCounter[index-1]+(index*(2*hb.resTileSize))+hb.resTileSize;
                 }
                 t.draw(g2, urmom, firstX, 20*hb.resTileSize/2, hb.resTileSize/3, hb.resTileSize/3);
                 if(index==player.Selector) {
@@ -439,7 +439,7 @@ public void draw(Graphics2D g2) {
                 }
             }
             g2.drawImage(selectImage, e, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
-            t.draw(g2, "USE ITEM?", 12*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            t.draw(g2, "USE ITEM?", 16*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
                 System.out.println("You ate an apple. Crunchy. +5hp!");
                 hb.charSelected=true;
@@ -526,11 +526,11 @@ public void draw(Graphics2D g2) {
                     XCounter[index]=XCounter[index-1]+pixelLength;
                 }
                 if(index==0) {
-                    firstX=4*hb.resTileSize;
+                    firstX=5*hb.resTileSize;
                     XCounter[0]=pixelLength;
                 }
                 else {
-                    firstX=XCounter[index-1]+(index*(5*hb.resTileSize))+4*hb.resTileSize;
+                    firstX=XCounter[index-1]+(index*(5*hb.resTileSize))+7*hb.resTileSize;
                 }
                 t.draw(g2, urmom, firstX, 19*hb.resTileSize/2, hb.resTileSize/2, hb.resTileSize/2);
                 if(index==player.Selector) {
@@ -538,7 +538,7 @@ public void draw(Graphics2D g2) {
                 }
             }
             g2.drawImage(selectImage, e, 10*hb.resTileSize, hb.resTileSize, hb.resTileSize, null);
-            t.draw(g2, "RUN AWAY?", 12*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
+            t.draw(g2, "RUN AWAY?", 15*hb.resTileSize/2, 7*hb.resTileSize, hb.resTileSize/2, hb.resTileSize/2);
             if(player.Selector==0 && k.enterPressed==true && k.hasMoved==false) {
                 if (runAway==false && runFailed==false) {
                     if(realValue<0.5) {

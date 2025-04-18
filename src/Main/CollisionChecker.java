@@ -81,11 +81,27 @@ public class CollisionChecker {
     }
     public int checkObject(Entity entity, boolean player) {
         int index=999;
+        int worldX;
+        int worldY;
+        if (hb.player.borderX==true || hb.player.borderY==true) {
+            worldX=entity.worldX+(entity.screenX-hb.tileguy.ogScreenX);
+            worldY=entity.worldY+(entity.screenY-hb.tileguy.ogScreenY);
+        if (worldX<0) {
+            worldX=-worldX;
+        }
+        if (worldY<0) {
+            worldY=-worldY;
+        }
+        }
+        else {
+            worldX=entity.worldX;
+            worldY=entity.worldY;
+        }
         for (int i=0; i<hb.obj.length; i++) {
             if (hb.obj[i]!=null) {
                 if (hb.obj[i].locationX==hb.player.XLevel && hb.obj[i].locationY==hb.player.YLevel) {
-                entity.colBox.x+=entity.worldX;
-                entity.colBox.y+=entity.worldY;
+                entity.colBox.x+=worldX;
+                entity.colBox.y+=worldY;
                 hb.obj[i].solidArea.x+=hb.obj[i].worldX;
                 hb.obj[i].solidArea.y+=hb.obj[i].worldY;
                 switch (entity.direction) {
@@ -147,7 +163,7 @@ public class CollisionChecker {
         int index=999;
         for (int i=0; i<target.length; i++) {
             if (target[i]!=null) {
-              //  if (entity.locationx==hb.player.XLevel && entity.locationy==hb.player.YLevel) {
+                if (entity.locationx==hb.player.XLevel && entity.locationy==hb.player.YLevel) {
                 entity.colBox.x+=entity.worldX;
                 entity.colBox.y+=entity.worldY;
                 target[i].solidArea.x+=target[i].worldX;
@@ -193,7 +209,7 @@ public class CollisionChecker {
                 entity.colBox.y=entity.solidAreaDefaultY;
                 target[i].solidArea.x=target[i].solidAreaDefaultX;
                 target[i].solidArea.y=target[i].solidAreaDefaultY;
-                //}
+                }
             }
         }
         return index;

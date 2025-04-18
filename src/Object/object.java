@@ -17,6 +17,7 @@ public int locationY;
 public Rectangle solidArea=new Rectangle(0, 0, 48, 48);
 public int solidAreaDefaultX=0;
 public int solidAreaDefaultY=0;
+public String connector;
 public void draw(Graphics2D g2, The_Hub hb) {
     int screenX=worldX-hb.Players[0].worldX+hb.Players[0].screenX;
     int screenY=worldY-hb.Players[0].worldY+hb.Players[0].screenY;
