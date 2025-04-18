@@ -170,14 +170,14 @@ public class Player2 extends Entity{
                                     }  
                                     for(int index=0; index<npc.entity.length; index++) {
                                         if (player.cursorX==2 && healthTaker==false) {
-                                            if (npc.entity[index].x==hb.resTileSize*10 && npc.entity[index].active==true) {
+                                            if (npc.entity[index].x==hb.resTileSize*13 && npc.entity[index].active==true) {
                                                 npc.entity[index].Health-=damage;
                                             healthTaker=true;
                                             }
                                             
                                         }
                                         else if(player.cursorX==3 && healthTaker==false) {
-                                            if (npc.entity[index].x==hb.resTileSize*10+100 && npc.entity[index].active==true) {
+                                            if (npc.entity[index].x==hb.resTileSize*13+100 && npc.entity[index].active==true) {
                                                 npc.entity[index].Health-=damage;
                                             healthTaker=true;
                                             }

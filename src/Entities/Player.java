@@ -567,7 +567,7 @@ public class Player extends Entity{
                     }  
                     for(int index=0; index<npc.entity.length; index++) {
                         if (cursorX==2 && healthTaker==false) {
-                            if (npc.entity[index].x==hb.resTileSize*12 && npc.entity[index].active==true) {
+                            if (npc.entity[index].x==hb.resTileSize*13 && npc.entity[index].active==true) {
                                 npc.entity[index].Health-=damage;
                             healthTaker=true;
                             }
