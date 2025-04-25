@@ -163,7 +163,7 @@ public class CollisionChecker {
         int index=999;
         for (int i=0; i<target.length; i++) {
             if (target[i]!=null) {
-                if (entity.locationx==hb.player.XLevel && entity.locationy==hb.player.YLevel) {
+                //if (entity.locationx==hb.player.XLevel && entity.locationy==hb.player.YLevel) {
                 entity.colBox.x+=entity.worldX;
                 entity.colBox.y+=entity.worldY;
                 target[i].solidArea.x+=target[i].worldX;
@@ -209,9 +209,62 @@ public class CollisionChecker {
                 entity.colBox.y=entity.solidAreaDefaultY;
                 target[i].solidArea.x=target[i].solidAreaDefaultX;
                 target[i].solidArea.y=target[i].solidAreaDefaultY;
-                }
+                //}
             }
         }
         return index;
+    }
+    public void checkPlayer(Entity entity) {
+        if (entity.locationx==hb.player.XLevel && entity.locationy==hb.player.YLevel) {
+            entity.colBox.x+=entity.worldX;
+            entity.colBox.y+=entity.worldY;
+            hb.player.solidArea.x+=hb.player.worldX;
+            hb.player.solidArea.y+=hb.player.worldY;
+            switch (entity.direction) {
+                case "up":
+                entity.colBox.y-=entity.moveSpeed;
+                if (entity.colBox.intersects(hb.player.solidArea)) {
+                        entity.collisionOn=true;
+                        if (entity.hostile==true) {
+                            hb.player.fadeToBlack=true;
+                        }
+                   
+                }
+                break;
+                case "down":
+                entity.colBox.y+=entity.moveSpeed;
+                if (entity.colBox.intersects(hb.player.solidArea)) {
+                        entity.collisionOn=true;
+                        if (entity.hostile==true) {
+                            hb.player.fadeToBlack=true;
+                        }
+                  
+                }
+                break;
+                case "left":
+                entity.colBox.x-=entity.moveSpeed;
+                if (entity.colBox.intersects(hb.player.solidArea)) {
+                        entity.collisionOn=true;
+                        if (entity.hostile==true) {
+                            hb.player.fadeToBlack=true;
+                        }
+                  
+                }
+                break;
+                case "right":
+                entity.colBox.x+=entity.moveSpeed;
+                if (entity.colBox.intersects(hb.player.solidArea)) {
+                        entity.collisionOn=true;
+                        if (entity.hostile==true) {
+                            hb.player.fadeToBlack=true;
+                        }
+                }
+                break;
+            }
+            entity.colBox.x=entity.solidAreaDefaultX;
+            entity.colBox.y=entity.solidAreaDefaultY;
+            hb.player.solidArea.x=hb.player.solidAreaDefaultX;
+            hb.player.solidArea.y=hb.player.solidAreaDefaultY;
+            }
     }
 }

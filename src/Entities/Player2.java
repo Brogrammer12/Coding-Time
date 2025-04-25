@@ -63,12 +63,14 @@ public class Player2 extends Entity{
         moveSpeed=4;
         direction="down";
         SpriteNum=1;
-        fightMode=true;
+        fightMode=false;
             Width=hb.resTileSize;
             Height=hb.resTileSize;
 
     }
-    public void update() {
+    public void updateLogic() {
+        locationx=hb.player.XLevel;
+        locationy=hb.player.YLevel;
         if (Health<=0) {
             ded=true;
         }
@@ -250,7 +252,7 @@ public class Player2 extends Entity{
             e.printStackTrace();
         }
     }
-    public void draw(Graphics2D g2) {
+    public void drawLogic(Graphics2D g2) {
         int differenceX;
         int differenceY;
         if (hb.player.p2check==true) {
@@ -296,13 +298,14 @@ public class Player2 extends Entity{
             }
         }
         //Here's the code for the winning animation
-        boolean someLeft=false;
+        if (fightMode==true) {
+            boolean someLeft=false;
         boolean healthLeft=false;
         for(int index=0; index<npc.entity.length; index++) {
             if (dedNum==true) {
                 npc.entity[index].active=false;
             }
-            if (npc.entity[index].Health>0) {
+            if (npc.entity[index].Health>0 && npc.entity[index].Playing==true) {
                 healthLeft=true;
             }
             if (npc.entity[index].active==true) {
@@ -331,6 +334,7 @@ public class Player2 extends Entity{
             timer=0;
             }
             
+        }
         }
         //Winning animation code ends here
         BufferedImage image=null;
@@ -445,5 +449,18 @@ public class Player2 extends Entity{
             load=true;
         }
         g2.drawImage(image, screenX, screenY, Width, Height, null);
+    }
+    public void setaction() {
+        if (hb.keyBoi2.p2Switch==true) {
+            onPath=false;
+        }
+        else {
+            onPath=true;
+        if (onPath==true) {
+            int goalCol = (hb.player.worldX + hb.player.solidArea.x + hb.player.solidArea.width / 2) / hb.resTileSize;
+            int goalRow = (hb.player.worldY + hb.player.solidArea.y + hb.player.solidArea.height / 2) / hb.resTileSize;
+            searchPath(goalCol, goalRow);
+        }
+        }
     }
 }

@@ -490,19 +490,26 @@ public void draw(Graphics2D g2) {
                         p2.screenX-=10;
                     }
                     if(timer>=100) {
+                        timer=0;
                         for(int index=0; index<npc.entity.length; index++) {
                             npc.entity[index].active=false;
+                            npc.entity[index].Playing=false;
+                            npc.entity[index].Health=50;
                         }
+                        player.screenX=hb.screenWidth/2-hb.resTileSize/2;
+                        player.screenY=hb.screenHeight/2-hb.resTileSize/2;
+                        p2.screenX=hb.screenWidth/2-hb.resTileSize/2;
+                        p2.screenY=hb.screenHeight/2-hb.resTileSize/2;
                         player.fightMode=false;
+                        //player.worldX=hb.maxWorldWidth/2;
+                        //player.worldY=hb.maxWorldHeight/2;
                         hb.stopMusic();
                         hb.playMusic(0);
                     p2.fightMode=false;
-                    player.screenX=hb.screenWidth/2-hb.resTileSize/2;
-                player.screenY=hb.screenHeight/2-hb.resTileSize/2;
-                p2.screenX=hb.screenWidth/2-hb.resTileSize/2;
-                p2.screenY=hb.screenHeight/2-hb.resTileSize/2;
                     hb.flee=false;
                     runAway=false;
+                    runFailed=false;
+                    failTimer=0;
                     }
                     
                 }

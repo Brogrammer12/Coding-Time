@@ -16,11 +16,12 @@ The_Hub hb;
         active=false;
         Playing=false;
         direction="down";
-        moveSpeed=1;
+        moveSpeed=4;
         soundurl=5;
         attack=new BufferedImage[2];
         moveToFight=false;
         attacking=false;
+        hostile=true;
         damage=10;
         colBox=solidArea;
         maxHealth=50;
@@ -30,6 +31,8 @@ The_Hub hb;
         worldY=hb.maxWorldHeight/2+200;
         y=100;
         Health=50;
+        locationx=1;
+        locationy=3;
         necLoader();
     }
     public void necLoader() {
@@ -52,7 +55,13 @@ The_Hub hb;
         }
     }
     public void setaction() {
-        actionLockCounter++;
+        if (onPath==true) {
+            int goalCol = (hb.player.worldX + hb.player.solidArea.x + hb.player.solidArea.width / 2) / hb.resTileSize;
+            int goalRow = (hb.player.worldY + hb.player.solidArea.y + hb.player.solidArea.height / 2) / hb.resTileSize;
+            searchPath(goalCol, goalRow);
+        }
+        else {
+            actionLockCounter++;
         if (actionLockCounter==120) {
             Random random=new Random();
         int i=random.nextInt(100)+1;
@@ -70,5 +79,10 @@ The_Hub hb;
         }
         actionLockCounter=0;
         }
+        }
+        if (locationx==hb.player.XLevel && locationy==hb.player.YLevel && onPath==false) {
+            onPath=true;
+        }
+        
     }
 }

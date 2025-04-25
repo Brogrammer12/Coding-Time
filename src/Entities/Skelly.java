@@ -12,15 +12,16 @@ The_Hub hb;
     public Skelly(The_Hub hb) {
         super(hb);
 this.hb=hb;
-active=true;
+active=false;
 direction="down";
 moveToFight=true;
-Playing=true;
+Playing=false;
 attacking=false;
 soundurl=6;
 maxHealth=50;
 colBox=solidArea;
 damage=10;
+hostile=true;
 attack=new BufferedImage[2];
 x=hb.resTileSize*13+100;
 startX=hb.resTileSize*13+100;

@@ -1,5 +1,6 @@
 package Tile;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,6 +34,7 @@ public class TileManager extends Tiles{
     public double rightBorder=430;
     public double upBorder=320;
     public double downBorder=320;
+    public boolean drawPath=true;
     public TileManager(The_Hub hb) {
         this.hb=hb;
         tile=new Tiles[10];
@@ -149,6 +151,7 @@ public class TileManager extends Tiles{
                 firstLoad = false;
                 hb.player.borderX = false;
                 hb.player.borderY = false;
+                hb.pfinder.instantiateNode();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,7 +176,7 @@ public class TileManager extends Tiles{
                 }
                 else {
                     //hb.Players[0].screenX=ogScreenX;
-                    hb.Players[0].screenY=ogScreenY;
+                    hb.Players[0].screenY=hb.screenHeight/2-hb.resTileSize/2;
                     firstLoad=false;
                     hb.player.borderY=false;
                 }
@@ -185,7 +188,7 @@ public class TileManager extends Tiles{
                 }
                 else {
                     //hb.Players[0].screenX=ogScreenX;
-                    hb.Players[0].screenY=ogScreenY;
+                    hb.Players[0].screenY=hb.screenHeight/2-hb.resTileSize/2;
                     firstLoad=false;
                     hb.player.borderY=false;
                 }
@@ -196,7 +199,7 @@ public class TileManager extends Tiles{
                     hb.player.borderX=true;
                 }
                 else {
-                    hb.Players[0].screenX=ogScreenX;
+                    hb.Players[0].screenX=hb.screenWidth/2-hb.resTileSize/2;
                     //hb.Players[0].screenY=ogScreenY;
                     firstLoad=false;
                     hb.player.borderX=false;
@@ -208,7 +211,7 @@ public class TileManager extends Tiles{
                     hb.player.borderX=true;
                 }
                 else {
-                    hb.Players[0].screenX=ogScreenX;
+                    hb.Players[0].screenX=hb.screenWidth/2-hb.resTileSize/2;
                     //hb.Players[0].screenY=ogScreenY;
                     firstLoad=false;
                     hb.player.borderX=false;
@@ -234,6 +237,11 @@ public class TileManager extends Tiles{
                             }
                         }
                             if (hb.player.borderX==false && hb.player.borderY==false) {
+                              /*   if (worldX+hb.resTileSize>hb.player.worldX-hb.player.screenX &&
+                                worldX-hb.resTileSize<hb.player.worldX+hb.player.screenX &&
+                                worldY+hb.resTileSize>hb.player.worldY-hb.player.screenY &&
+                                worldY-hb.resTileSize<hb.player.worldY+hb.player.screenY) {
+                                }*/
                                 g2.drawImage(tile[tileNum].image, screenX, screenY, hb.resTileSize, hb.resTileSize, null);
                             }
                             else if(hb.player.borderX==true || hb.player.borderY==true) {
@@ -267,6 +275,16 @@ public class TileManager extends Tiles{
                 y+=hb.resTileSize;
             }
         }
+        }
+        if (drawPath==true) {
+            g2.setColor(Color.RED);
+            for (int i=0; i<hb.pfinder.pathList.size(); i++) {
+                        int worldX=hb.pfinder.pathList.get(i).col*hb.resTileSize;
+                        int worldY=hb.pfinder.pathList.get(i).row*hb.resTileSize;
+                        int screenX=worldX-hb.Players[0].worldX+hb.Players[0].screenX;
+                        int screenY=worldY-hb.Players[0].worldY+hb.Players[0].screenY;
+                        g2.fillRect(screenX, screenY, hb.resTileSize, hb.resTileSize);
+            }
         }
         
     }

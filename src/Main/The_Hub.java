@@ -20,6 +20,7 @@ import FightingSystem.fightMenus;
 import FightingSystem.healthManager;
 import Object.object;
 import Tile.TileManager;
+import ai.pathFinder;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -67,14 +68,15 @@ public class The_Hub extends JPanel  implements Runnable{
     public keyInput keyBoi=new keyInput();
     NPC npc=new NPC(this, textboi);
     public Player player=new Player(this, keyBoi, npc, tileguy);
-    keyInput2 keyBoi2=new keyInput2();
+    public keyInput2 keyBoi2=new keyInput2();
     public Player2 player2=new Player2(this, keyBoi2, player, npc, textboi);
     healthManager health=new healthManager(this, player);
     public fightMenus fightingboi=new fightMenus(this, player, keyBoi, textboi, player2, health, npc);
     public objectHandler objHandler=new objectHandler(this);
     public CollisionChecker cChecker=new CollisionChecker(this);
-    public object obj[]=new object[10];
-    public object Exits[]=new object[10];
+    public object obj[]=new object[30];
+    public object Exits[]=new object[30];
+    public pathFinder pfinder=new pathFinder(this);
     public Entity[] Players=new Entity[]{
         player,
         player2
@@ -120,7 +122,7 @@ public class The_Hub extends JPanel  implements Runnable{
             update();
             repaint();
             //drawToTempScreen();
-            //drawToScreen();
+           // drawToScreen();
             try {
                 double remainingTime=nextDrawTime-System.nanoTime();
                 remainingTime/=1000000;
@@ -138,7 +140,10 @@ public class The_Hub extends JPanel  implements Runnable{
     }
     public void update() {
         if (gameState==playState) {
-            player2.update();
+            player2.updateLogic();
+            if (keyBoi2.p2Switch==false) {
+                player2.update();
+            }
         player.update();
         npc.update();
         for (int i=0; i<npc.entity.length; i++) {
@@ -198,7 +203,10 @@ public class The_Hub extends JPanel  implements Runnable{
                 npc.entity[i].draw(g2);
             }
         }
-        player2.draw(g2);
+        player2.drawLogic(g2);
+        if (keyBoi2.p2Switch==false) {
+            player2.draw(g2);
+        }
         player.draw(g2);
         npc.draw(g2);
             fightingboi.draw(g2);

@@ -12,8 +12,8 @@ public class Humanoid extends Entity{
     public Humanoid(The_Hub hb) {
         super(hb);
         this.hb=hb;
-        Playing=true;
-        active=true;
+        Playing=false;
+        active=false;
         direction="down";
         moveSpeed=1;
         soundurl=5;
@@ -23,6 +23,7 @@ public class Humanoid extends Entity{
         damage=10;
         colBox=solidArea;
         maxHealth=50;
+        hostile=true;
         x=hb.resTileSize*13;
         startX=hb.resTileSize*13;
         worldX=hb.maxWorldWidth/2+300;
