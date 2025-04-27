@@ -35,7 +35,7 @@ public class Player2 extends Entity{
         this.hb=hb;
         this.k=k;
         this.t=t;
-        colBox=new Rectangle(12, 21,30,27);
+        colBox=solidArea;
         solidAreaDefaultX=colBox.x;
         solidAreaDefaultY=colBox.y;
         defenseValue=5;

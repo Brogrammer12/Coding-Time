@@ -42,7 +42,7 @@ public class Entity {
     public Rectangle colBox;
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn=false;
-    public Rectangle solidArea=new Rectangle(0, 0, 48, 48);
+    public Rectangle solidArea=new Rectangle(12, 21, 30, 27);
     public int worldX;
     public int worldY;
     public int screenX;
@@ -61,12 +61,13 @@ public class Entity {
     public void setaction() {}
     public void checkCollision() {
         if (hb.player.fightMode==false) {
-            if (locationx==hb.player.XLevel && locationy==hb.player.YLevel) {
+            //if (locationx==hb.player.XLevel && locationy==hb.player.YLevel) {
                 collisionOn=false;
                 hb.cChecker.checkTile(this);
+                //hb.cChecker.checkEntity(this, hb.npc.entity);
                 hb.cChecker.checkObject(this, false);
                 hb.cChecker.checkPlayer(this);
-            }
+           // }
         }
     }
     public void update() {
@@ -178,13 +179,13 @@ public class Entity {
             int enRightX=worldX+solidArea.x+solidArea.width;
             int enTopY=worldY+solidArea.y;
             int enBottomY=worldY+solidArea.y+solidArea.height;
-            if (enTopY>nextY && enLeftX>=nextX && enRightX<nextX*hb.resTileSize) {
+            if (enTopY>nextY && enLeftX>=nextX && enRightX<nextX+hb.resTileSize) {
                 direction="up";
             }
-            else if (enTopY<nextY && enLeftX>=nextX && enRightX<nextX*hb.resTileSize) {
+            else if (enTopY<nextY && enLeftX>=nextX && enRightX<nextX+hb.resTileSize) {
                 direction="down";
             }
-            else if (enTopY>=nextY && enBottomY<nextY*hb.resTileSize) {
+            else if (enTopY>=nextY && enBottomY<nextY+hb.resTileSize) {
                 if (enLeftX>nextX) {
                     direction="left";
                 }
@@ -192,44 +193,44 @@ public class Entity {
                     direction="right";
                 }
             }
-            else if (enTopY>nextY && enLeftX>nextX) {
+             if (enTopY>nextY && enLeftX>nextX) {
                 direction="up";
                 checkCollision();
-                System.out.println("this is working");
                 if (collisionOn==true) {
                     direction="left";
+                    System.out.println("this is working");
                 }
             }
-            else if (enTopY>nextY && enLeftX<nextX) {
+            else  if (enTopY>nextY && enLeftX<nextX) {
                 direction="up";
                 checkCollision();
-                System.out.println("this is working");
                 if (collisionOn==true) {
                     direction="right";
+                    System.out.println("this is working");
                 }
             }
             else if (enTopY<nextY && enLeftX>nextX) {
                 direction="down";
                 checkCollision();
-                System.out.println("this is working");
                 if (collisionOn==true) {
                     direction="left";
+                    System.out.println("this is working");
                 }
             }
             else if (enTopY<nextY && enLeftX<nextX) {
                 direction="down";
                 checkCollision();
-                System.out.println("this is working");
                 if (collisionOn==true) {
                     direction="right";
+                    System.out.println("this is working");
                 }
             }
-            /* 
+            
             int nextCol=hb.pfinder.pathList.get(0).col;
             int nextRow=hb.pfinder.pathList.get(0).row;
             if (nextCol==goalCol && nextRow==goalRow) {
                 onPath=false;
-            }*/
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ import Main.The_Hub;
 
 public class pathFinder {
     The_Hub hb;
-    Node[] []node;
+    Node[] [] node;
     ArrayList<Node> openList=new ArrayList<>();
     public ArrayList<Node> pathList=new ArrayList<>();
     Node startNode, goalNode, currentNode;

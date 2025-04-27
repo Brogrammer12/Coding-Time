@@ -66,7 +66,7 @@ public class The_Hub extends JPanel  implements Runnable{
     public TileManager tileguy=new TileManager(this);
     public TextReader textboi=new TextReader(this);
     public keyInput keyBoi=new keyInput();
-    NPC npc=new NPC(this, textboi);
+    public NPC npc=new NPC(this, textboi);
     public Player player=new Player(this, keyBoi, npc, tileguy);
     public keyInput2 keyBoi2=new keyInput2();
     public Player2 player2=new Player2(this, keyBoi2, player, npc, textboi);
